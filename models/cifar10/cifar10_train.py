@@ -119,11 +119,11 @@ def main(argv=None):  # pylint: disable=unused-argument
   print('start main')
   with open('/results/README.txt', 'wb') as f:
     print('Start main', file = f)
-  # cifar10.maybe_download_and_extract()
-  # if tf.gfile.Exists(FLAGS.train_dir):
-    # tf.gfile.DeleteRecursively(FLAGS.train_dir)
-  # tf.gfile.MakeDirs(FLAGS.train_dir)
-  # train()
+  cifar10.maybe_download_and_extract()
+  if tf.gfile.Exists(FLAGS.train_dir):
+    tf.gfile.DeleteRecursively(FLAGS.train_dir)
+  tf.gfile.MakeDirs(FLAGS.train_dir)
+  train()
 
 
 if __name__ == '__main__':
