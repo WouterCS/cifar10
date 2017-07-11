@@ -118,13 +118,13 @@ def train():
         mon_sess.run(train_op)
       #saver.save(mon_sess, '/results')
       
-    with tf.Session() as sess:
-      # Restore variables from disk.
-      #saver.restore(sess, "/results/savedWeights/model.ckpt")
-      
-      evalImages, evalLabels = cifar10.inputs(True)
-      test_accuracy = tf.reduce_mean(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels)
-      test_accuracy.eval(mon_sess)
+  with tf.Session() as sess:
+    # Restore variables from disk.
+    #saver.restore(sess, "/results/savedWeights/model.ckpt")
+    
+    evalImages, evalLabels = cifar10.inputs(True)
+    test_accuracy = tf.reduce_mean(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels)
+    test_accuracy.eval(mon_sess)
 
 def main(argv=None):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
