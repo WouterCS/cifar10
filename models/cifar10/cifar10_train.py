@@ -70,7 +70,7 @@ def train():
     # Build a Graph that computes the logits predictions from the
     # inference model.
     logits = cifar10.inference(images)
-    argmaxLogits = tf.argmax(logits, axis=0)
+    argmaxLogits = tf.argmax(logits, axis=1)
     # Calculate loss.
     loss = cifar10.loss(logits, labels)
 
