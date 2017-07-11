@@ -124,8 +124,9 @@ def train():
     #saver.restore(sess, "/results/savedWeights/model.ckpt")
     
     evalImages, evalLabels = cifar10.inputs(True)
-    test_accuracy = tf.reduce_mean(tf.cast(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels, tf.int32))
-    print('Test accuracy: %f' % test_accuracy.eval())
+    correctLabels = tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels
+    test_accuracy = tf.reduce_mean(tf.cast(correctLabels, tf.int32))
+    print('Test accuracy: %f' % correctLabels.eval())
 
 def main(argv=None):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
