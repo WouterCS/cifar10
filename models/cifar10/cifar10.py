@@ -379,7 +379,8 @@ def train(total_loss, global_step):
 
 
 def maybe_download_and_extract():
-  print('start maybe download')
+  with open('/results/README.txt', 'wb') as f:
+    print('start maybe download', file = f)
   """Download and extract the tarball from Alex's website."""
   dest_directory = FLAGS.data_dir
   if not os.path.exists(dest_directory):
