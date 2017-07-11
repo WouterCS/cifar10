@@ -1,6 +1,6 @@
 mkdir -p /results
 
-echo $'ls /' 
+ls / | echo
 echo 'ls /models'
 cd /models/cifar10
 
