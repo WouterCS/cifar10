@@ -71,8 +71,6 @@ def train():
     # inference model.
     logits = cifar10.inference(images)
 
-    with tf.Session() as sess:
-        print(logits.eval())
     # # Calculate loss.
     # loss = cifar10.loss(logits, labels)
 
@@ -108,17 +106,19 @@ def train():
           # print (format_str % (datetime.now(), self._step, loss_value,
                                # examples_per_sec, sec_per_batch))
 
-    # with tf.train.MonitoredTrainingSession(
-        # checkpoint_dir=FLAGS.train_dir,
-        # hooks=[tf.train.CheckpointSaverHook('/results/savedWeights/', save_steps = 1000), 
-               # tf.train.StopAtStepHook(last_step=FLAGS.max_steps),
-               # tf.train.NanTensorHook(loss),
-               # _LoggerHook()],
-        # config=tf.ConfigProto(
-            # log_device_placement=FLAGS.log_device_placement)) as mon_sess:
-      # while not mon_sess.should_stop():
-        # mon_sess.run(train_op)
-      # #saver.save(mon_sess, '/results')
+    with tf.train.MonitoredTrainingSession(
+        checkpoint_dir=FLAGS.train_dir,
+        hooks=[tf.train.CheckpointSaverHook('/results/savedWeights/', save_steps = 1000), 
+               tf.train.StopAtStepHook(last_step=FLAGS.max_steps),
+               tf.train.NanTensorHook(loss),
+               _LoggerHook()],
+        config=tf.ConfigProto(
+            log_device_placement=FLAGS.log_device_placement)) as mon_sess:
+      while not mon_sess.should_stop():
+        #mon_sess.run(train_op)
+        l = mon_sess.run(logits)
+        print(l)
+      #saver.save(mon_sess, '/results')
       
   # tf.reset_default_graph()
   # with tf.Session() as sess:
