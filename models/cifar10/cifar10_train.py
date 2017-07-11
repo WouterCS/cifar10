@@ -71,64 +71,53 @@ def train():
     # inference model.
     logits = cifar10.inference(images)
 
-    # # Calculate loss.
+    # Calculate loss.
     loss = cifar10.loss(logits, labels)
 
-    # # Build a Graph that trains the model with one batch of examples and
-    # # updates the model parameters.
-    # train_op = cifar10.train(loss, global_step)
+    # Build a Graph that trains the model with one batch of examples and
+    # updates the model parameters.
+    train_op = cifar10.train(loss, global_step)
 
 
     
-    # class _LoggerHook(tf.train.SessionRunHook):
-      # """Logs loss and runtime."""
+    class _LoggerHook(tf.train.SessionRunHook):
+      """Logs loss and runtime."""
 
-      # def begin(self):
-        # self._step = -1
-        # self._start_time = time.time()
+      def begin(self):
+        self._step = -1
+        self._start_time = time.time()
 
-      # def before_run(self, run_context):
-        # self._step += 1
-        # return tf.train.SessionRunArgs(loss)  # Asks for loss value.
+      def before_run(self, run_context):
+        self._step += 1
+        return tf.train.SessionRunArgs(loss)  # Asks for loss value.
 
-      # def after_run(self, run_context, run_values):
-        # if self._step % FLAGS.log_frequency == 0:
-          # current_time = time.time()
-          # duration = current_time - self._start_time
-          # self._start_time = current_time
+      def after_run(self, run_context, run_values):
+        if self._step % FLAGS.log_frequency == 0:
+          current_time = time.time()
+          duration = current_time - self._start_time
+          self._start_time = current_time
 
-          # loss_value = run_values.results
-          # examples_per_sec = FLAGS.log_frequency * FLAGS.batch_size / duration
-          # sec_per_batch = float(duration / FLAGS.log_frequency)
+          loss_value = run_values.results
+          examples_per_sec = FLAGS.log_frequency * FLAGS.batch_size / duration
+          sec_per_batch = float(duration / FLAGS.log_frequency)
 
-          # format_str = ('%s: step %d, loss = %.2f (%.1f examples/sec; %.3f '
-                        # 'sec/batch)')
-          # print (format_str % (datetime.now(), self._step, loss_value,
-                               # examples_per_sec, sec_per_batch))
+          format_str = ('%s: step %d, loss = %.2f (%.1f examples/sec; %.3f '
+                        'sec/batch)')
+          print (format_str % (datetime.now(), self._step, loss_value,
+                               examples_per_sec, sec_per_batch))
 
     with tf.train.MonitoredTrainingSession(
         checkpoint_dir=FLAGS.train_dir,
         hooks=[tf.train.CheckpointSaverHook('/results/savedWeights/', save_steps = 1000), 
-               tf.train.StopAtStepHook(last_step=FLAGS.max_steps),tf.train.NanTensorHook(loss)],#,_LoggerHook()],
-               
-               
+               tf.train.StopAtStepHook(last_step=FLAGS.max_steps),
+               tf.train.NanTensorHook(loss),
+               _LoggerHook()],
         config=tf.ConfigProto(
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
       while not mon_sess.should_stop():
-        #mon_sess.run(train_op)
-        l = mon_sess.run(logits)
-        print(l)
+        mon_sess.run(train_op)
+        print(tf.argmax(logits, axis=0).eval())
       #saver.save(mon_sess, '/results')
-      
-  # tf.reset_default_graph()
-  # with tf.Session() as sess:
-    # # Restore variables from disk.
-    # #saver.restore(sess, "/results/savedWeights/model.ckpt")
-    
-    # evalImages, evalLabels = cifar10.inputs(True)
-    # # correctLabels = tf.argmax(cifar10.inference(evalImages), axis = 0)# == evalLabels
-    # # test_accuracy = tf.reduce_mean(tf.cast(correctLabels, tf.int32))
-    # print(cifar10.inference(evalImages).eval())
 
 def main(argv=None):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
