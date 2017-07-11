@@ -78,9 +78,7 @@ def train():
     # updates the model parameters.
     train_op = cifar10.train(loss, global_step)
 
-    saver = tf.train.Saver()
-    evalImages, evalLabels = cifar10.inputs(True)
-    test_accuracy = tf.reduce_mean(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels)
+
     
     class _LoggerHook(tf.train.SessionRunHook):
       """Logs loss and runtime."""
@@ -110,7 +108,8 @@ def train():
 
     with tf.train.MonitoredTrainingSession(
         checkpoint_dir=FLAGS.train_dir,
-        hooks=[tf.train.StopAtStepHook(last_step=FLAGS.max_steps),
+        hooks=[tf.train.CheckpointSaverHook('/results/savedWeights/', save_steps = 1000), 
+               tf.train.StopAtStepHook(last_step=FLAGS.max_steps),
                tf.train.NanTensorHook(loss),
                _LoggerHook()],
         config=tf.ConfigProto(
@@ -119,7 +118,12 @@ def train():
         mon_sess.run(train_op)
       #saver.save(mon_sess, '/results')
       
-
+    with tf.Session() as sess:
+      # Restore variables from disk.
+      saver.restore(sess, "/results/savedWeights/model.ckpt")
+      
+      evalImages, evalLabels = cifar10.inputs(True)
+      test_accuracy = tf.reduce_mean(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels)
       test_accuracy.eval(mon_sess)
 
 def main(argv=None):  # pylint: disable=unused-argument
