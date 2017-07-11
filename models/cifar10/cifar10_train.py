@@ -72,7 +72,7 @@ def train():
     logits = cifar10.inference(images)
 
     # # Calculate loss.
-    # loss = cifar10.loss(logits, labels)
+    loss = cifar10.loss(logits, labels)
 
     # # Build a Graph that trains the model with one batch of examples and
     # # updates the model parameters.
