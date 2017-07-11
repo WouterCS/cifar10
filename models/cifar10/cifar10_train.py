@@ -110,8 +110,8 @@ def train():
         checkpoint_dir=FLAGS.train_dir,
         hooks=[tf.train.CheckpointSaverHook('/results/savedWeights/', save_steps = 1000), 
                tf.train.StopAtStepHook(last_step=FLAGS.max_steps),
-               tf.train.NanTensorHook(loss),
-               _LoggerHook()],
+               tf.train.NanTensorHook(loss)],#,_LoggerHook()],
+               
         config=tf.ConfigProto(
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
       while not mon_sess.should_stop():
