@@ -125,7 +125,7 @@ def train():
     
     evalImages, evalLabels = cifar10.inputs(True)
     test_accuracy = tf.reduce_mean(tf.cast(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels, tf.int32))
-    test_accuracy.eval()
+    print('Test accuracy: %f' % test_accuracy.eval())
 
 def main(argv=None):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
