@@ -70,7 +70,7 @@ def train():
     # Build a Graph that computes the logits predictions from the
     # inference model.
     logits = cifar10.inference(images)
-
+    argmaxLogits = tf.argmax(logits, axis=0)
     # Calculate loss.
     loss = cifar10.loss(logits, labels)
 
@@ -116,7 +116,7 @@ def train():
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
       while not mon_sess.should_stop():
         mon_sess.run(train_op)
-        print(tf.argmax(logits, axis=0).eval())
+        print(argmaxLogits.eval())
       #saver.save(mon_sess, '/results')
 
 def main(argv=None):  # pylint: disable=unused-argument
