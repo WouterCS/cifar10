@@ -58,19 +58,21 @@ tf.app.flags.DEFINE_integer('log_frequency', 10,
 
 def train():
   """Train CIFAR-10 for a number of steps."""
-  # with tf.Graph().as_default():
-    # global_step = tf.contrib.framework.get_or_create_global_step()
+  with tf.Graph().as_default():
+    global_step = tf.contrib.framework.get_or_create_global_step()
 
-    # # Get images and labels for CIFAR-10.
-    # # Force input pipeline to CPU:0 to avoid operations sometimes ending up on
-    # # GPU and resulting in a slow down.
-    # with tf.device('/cpu:0'):
-      # images, labels = cifar10.distorted_inputs()
+    # Get images and labels for CIFAR-10.
+    # Force input pipeline to CPU:0 to avoid operations sometimes ending up on
+    # GPU and resulting in a slow down.
+    with tf.device('/cpu:0'):
+      images, labels = cifar10.distorted_inputs()
 
-    # # Build a Graph that computes the logits predictions from the
-    # # inference model.
-    # logits = cifar10.inference(images)
+    # Build a Graph that computes the logits predictions from the
+    # inference model.
+    logits = cifar10.inference(images)
 
+    with tf.Session() as sess:
+        print(logits.eval())
     # # Calculate loss.
     # loss = cifar10.loss(logits, labels)
 
@@ -118,15 +120,15 @@ def train():
         # mon_sess.run(train_op)
       # #saver.save(mon_sess, '/results')
       
-  tf.reset_default_graph()
-  with tf.Session() as sess:
-    # Restore variables from disk.
-    #saver.restore(sess, "/results/savedWeights/model.ckpt")
+  # tf.reset_default_graph()
+  # with tf.Session() as sess:
+    # # Restore variables from disk.
+    # #saver.restore(sess, "/results/savedWeights/model.ckpt")
     
-    evalImages, evalLabels = cifar10.inputs(True)
-    # correctLabels = tf.argmax(cifar10.inference(evalImages), axis = 0)# == evalLabels
-    # test_accuracy = tf.reduce_mean(tf.cast(correctLabels, tf.int32))
-    print(cifar10.inference(evalImages).eval())
+    # evalImages, evalLabels = cifar10.inputs(True)
+    # # correctLabels = tf.argmax(cifar10.inference(evalImages), axis = 0)# == evalLabels
+    # # test_accuracy = tf.reduce_mean(tf.cast(correctLabels, tf.int32))
+    # print(cifar10.inference(evalImages).eval())
 
 def main(argv=None):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
