@@ -48,7 +48,7 @@ FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_string('train_dir', '/tmp/cifar10_train',
                            """Directory where to write event logs """
                            """and checkpoint.""")
-tf.app.flags.DEFINE_integer('max_steps', 10000,
+tf.app.flags.DEFINE_integer('max_steps', 1000,
                             """Number of batches to run.""")
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
@@ -78,6 +78,8 @@ def train():
     # updates the model parameters.
     train_op = cifar10.train(loss, global_step)
 
+    saver = tf.train.Saver()
+    
     class _LoggerHook(tf.train.SessionRunHook):
       """Logs loss and runtime."""
 
@@ -113,12 +115,13 @@ def train():
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
       while not mon_sess.should_stop():
         mon_sess.run(train_op)
-
+      saver.save(mon_sess, '/results')
+      
+      evalImages, evalLabels = cifar10.inputs(True)
+      test_accuracy = tf.mean(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels)
+      test_accuracy.eval(mon_sess)
 
 def main(argv=None):  # pylint: disable=unused-argument
-  print('start main')
-  with open('/results/README.txt', 'wb') as f:
-    print('Start main', file = f)
   cifar10.maybe_download_and_extract()
   if tf.gfile.Exists(FLAGS.train_dir):
     tf.gfile.DeleteRecursively(FLAGS.train_dir)
