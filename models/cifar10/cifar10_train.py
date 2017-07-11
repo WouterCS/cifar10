@@ -79,7 +79,8 @@ def train():
     train_op = cifar10.train(loss, global_step)
 
     saver = tf.train.Saver()
-    
+    evalImages, evalLabels = cifar10.inputs(True)
+    test_accuracy = tf.mean(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels)
     class _LoggerHook(tf.train.SessionRunHook):
       """Logs loss and runtime."""
 
@@ -117,8 +118,7 @@ def train():
         mon_sess.run(train_op)
       #saver.save(mon_sess, '/results')
       
-      evalImages, evalLabels = cifar10.inputs(True)
-      test_accuracy = tf.mean(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels)
+
       test_accuracy.eval(mon_sess)
 
 def main(argv=None):  # pylint: disable=unused-argument
