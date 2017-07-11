@@ -40,6 +40,7 @@ from datetime import datetime
 import time
 
 import tensorflow as tf
+import numpy as np
 
 import cifar10
 
@@ -116,7 +117,7 @@ def train():
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
       while not mon_sess.should_stop():
         mon_sess.run(train_op)
-        print(argmaxLogits.eval(session = mon_sess) == labels.eval(session = mon_sess))
+        print(np.mean(argmaxLogits.eval(session = mon_sess) == labels.eval(session = mon_sess)))
       #saver.save(mon_sess, '/results')
 
 def main(argv=None):  # pylint: disable=unused-argument
