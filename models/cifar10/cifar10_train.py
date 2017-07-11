@@ -124,7 +124,7 @@ def train():
     #saver.restore(sess, "/results/savedWeights/model.ckpt")
     
     evalImages, evalLabels = cifar10.inputs(True)
-    correctLabels = tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels
+    correctLabels = tf.argmax(cifar10.inference(evalImages), axis = 0)# == evalLabels
     test_accuracy = tf.reduce_mean(tf.cast(correctLabels, tf.int32))
     print(correctLabels)
 
