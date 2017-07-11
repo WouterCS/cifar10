@@ -81,6 +81,7 @@ def train():
     saver = tf.train.Saver()
     evalImages, evalLabels = cifar10.inputs(True)
     test_accuracy = tf.reduce_mean(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels)
+    
     class _LoggerHook(tf.train.SessionRunHook):
       """Logs loss and runtime."""
 
