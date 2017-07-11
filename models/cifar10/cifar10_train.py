@@ -115,7 +115,7 @@ def train():
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
       while not mon_sess.should_stop():
         mon_sess.run(train_op)
-      saver.save(mon_sess, '/results')
+      #saver.save(mon_sess, '/results')
       
       evalImages, evalLabels = cifar10.inputs(True)
       test_accuracy = tf.mean(tf.argmax(cifar10.inference(evalImages), axis = 0) == evalLabels)
