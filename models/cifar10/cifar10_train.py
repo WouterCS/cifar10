@@ -118,6 +118,7 @@ def train():
         mon_sess.run(train_op)
       #saver.save(mon_sess, '/results')
       
+  tf.reset_default_graph()
   with tf.Session() as sess:
     # Restore variables from disk.
     #saver.restore(sess, "/results/savedWeights/model.ckpt")
