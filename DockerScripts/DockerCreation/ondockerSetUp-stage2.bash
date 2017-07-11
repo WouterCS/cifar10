@@ -1,7 +1,7 @@
 mkdir -p /results
 
-ls / | echo
-echo 'ls /models'
+echo $'ls /' 
+echo $'ls /models'
 cd /models/cifar10
 
 python -c "import  cifar10_train as model; model.train()" 2>&1  | tee /results/log.txt

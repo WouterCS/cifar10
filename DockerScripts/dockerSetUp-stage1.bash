@@ -8,6 +8,7 @@ nvidia-docker run -itd -p 8888:8888 -p 6006:6006 --name $NAME -v $PROJECTPATH/no
 
 #git clone https://github.com/tensorflow/models.git
 
+echo $'ls $PROJECTPATH/models/'
 docker cp $PROJECTPATH/models/ $NAME:/models
 docker cp $PROJECTPATH/DockerScripts/DockerCreation $NAME:/scripts
 docker start $NAME 
