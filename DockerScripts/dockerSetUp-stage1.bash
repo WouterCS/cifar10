@@ -6,7 +6,7 @@ PROJECTPATH="$(dirname "$(dirname "${BASH_SOURCE[0]}")")" #'/home/wouter/Documen
 docker rm $(docker stop $(docker ps -aq --no-trunc))
 nvidia-docker run -itd -p 8888:8888 -p 6006:6006 --name $NAME -v $PROJECTPATH/notebooks:/notebooks -v $PROJECTPATH/RFNN:/usr/local/lib/python2.7/dist-packages/RFNN $IMAGENAME /bin/bash
 
-git clone https://github.com/tensorflow/models.git
+#git clone https://github.com/tensorflow/models.git
 
 docker cp $PROJECTPATH/models/ $NAME:/models
 docker cp $PROJECTPATH/DockerScripts/DockerCreation $NAME:/scripts
