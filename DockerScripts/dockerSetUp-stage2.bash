@@ -10,7 +10,7 @@ nvidia-docker run -itd -p 8888:8888 -p 6006:6006 --name $NAME -v $DROPBOXPATH/re
 
 cd $PROJECTPATH
 git pull
-docker cp $PROJECTPATH/models/ $NAME:/models2
+docker cp $PROJECTPATH/models/ $NAME:/models
 docker cp $PROJECTPATH/DockerScripts/DockerCreation $NAME:/scripts
 docker start $NAME 
 docker exec -it $NAME /bin/bash /scripts/ondockerSetUp-stage2.bash
