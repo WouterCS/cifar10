@@ -10,5 +10,7 @@ docker cp $PROJECTPATH/DockerScripts/DockerCreation $NAME:/scripts
 docker start $NAME 
 docker exec -it $NAME /bin/bash /scripts/ondockerSetUp-stage1.bash
 
+git pull
+
 docker commit $NAME 'cifar-10-example'
 bash $PROJECTPATH/DockerScripts/dockerSetUp-stage2.bash
