@@ -1,7 +1,7 @@
 NAME='tfGPU'
 IMAGENAME='cifar-10-example'
 LOCALPATH='/home/uijenswr/Documents/tempResults'
-DROPBOXPATH='/home/wouter/Documents/localResults' #'/home/uijenswr/Dropbox/thesis' #
+DROPBOXPATH='/home/uijenswr/Dropbox/thesis' #'/home/wouter/Documents/localResults' #
 
 
 PROJECTPATH="$(dirname "$(dirname "${BASH_SOURCE[0]}")")" 
