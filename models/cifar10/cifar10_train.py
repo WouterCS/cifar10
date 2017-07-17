@@ -124,6 +124,7 @@ def train():
     # Initialize a saver object to restore the trained weights
     saver = tf.train.Saver()
     with tf.Session() as sess:
+        print(tf.train.latest_checkpoint('/results/savedWeights/'))
         saver.restore(tf.train.latest_checkpoint('/results/savedWeights/'), sess)
         # Grab images and labels from the test set. One call only gets us 1 batch of images and labels, so in the final version we need to loop to get all images.
         testImages, testLabels = cifar10.inputs(True)
