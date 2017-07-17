@@ -106,21 +106,16 @@ def train():
                         'sec/batch)')
           print (format_str % (datetime.now(), self._step, loss_value,
                                examples_per_sec, sec_per_batch))
-        else:
-          print('no log')
 
     with tf.train.MonitoredTrainingSession(
         checkpoint_dir=FLAGS.train_dir,
-        hooks=[tf.train.CheckpointSaverHook('/results/savedWeights/', save_steps = 1000), 
+        hooks=[tf.train.CheckpointSaverHook('/results/savedWeights/', save_steps = 100), 
                tf.train.StopAtStepHook(last_step=FLAGS.max_steps),
                tf.train.NanTensorHook(loss),
                _LoggerHook()],
         config=tf.ConfigProto(
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
-      i = 0
       while not mon_sess.should_stop():
-        i = i + 1
-        print(i)
         mon_sess.run(train_op)
         #print((argmaxLogits.eval(session = mon_sess) == labels.eval(session = mon_sess)).shape)
       #saver.save(mon_sess, '/results')
