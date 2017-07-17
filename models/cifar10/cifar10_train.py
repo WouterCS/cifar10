@@ -115,7 +115,10 @@ def train():
                _LoggerHook()],
         config=tf.ConfigProto(
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
+      i = 0
       while not mon_sess.should_stop():
+        i = i + 1
+        print(i)
         mon_sess.run(train_op)
         print((argmaxLogits.eval(session = mon_sess) == labels.eval(session = mon_sess)).shape)
       #saver.save(mon_sess, '/results')
