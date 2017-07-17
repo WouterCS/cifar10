@@ -122,7 +122,7 @@ def train():
         i = i + 1
         print(i)
         mon_sess.run(train_op)
-        print((argmaxLogits.eval(session = mon_sess) == labels.eval(session = mon_sess)).shape)
+        #print((argmaxLogits.eval(session = mon_sess) == labels.eval(session = mon_sess)).shape)
       #saver.save(mon_sess, '/results')
 
 def main(argv=None):  # pylint: disable=unused-argument
