@@ -49,7 +49,7 @@ FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_string('train_dir', '/tmp/cifar10_train',
                            """Directory where to write event logs """
                            """and checkpoint.""")
-tf.app.flags.DEFINE_integer('max_steps', 1000000,
+tf.app.flags.DEFINE_integer('max_steps', 1000,
                             """Number of batches to run.""")
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
@@ -117,7 +117,7 @@ def train():
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
       while not mon_sess.should_stop():
         mon_sess.run(train_op)
-        print(np.mean(argmaxLogits.eval(session = mon_sess) == labels.eval(session = mon_sess)))
+        print((argmaxLogits.eval(session = mon_sess) == labels.eval(session = mon_sess)).shape)
       #saver.save(mon_sess, '/results')
 
 def main(argv=None):  # pylint: disable=unused-argument
