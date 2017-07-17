@@ -125,7 +125,7 @@ def train():
     saver = tf.train.Saver()
     with tf.Session() as sess:
         print(tf.train.latest_checkpoint('/results/savedWeights/'))
-        saver.restore(tf.train.latest_checkpoint('/results/savedWeights/'), sess)
+        saver.restore(sess, tf.train.latest_checkpoint('/results/savedWeights/'))
         # Grab images and labels from the test set. One call only gets us 1 batch of images and labels, so in the final version we need to loop to get all images.
         testImages, testLabels = cifar10.inputs(True)
         # The intention here is to use the trained weights in 'cifar10.inference' to get the logits the trained model produces for the test images. Then we use those to calculate accuracy (using the corresponding labels).
