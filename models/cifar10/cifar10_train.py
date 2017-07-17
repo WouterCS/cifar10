@@ -109,27 +109,13 @@ def train():
 
     with tf.train.MonitoredTrainingSession(
         checkpoint_dir=FLAGS.train_dir,
-        hooks=[# add a saver hook to save checkpoints each 100 steps
-               tf.train.CheckpointSaverHook('/results/savedWeights/', save_steps = 100), 
-               tf.train.StopAtStepHook(last_step=FLAGS.max_steps),
+        hooks=[tf.train.StopAtStepHook(last_step=FLAGS.max_steps),
                tf.train.NanTensorHook(loss),
                _LoggerHook()],
         config=tf.ConfigProto(
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
       while not mon_sess.should_stop():
         mon_sess.run(train_op)
-        
-    # Import numpy to calculate the mean later
-    import numpy as np
-    # Initialize a saver object to restore the trained weights
-    saver = tf.train.Saver()
-    with tf.Session() as sess:
-        print(tf.train.latest_checkpoint('/results/savedWeights/'))
-        saver.restore(sess, tf.train.latest_checkpoint('/results/savedWeights/'))
-        # Grab images and labels from the test set. One call only gets us 1 batch of images and labels, so in the final version we need to loop to get all images.
-        testImages, testLabels = cifar10.inputs(True)
-        # The intention here is to use the trained weights in 'cifar10.inference' to get the logits the trained model produces for the test images. Then we use those to calculate accuracy (using the corresponding labels).
-        print(np.mean(tf.argmax(cifar10.inference(testImages), axis=1).eval(session = sess) == testLabels.eval(session = sess)))
         
 def main(argv=None):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
