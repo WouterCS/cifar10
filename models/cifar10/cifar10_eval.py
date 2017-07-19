@@ -118,6 +118,7 @@ def evaluate():
   """Eval CIFAR-10 for a number of steps."""
   with tf.Graph().as_default() as g:
     # Get images and labels for CIFAR-10.
+    createOrUpdateFlag(tf.app.flags.DEFINE_string, 'eval_data', 'test', """Either 'test' or 'train_eval'.""")
     print(FLAGS.__dict__['__flags'].keys())
     eval_data = FLAGS.eval_data == 'test'
     images, labels = cifar10.inputs(eval_data=eval_data)
