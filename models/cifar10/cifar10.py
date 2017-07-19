@@ -189,7 +189,7 @@ def inputs(eval_data):
   return images, labels
 
 def fftReLu(layerIn, name):
-    fftFunction = 'relu'
+    fftFunction = 'identity'
     if fftFunction == 'absFFT':
         layerIn = tf.transpose(layerIn, [0, 3, 1, 2])
         layerOut = irfft2d(tf.cast(tf.abs(rfft2d(layerIn)), tf.complex64))
