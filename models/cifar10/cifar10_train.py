@@ -124,9 +124,7 @@ def main(convNonLin, FCnonLin):  # pylint: disable=unused-argument
   if tf.gfile.Exists(FLAGS.train_dir):
     tf.gfile.DeleteRecursively(FLAGS.train_dir)
   tf.gfile.MakeDirs(FLAGS.train_dir)
-  train()
-  tf.reset_default_graph()
-  train()
+  train(convNonLin, FCnonLin)
 
 
 if __name__ == '__main__':
