@@ -125,7 +125,7 @@ def main(argv=None):  # pylint: disable=unused-argument
     tf.gfile.DeleteRecursively(FLAGS.train_dir)
   tf.gfile.MakeDirs(FLAGS.train_dir)
   train()
-  FLAGS.max_steps = FLAGS.max_steps + FLAGS.max_steps
+  tf.reset_default_graph()
   train()
 
 
