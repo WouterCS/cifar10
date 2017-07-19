@@ -59,7 +59,7 @@ tf.app.flags.DEFINE_integer('log_frequency', 10,
                             """How often to log results to the console.""")
 
 
-def train():
+def train(convNonLin, FCnonLin):
   """Train CIFAR-10 for a number of steps."""
   with tf.Graph().as_default():
     global_step = tf.contrib.framework.get_or_create_global_step()
@@ -72,7 +72,7 @@ def train():
 
     # Build a Graph that computes the logits predictions from the
     # inference model.
-    logits = cifar10.inference(images)
+    logits = cifar10.inference(images, convNonLin, FCnonLin)
     #argmaxLogits = tf.argmax(logits, axis=1)
     # Calculate loss.
     loss = cifar10.loss(logits, labels)
@@ -119,7 +119,7 @@ def train():
       while not mon_sess.should_stop():
         mon_sess.run(train_op)
         
-def main(argv=None):  # pylint: disable=unused-argument
+def main(convNonLin, FCnonLin):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
   if tf.gfile.Exists(FLAGS.train_dir):
     tf.gfile.DeleteRecursively(FLAGS.train_dir)
