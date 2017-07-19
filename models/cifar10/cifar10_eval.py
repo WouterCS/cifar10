@@ -45,19 +45,19 @@ import tensorflow as tf
 import cifar10
 
 FLAGS = tf.app.flags.FLAGS
-
-def createOrUpdateFlag(createFun, prop, value, docstring):
-    try:
-        createFun(prop, value, docstring)
-    except argparse.ArgumentError:
-        FLAGS.__dict__['__flags'][prop] = value
-    
-createOrUpdateFlag(tf.app.flags.DEFINE_string, 'eval_dir', '/tmp/cifar10_eval', """Directory where to write event logs.""")
-createOrUpdateFlag(tf.app.flags.DEFINE_string, 'eval_data', 'test', """Either 'test' or 'train_eval'.""")
-createOrUpdateFlag(tf.app.flags.DEFINE_string, 'checkpoint_dir', '/tmp/cifar10_train', """Directory where to read model checkpoints.""")
-createOrUpdateFlag(tf.app.flags.DEFINE_integer, 'eval_interval_secs', 60 * 5, """How often to run the eval.""")
-createOrUpdateFlag(tf.app.flags.DEFINE_integer, 'num_examples', 10000, """Number of examples to run.""")
-createOrUpdateFlag(tf.app.flags.DEFINE_boolean, 'run_once', True, """Whether to run eval only once.""")
+def createFlags():
+    def createOrUpdateFlag(createFun, prop, value, docstring):
+        try:
+            createFun(prop, value, docstring)
+        except argparse.ArgumentError:
+            FLAGS.__dict__['__flags'][prop] = value
+        
+    createOrUpdateFlag(tf.app.flags.DEFINE_string, 'eval_dir', '/tmp/cifar10_eval', """Directory where to write event logs.""")
+    createOrUpdateFlag(tf.app.flags.DEFINE_string, 'eval_data', 'test', """Either 'test' or 'train_eval'.""")
+    createOrUpdateFlag(tf.app.flags.DEFINE_string, 'checkpoint_dir', '/tmp/cifar10_train', """Directory where to read model checkpoints.""")
+    createOrUpdateFlag(tf.app.flags.DEFINE_integer, 'eval_interval_secs', 60 * 5, """How often to run the eval.""")
+    createOrUpdateFlag(tf.app.flags.DEFINE_integer, 'num_examples', 10000, """Number of examples to run.""")
+    createOrUpdateFlag(tf.app.flags.DEFINE_boolean, 'run_once', True, """Whether to run eval only once.""")
 
 
 def eval_once(saver, summary_writer, top_k_op, summary_op):
@@ -118,8 +118,6 @@ def evaluate():
   """Eval CIFAR-10 for a number of steps."""
   with tf.Graph().as_default() as g:
     # Get images and labels for CIFAR-10.
-    createOrUpdateFlag(tf.app.flags.DEFINE_string, 'eval_data', 'test', """Either 'test' or 'train_eval'.""")
-    print(FLAGS.__dict__['__flags'].keys())
     eval_data = FLAGS.eval_data == 'test'
     images, labels = cifar10.inputs(eval_data=eval_data)
 
@@ -149,6 +147,7 @@ def evaluate():
 
 
 def main(argv=None):  # pylint: disable=unused-argument
+  createFlags()
   cifar10.maybe_download_and_extract()
   if tf.gfile.Exists(FLAGS.eval_dir):
     tf.gfile.DeleteRecursively(FLAGS.eval_dir)
