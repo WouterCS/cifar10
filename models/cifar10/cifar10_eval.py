@@ -44,7 +44,7 @@ import tensorflow as tf
 
 import cifar10
 
-FLAGS = tf.app.flags.FLAGS
+
 def createFlags():
     def createOrUpdateFlag(createFun, prop, value, docstring):
         try:
@@ -59,6 +59,7 @@ def createFlags():
     createOrUpdateFlag(tf.app.flags.DEFINE_integer, 'eval_interval_secs', 60 * 5, """How often to run the eval.""")
     createOrUpdateFlag(tf.app.flags.DEFINE_integer, 'num_examples', 10000, """Number of examples to run.""")
     createOrUpdateFlag(tf.app.flags.DEFINE_boolean, 'run_once', True, """Whether to run eval only once.""")
+    FLAGS = tf.app.flags.FLAGS
 
 
 def eval_once(saver, summary_writer, top_k_op, summary_op):
