@@ -50,11 +50,10 @@ def createFlags():
         try:
             createFun(prop, value, docstring)
         except argparse.ArgumentError:
-            FLAGS.__dict__['__flags'][prop] = value
+            tf.app.flags.FLAGS.__dict__['__flags'][prop] = value
         
     createOrUpdateFlag(tf.app.flags.DEFINE_string, 'eval_dir', '/tmp/cifar10_eval', """Directory where to write event logs.""")
     createOrUpdateFlag(tf.app.flags.DEFINE_string, 'eval_data', 'test', """Either 'test' or 'train_eval'.""")
-    print(FLAGS.eval_data)
     createOrUpdateFlag(tf.app.flags.DEFINE_string, 'checkpoint_dir', '/tmp/cifar10_train', """Directory where to read model checkpoints.""")
     createOrUpdateFlag(tf.app.flags.DEFINE_integer, 'eval_interval_secs', 60 * 5, """How often to run the eval.""")
     createOrUpdateFlag(tf.app.flags.DEFINE_integer, 'num_examples', 10000, """Number of examples to run.""")
