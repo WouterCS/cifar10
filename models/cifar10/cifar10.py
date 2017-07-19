@@ -188,7 +188,45 @@ def inputs(eval_data):
     labels = tf.cast(labels, tf.float16)
   return images, labels
 
-
+def fftReLu(layerIn):
+    fftFunction = 'relu'
+    if fftFunction == 'absFFT':
+        layerIn = tf.transpose(layerIn, [0, 3, 1, 2])
+        layerOut = irfft2d(tf.cast(tf.abs(rfft2d(layerIn)), tf.complex64))
+        layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
+        return layerOut
+    if fftFunction == 'absoluteValueUntransposed':
+        return irfft2d(tf.cast(tf.abs(rfft2d(layerIn)), tf.complex64))
+    if fftFunction == 'emptyFFT':
+        return tf.nn.relu(irfft2d(rfft2d(layerIn)))
+    if fftFunction == 'abs':
+        return tf.abs(layerIn)
+    if fftFunction == 'relu':
+        return tf.nn.relu(layerIn)  
+    if fftFunction == 'y-absFFT':
+        layerIn = tf.transpose(layerIn, [0, 3, 1, 2])
+        layerOut = irfft(tf.cast(tf.abs(rfft(layerIn)), tf.complex64))
+        layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
+        return layerOut
+    if fftFunction == 'x-absFFT':
+        layerIn = tf.transpose(layerIn, [0, 3, 2, 1])
+        layerOut = irfft(tf.cast(tf.abs(rfft(layerIn)), tf.complex64))
+        layerOut = irfft(tf.cast(tf.abs(rfft(layerIn)), tf.complex64))
+        layerOut = tf.transpose(layerOut, [0, 3, 2, 1])
+        return layerOut
+    if fftFunction == 'sqt-magnitude':
+        layerIn = tf.transpose(layerIn, [0, 3, 2, 1])
+        layerOut = irfft2d( sqrtMagnitude(rfft2d(layerIn) ))
+        layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
+        return layerOut
+    if fftFunction == 'powMagnitude':
+        layerIn = tf.transpose(layerIn, [0, 3, 2, 1])
+        layerOut = irfft2d( powMagnitude(rfft2d(layerIn), params))
+        layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
+        return layerOut
+    if fftFunction == 'identity':
+        return layerIn
+        
 def inference(images):
   """Build the CIFAR-10 model.
 
@@ -212,7 +250,7 @@ def inference(images):
     conv = tf.nn.conv2d(images, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.0))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv1 = tf.nn.relu(pre_activation, name=scope.name)
+    conv1 = fftReLu(pre_activation, name=scope.name)
     _activation_summary(conv1)
 
   # pool1
@@ -231,7 +269,7 @@ def inference(images):
     conv = tf.nn.conv2d(norm1, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.1))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv2 = tf.nn.relu(pre_activation, name=scope.name)
+    conv2 = fftReLu(pre_activation, name=scope.name)
     _activation_summary(conv2)
 
   # norm2
