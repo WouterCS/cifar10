@@ -188,8 +188,7 @@ def inputs(eval_data):
     labels = tf.cast(labels, tf.float16)
   return images, labels
 
-def fftReLu(layerIn, name):
-    fftFunction = 'identity'
+def fftReLu(layerIn, name, fftFunction):
     if fftFunction == 'absFFT':
         layerIn = tf.transpose(layerIn, [0, 3, 1, 2])
         layerOut = irfft2d(tf.cast(tf.abs(rfft2d(layerIn)), tf.complex64))
@@ -250,7 +249,7 @@ def inference(images):
     conv = tf.nn.conv2d(images, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.0))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv1 = fftReLu(pre_activation, name=scope.name)
+    conv1 = fftReLu(pre_activation, name=scope.name, 'identity') #tf.nn.relu
     _activation_summary(conv1)
 
   # pool1
@@ -269,7 +268,7 @@ def inference(images):
     conv = tf.nn.conv2d(norm1, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.1))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv2 = fftReLu(pre_activation, name=scope.name)
+    conv2 = fftReLu(pre_activation, name=scope.name, 'identity') #tf.nn.relu
     _activation_summary(conv2)
 
   # norm2
@@ -287,7 +286,7 @@ def inference(images):
     weights = _variable_with_weight_decay('weights', shape=[dim, 384],
                                           stddev=0.04, wd=0.004)
     biases = _variable_on_cpu('biases', [384], tf.constant_initializer(0.1))
-    local3 = tf.matmul(reshape, weights) + biases#tf.nn.relu(, name=scope.name)
+    local3 = fftReLu(tf.matmul(reshape, weights) + biases, name=scope.name, 'relu') #tf.nn.relu
     _activation_summary(local3)
 
   # local4
@@ -295,7 +294,7 @@ def inference(images):
     weights = _variable_with_weight_decay('weights', shape=[384, 192],
                                           stddev=0.04, wd=0.004)
     biases = _variable_on_cpu('biases', [192], tf.constant_initializer(0.1))
-    local4 = tf.matmul(local3, weights) + biases#tf.nn.relu(, name=scope.name)
+    local4 = fftReLu(tf.matmul(local3, weights) + biases, name=scope.name, 'relu') #tf.nn.relu
     _activation_summary(local4)
 
   # linear layer(WX + b),
