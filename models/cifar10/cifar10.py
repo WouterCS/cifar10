@@ -39,6 +39,7 @@ import os
 import re
 import sys
 import tarfile
+import argparse
 
 from six.moves import urllib
 import tensorflow as tf
@@ -47,25 +48,16 @@ import cifar10_input
 
 FLAGS = tf.app.flags.FLAGS
 
+def createOrUpdateFlag(createFun, prop, value, docstring):
+    try:
+        createFun(prop, value, docstring)
+    except argparse.ArgumentError:
+        FLAGS.__dict__['__flags'][prop] = value
+    
 # Basic model parameters.
-try:
-    value = 128
-    tf.app.flags.DEFINE_integer('batch_size', value, """Number of images to process in a batch.""")
-except argparse.ArgumentError:
-    tf.app.flags.FLAGS.batch_size = value
-try:
-    value = '/tmp/cifar10_data'
-    tf.app.flags.DEFINE_string('data_dir', value, """Path to the CIFAR-10 data directory.""")
-except argparse.ArgumentError:
-    tf.app.flags.FLAGS.data_dir = value
-try:
-    value = False
-    tf.app.flags.DEFINE_boolean('use_fp16', value, """Train the model using fp16.""")
-except argparse.ArgumentError:
-    tf.app.flags.FLAGS.use_fp16 = value
-
-
-
+createOrUpdateFlag(tf.app.flags.DEFINE_integer, 'batch_size', 128, """Number of images to process in a batch.""")
+createOrUpdateFlag(tf.app.flags.DEFINE_string, 'data_dir', '/tmp/cifar10_data', """Path to the CIFAR-10 data directory.""")
+createOrUpdateFlag(tf.app.flags.DEFINE_boolean, 'use_fp16', False, """Train the model using fp16.""")
 
 # Global constants describing the CIFAR-10 data set.
 IMAGE_SIZE = cifar10_input.IMAGE_SIZE

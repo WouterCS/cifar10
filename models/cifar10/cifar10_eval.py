@@ -37,6 +37,7 @@ from __future__ import print_function
 from datetime import datetime
 import math
 import time
+import argparse
 
 import numpy as np
 import tensorflow as tf
@@ -48,10 +49,8 @@ FLAGS = tf.app.flags.FLAGS
 def createOrUpdateFlag(createFun, prop, value, docstring):
     try:
         createFun(prop, value, docstring)
-        print('create')
     except argparse.ArgumentError:
         FLAGS.__dict__['__flags'][prop] = value
-        print('update')
     
 createOrUpdateFlag(tf.app.flags.DEFINE_string, 'eval_dir', '/tmp/cifar10_eval', """Directory where to write event logs.""")
 createOrUpdateFlag(tf.app.flags.DEFINE_string, 'eval_data', 'test', """Either 'test' or 'train_eval'.""")
