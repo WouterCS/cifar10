@@ -65,6 +65,7 @@ FLAGS.checkpoint_dir = '/tmp/cifar10_train'
 FLAGS.eval_interval_secs = 60 * 5
 FLAGS.num_examples = 10000
 FLAGS.run_once = True
+FLAGS.batch_size = 128
 
 def eval_once(saver, summary_writer, top_k_op, summary_op):
   """Run Eval once.
