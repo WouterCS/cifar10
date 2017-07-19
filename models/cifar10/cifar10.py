@@ -48,12 +48,24 @@ import cifar10_input
 FLAGS = tf.app.flags.FLAGS
 
 # Basic model parameters.
-tf.app.flags.DEFINE_integer('batch_size', 128,
-                            """Number of images to process in a batch.""")
-tf.app.flags.DEFINE_string('data_dir', '/tmp/cifar10_data',
-                           """Path to the CIFAR-10 data directory.""")
-tf.app.flags.DEFINE_boolean('use_fp16', False,
-                            """Train the model using fp16.""")
+try:
+    value = 128
+    tf.app.flags.DEFINE_integer('batch_size', value, """Number of images to process in a batch.""")
+except argparse.ArgumentError:
+    tf.app.flags.FLAGS.batch_size = value
+try:
+    value = '/tmp/cifar10_data'
+    tf.app.flags.DEFINE_string('data_dir', value, """Path to the CIFAR-10 data directory.""")
+except argparse.ArgumentError:
+    tf.app.flags.FLAGS.data_dir = value
+try:
+    value = False
+    tf.app.flags.DEFINE_boolean('use_fp16', value, """Train the model using fp16.""")
+except argparse.ArgumentError:
+    tf.app.flags.FLAGS.use_fp16 = value
+
+
+
 
 # Global constants describing the CIFAR-10 data set.
 IMAGE_SIZE = cifar10_input.IMAGE_SIZE
