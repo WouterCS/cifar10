@@ -188,7 +188,7 @@ def inputs(eval_data):
     labels = tf.cast(labels, tf.float16)
   return images, labels
 
-def fftReLu(layerIn):
+def fftReLu(layerIn, name):
     fftFunction = 'relu'
     if fftFunction == 'absFFT':
         layerIn = tf.transpose(layerIn, [0, 3, 1, 2])
@@ -202,7 +202,7 @@ def fftReLu(layerIn):
     if fftFunction == 'abs':
         return tf.abs(layerIn)
     if fftFunction == 'relu':
-        return tf.nn.relu(layerIn)  
+        return tf.nn.relu(layerIn, name = name)  
     if fftFunction == 'y-absFFT':
         layerIn = tf.transpose(layerIn, [0, 3, 1, 2])
         layerOut = irfft(tf.cast(tf.abs(rfft(layerIn)), tf.complex64))
