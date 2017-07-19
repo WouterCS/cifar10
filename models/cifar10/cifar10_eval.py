@@ -118,6 +118,7 @@ def evaluate():
   """Eval CIFAR-10 for a number of steps."""
   with tf.Graph().as_default() as g:
     # Get images and labels for CIFAR-10.
+    print(FLAGS.__dict__['__flags'].keys())
     eval_data = FLAGS.eval_data == 'test'
     images, labels = cifar10.inputs(eval_data=eval_data)
 
@@ -147,7 +148,6 @@ def evaluate():
 
 
 def main(argv=None):  # pylint: disable=unused-argument
-  print(FLAGS.__dict__['__flags'].keys())
   cifar10.maybe_download_and_extract()
   if tf.gfile.Exists(FLAGS.eval_dir):
     tf.gfile.DeleteRecursively(FLAGS.eval_dir)
