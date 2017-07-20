@@ -51,7 +51,7 @@ tf.app.flags.DEFINE_string('train_dir', '/tmp/cifar10_train',
                            """and checkpoint.""")
 tf.app.flags.DEFINE_string('eval_dir', '/tmp/cifar10_eval',
                            """Directory where to write event logs.""")
-tf.app.flags.DEFINE_integer('max_steps', 2100, #1000000
+tf.app.flags.DEFINE_integer('max_steps', 100000, #1000000
                             """Number of batches to run.""")
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
@@ -129,6 +129,7 @@ def main(convNonLin, FCnonLin):  # pylint: disable=unused-argument
     tf.gfile.DeleteRecursively(FLAGS.train_dir)
   tf.gfile.MakeDirs(FLAGS.train_dir)
   for i in range(0, FLAGS.max_steps, FLAGS.eval_frequency):
+    print('Current max steps: %d' % i)
     train(convNonLin, FCnonLin, i)
     cifar10_eval.main(convNonLin, FCnonLin)
 
