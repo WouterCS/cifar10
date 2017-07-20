@@ -230,7 +230,7 @@ def sqrtMagnitude(c):
     mag = tf.abs(c)
     pha = tf.atan2(tf.imag(c), tf.real(c))
     
-    sqrtmag = tf.pow(mag, params.powMagnitude)
+    sqrtmag = tf.pow(mag, 0.9)
     magCompl = tf.complex(sqrtmag, tf.zeros(sqrtmag.shape))
     phaCompl = tf.complex(tf.zeros(pha.shape), pha)
     
