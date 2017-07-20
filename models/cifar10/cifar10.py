@@ -225,7 +225,17 @@ def fftReLu(layerIn, name, fftFunction):
         return layerOut
     if fftFunction == 'identity':
         return layerIn
-        
+
+def sqrtMagnitude(c):
+    mag = tf.abs(c)
+    pha = tf.atan2(tf.imag(c), tf.real(c))
+    
+    sqrtmag = tf.pow(mag, params.powMagnitude)
+    magCompl = tf.complex(sqrtmag, tf.zeros(sqrtmag.shape))
+    phaCompl = tf.complex(tf.zeros(pha.shape), pha)
+    
+    return magCompl * tf.exp(phaCompl)
+    
 def inference(images, convNonLin, FCnonLin):
   """Build the CIFAR-10 model.
 
