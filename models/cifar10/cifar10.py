@@ -44,6 +44,9 @@ import argparse
 from six.moves import urllib
 import tensorflow as tf
 
+from tensorflow.python.ops.spectral_ops import rfft2d, rfft
+from tensorflow.python.ops.spectral_ops import irfft2d, irfft
+
 import cifar10_input
 
 FLAGS = tf.app.flags.FLAGS
