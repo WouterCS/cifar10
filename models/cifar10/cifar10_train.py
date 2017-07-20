@@ -51,7 +51,7 @@ tf.app.flags.DEFINE_string('train_dir', '/tmp/cifar10_train',
                            """and checkpoint.""")
 tf.app.flags.DEFINE_string('eval_dir', '/tmp/cifar10_eval',
                            """Directory where to write event logs.""")
-tf.app.flags.DEFINE_integer('max_steps', 1000000, #1000000
+tf.app.flags.DEFINE_integer('max_steps', 100000, #1000000
                             """Number of batches to run.""")
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
