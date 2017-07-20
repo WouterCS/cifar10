@@ -61,7 +61,7 @@ tf.app.flags.DEFINE_integer('eval_frequency', 1000,
                             """How often to eval accuracy.""")
 
 
-def train(convNonLin, FCnonLin):
+def train(convNonLin, FCnonLin, maxSteps):
   """Train CIFAR-10 for a number of steps."""
   with tf.Graph().as_default():
     global_step = tf.contrib.framework.get_or_create_global_step()
@@ -110,12 +110,12 @@ def train(convNonLin, FCnonLin):
                         'sec/batch)')
           print (format_str % (datetime.now(), self._step, loss_value,
                                examples_per_sec, sec_per_batch))
-        if self._step % FLAGS.eval_frequency == 0:
-            cifar10_eval.main(convNonLin, FCnonLin)
+        #if self._step % FLAGS.eval_frequency == 0:
+        #    cifar10_eval.main(convNonLin, FCnonLin)
 
     with tf.train.MonitoredTrainingSession(
         checkpoint_dir=FLAGS.train_dir,
-        hooks=[tf.train.StopAtStepHook(last_step=FLAGS.max_steps),
+        hooks=[tf.train.StopAtStepHook(last_step=maxSteps),
                tf.train.NanTensorHook(loss),
                _LoggerHook()],
         config=tf.ConfigProto(
@@ -128,8 +128,9 @@ def main(convNonLin, FCnonLin):  # pylint: disable=unused-argument
   if tf.gfile.Exists(FLAGS.train_dir):
     tf.gfile.DeleteRecursively(FLAGS.train_dir)
   tf.gfile.MakeDirs(FLAGS.train_dir)
-  train(convNonLin, FCnonLin)
-  cifar10_eval.main(convNonLin, FCnonLin)
+  for i in range(0, FLAGS.max_steps, FLAGS.eval_frequency)
+    train(convNonLin, FCnonLin, i)
+    cifar10_eval.main(convNonLin, FCnonLin)
 
 
 if __name__ == '__main__':
