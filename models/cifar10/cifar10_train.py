@@ -42,7 +42,7 @@ import time
 import tensorflow as tf
 import numpy as np
 
-import cifar10
+import cifar10, cifar10_eval
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -57,6 +57,8 @@ tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
 tf.app.flags.DEFINE_integer('log_frequency', 10,
                             """How often to log results to the console.""")
+tf.app.flags.DEFINE_integer('eval_frequency', 1000,
+                            """How often to eval accuracy.""")
 
 
 def train(convNonLin, FCnonLin):
@@ -108,6 +110,8 @@ def train(convNonLin, FCnonLin):
                         'sec/batch)')
           print (format_str % (datetime.now(), self._step, loss_value,
                                examples_per_sec, sec_per_batch))
+        if self._step % FLAGS.eval_frequency == 0:
+            cifar10_eval.main(convNonLin, FCnonLin)
 
     with tf.train.MonitoredTrainingSession(
         checkpoint_dir=FLAGS.train_dir,
