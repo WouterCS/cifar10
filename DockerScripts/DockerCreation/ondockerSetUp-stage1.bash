@@ -4,7 +4,7 @@
 
 cd /models-2/cifar10
 
-sudo apt-get remove python-tk
-sudo apt-get clean
-sudo apt-get install python-tk
+apt-get remove python-tk
+apt-get clean
+apt-get install python-tk
 python -c "import  cifar10 as model; model.maybe_download_and_extract()"
