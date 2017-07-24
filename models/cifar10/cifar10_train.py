@@ -42,7 +42,7 @@ import time
 import tensorflow as tf
 import numpy as np
 
-import cifar10, cifar10_eval
+import cifar10, cifar10_eval, cifar10_plot
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -134,8 +134,8 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
     train(hyperParam, i)
     precision = cifar10_eval.main(hyperParam)
     precision_history.append(precision)
-  plot.plot_coarse(precision_history, logDirectory)
-  plot.plot_detailed(precision_history, logDirectory)
+  cifar10_plot.plot_coarse(precision_history, logDirectory)
+  cifar10_plot.plot_detailed(precision_history, logDirectory)
   
 if __name__ == '__main__':
   tf.app.run()
