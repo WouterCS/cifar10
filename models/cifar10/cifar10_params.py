@@ -34,6 +34,8 @@ def main(runNum):
         hyperParam.convNonLin = 'powMagnitude'
         hyperParam.convNonLinMag = 0.8
         
+        
+    createReadMe(hyperParam, directory):
     return hyperParam
     
 def createReadMe(hyperParam, directory):
