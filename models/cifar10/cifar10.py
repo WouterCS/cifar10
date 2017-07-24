@@ -194,10 +194,10 @@ def inputs(eval_data):
   return images, labels
 
 def fftReLu(layerIn, hyperParam, layer, name):
-    if layer = 'conv':
+    if layer == 'conv':
         fftFunction = hyperParam.convNonLin
         mag = hyperParam.convNonLinMag
-    if layer = 'FC':
+    if layer == 'FC':
         fftFunction = hyperParam.FCnonLin
         mag = hyperParam.FCnonLinMag
         
