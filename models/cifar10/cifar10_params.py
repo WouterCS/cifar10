@@ -35,7 +35,7 @@ def main(runNum):
         hyperParam.convNonLinMag = 0.8
         
         
-    createReadMe(hyperParam, directory):
+    createReadMe(hyperParam, directory)
     return hyperParam
     
 def createReadMe(hyperParam, directory):
