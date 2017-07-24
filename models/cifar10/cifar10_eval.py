@@ -108,7 +108,7 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
 
       # Compute precision @ 1.
       precision = true_count / total_sample_count
-      print('%s: precision @ 1 = %.3f' % (datetime.now(), precision))
+      print('%s: precision @ 1 = %.4f' % (datetime.now(), precision))
 
       summary = tf.Summary()
       summary.ParseFromString(sess.run(summary_op))
@@ -119,9 +119,10 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
 
     coord.request_stop()
     coord.join(threads, stop_grace_period_secs=10)
+    return precision
 
 
-def evaluate(convNonLin, FCnonLin):
+def evaluate(hyperParam):
   """Eval CIFAR-10 for a number of steps."""
   with tf.Graph().as_default() as g:
     # Get images and labels for CIFAR-10.
@@ -130,7 +131,7 @@ def evaluate(convNonLin, FCnonLin):
 
     # Build a Graph that computes the logits predictions from the
     # inference model.
-    logits = cifar10.inference(images, convNonLin, FCnonLin)
+    logits = cifar10.inference(images, hyperParam)
 
     # Calculate predictions.
     top_k_op = tf.nn.in_top_k(logits, labels, 1)
@@ -147,18 +148,18 @@ def evaluate(convNonLin, FCnonLin):
     summary_writer = tf.summary.FileWriter(FLAGS.eval_dir, g)
 
     while True:
-      eval_once(saver, summary_writer, top_k_op, summary_op)
+      precision = eval_once(saver, summary_writer, top_k_op, summary_op)
       if FLAGS.run_once:
-        break
+        return precision
       time.sleep(FLAGS.eval_interval_secs)
+    return precision
 
-
-def main(convNonLin, FCnonLin):  # pylint: disable=unused-argument
+def main(hyperParam):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
   if tf.gfile.Exists(FLAGS.eval_dir):
     tf.gfile.DeleteRecursively(FLAGS.eval_dir)
   tf.gfile.MakeDirs(FLAGS.eval_dir)
-  evaluate(convNonLin, FCnonLin)
+  return evaluate(hyperParam)
 
 
 if __name__ == '__main__':

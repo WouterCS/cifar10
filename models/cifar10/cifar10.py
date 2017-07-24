@@ -193,7 +193,14 @@ def inputs(eval_data):
     labels = tf.cast(labels, tf.float16)
   return images, labels
 
-def fftReLu(layerIn, name, fftFunction):
+def fftReLu(layerIn, hyperParam, layer, name):
+    if layer = 'conv':
+        fftFunction = hyperParam.convNonLin
+        mag = hyperParam.convNonLinMag
+    if layer = 'FC':
+        fftFunction = hyperParam.FCnonLin
+        mag = hyperParam.FCnonLinMag
+        
     if fftFunction == 'absFFT':
         layerIn = tf.transpose(layerIn, [0, 3, 1, 2])
         layerOut = irfft2d(tf.cast(tf.abs(rfft2d(layerIn)), tf.complex64))
@@ -225,7 +232,7 @@ def fftReLu(layerIn, name, fftFunction):
         return layerOut
     if fftFunction == 'powMagnitude':
         layerIn = tf.transpose(layerIn, [0, 3, 2, 1])
-        layerOut = irfft2d( powMagnitude(rfft2d(layerIn), 0.9))
+        layerOut = irfft2d( powMagnitude(rfft2d(layerIn), mag))
         layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'identity':
@@ -243,7 +250,7 @@ def sqrtMagnitude(c):
     
     return magCompl * tf.exp(phaCompl)
     
-def inference(images, convNonLin, FCnonLin):
+def inference(images, hyperParam):
   """Build the CIFAR-10 model.
 
   Args:
@@ -266,7 +273,7 @@ def inference(images, convNonLin, FCnonLin):
     conv = tf.nn.conv2d(images, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.0))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv1 = fftReLu(pre_activation, name=scope.name, fftFunction = convNonLin) #tf.nn.relu
+    conv1 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name) #tf.nn.relu
     _activation_summary(conv1)
 
   # pool1
@@ -285,7 +292,7 @@ def inference(images, convNonLin, FCnonLin):
     conv = tf.nn.conv2d(norm1, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.1))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv2 = fftReLu(pre_activation, name=scope.name, fftFunction = convNonLin) #tf.nn.relu
+    conv2 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name) #tf.nn.relu
     _activation_summary(conv2)
 
   # norm2
@@ -303,7 +310,7 @@ def inference(images, convNonLin, FCnonLin):
     weights = _variable_with_weight_decay('weights', shape=[dim, 384],
                                           stddev=0.04, wd=0.004)
     biases = _variable_on_cpu('biases', [384], tf.constant_initializer(0.1))
-    local3 = fftReLu(tf.matmul(reshape, weights) + biases, name=scope.name, fftFunction = FCnonLin) #tf.nn.relu
+    local3 = fftReLu(tf.matmul(reshape, weights) + biases, hyperParam, layer = 'FC', name=scope.name) #tf.nn.relu
     _activation_summary(local3)
 
   # local4
@@ -311,7 +318,7 @@ def inference(images, convNonLin, FCnonLin):
     weights = _variable_with_weight_decay('weights', shape=[384, 192],
                                           stddev=0.04, wd=0.004)
     biases = _variable_on_cpu('biases', [192], tf.constant_initializer(0.1))
-    local4 = fftReLu(tf.matmul(local3, weights) + biases, name=scope.name, fftFunction = FCnonLin) #tf.nn.relu
+    local4 = fftReLu(tf.matmul(local3, weights) + biases, hyperParam, layer = 'FC', name=scope.name) #tf.nn.relu
     _activation_summary(local4)
 
   # linear layer(WX + b),

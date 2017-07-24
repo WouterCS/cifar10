@@ -61,7 +61,7 @@ tf.app.flags.DEFINE_integer('eval_frequency', 1000,
                             """How often to eval accuracy.""")
 
 
-def train(convNonLin, FCnonLin, maxSteps):
+def train(hyperParam):
   """Train CIFAR-10 for a number of steps."""
   with tf.Graph().as_default():
     global_step = tf.contrib.framework.get_or_create_global_step()
@@ -74,7 +74,7 @@ def train(convNonLin, FCnonLin, maxSteps):
 
     # Build a Graph that computes the logits predictions from the
     # inference model.
-    logits = cifar10.inference(images, convNonLin, FCnonLin)
+    logits = cifar10.inference(images, hyperParam)
     #argmaxLogits = tf.argmax(logits, axis=1)
     # Calculate loss.
     loss = cifar10.loss(logits, labels)
@@ -115,7 +115,7 @@ def train(convNonLin, FCnonLin, maxSteps):
 
     with tf.train.MonitoredTrainingSession(
         checkpoint_dir=FLAGS.train_dir,
-        hooks=[tf.train.StopAtStepHook(last_step=maxSteps),
+        hooks=[tf.train.StopAtStepHook(last_step=hyperParam.maxSteps),
                tf.train.NanTensorHook(loss),
                _LoggerHook()],
         config=tf.ConfigProto(
@@ -123,16 +123,19 @@ def train(convNonLin, FCnonLin, maxSteps):
       while not mon_sess.should_stop():
         mon_sess.run(train_op)
         
-def main(convNonLin, FCnonLin):  # pylint: disable=unused-argument
+def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
   if tf.gfile.Exists(FLAGS.train_dir):
     tf.gfile.DeleteRecursively(FLAGS.train_dir)
   tf.gfile.MakeDirs(FLAGS.train_dir)
-  for i in range(0, FLAGS.max_steps, FLAGS.eval_frequency):
+  precision_history = []
+  for i in range(0, hyperParam.max_steps, hyperParam.eval_frequency):
     print('Current max steps: %d' % i)
-    train(convNonLin, FCnonLin, i)
-    cifar10_eval.main(convNonLin, FCnonLin)
-
-
+    train(hyperParam, i)
+    precision = cifar10_eval.main(hyperParam)
+    precision_history.append(precision)
+  plot.plot_coarse(precision_history, logDirectory)
+  plot.plot_detailed(precision_history, logDirectory)
+  
 if __name__ == '__main__':
   tf.app.run()
