@@ -1,0 +1,6 @@
+
+Relu in conv    relu in FC  acc     run2:
+Y               Y           0.862   
+N               Y           0.864   
+Y               N           0.822   0.823
+N               N           0.804   0.801
