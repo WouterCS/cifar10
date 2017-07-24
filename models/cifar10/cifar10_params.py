@@ -1,4 +1,5 @@
 import os.path
+from __future__ import print_function
 
 def main(runNum):
     
@@ -36,7 +37,7 @@ def main(runNum):
     
 def createReadMe(hyperParam, directory):
     with open(directory + '/README.txt', 'wb') as f:
-        print('test', file = f) #'Dataset: %s' % hyperParam.datasetname
+        print('Dataset: %s' % hyperParam.datasetname, file = f)
         if hyperParam.FCnonLin == 'powMagnitude':
             print('FC non-linearity: %s, with power: %f' % (hyperParam.FCnonLin, hyperParam.FCnonLinMag), file = f)
         else:
