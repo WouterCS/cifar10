@@ -28,5 +28,5 @@ def plot_detailed(timeSeries, saveDirectory):
     minimum = np.min(timeSeries)
     maximum = np.max(timeSeries)
     margin = 0.1 * (maximum - minimum)
-    plt.ylim(np.max(minimum - margin, 0), np.min(maximum + margin, 100))
+    plt.ylim(max(minimum - margin, 0), min(maximum + margin, 100))
     plt.savefig(saveDirectory + '/detailed_plot.png')
