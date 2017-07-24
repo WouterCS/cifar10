@@ -230,7 +230,7 @@ def fftReLu(layerIn, name, fftFunction):
         return layerIn
 
 def sqrtMagnitude(c):
-    mag = tf.abs(c)
+    mag = tf.nn.relu(tf.abs(c))
     pha = tf.atan2(tf.imag(c), tf.real(c))
     
     sqrtmag = tf.pow(mag, 0.9)
