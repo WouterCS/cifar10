@@ -5,5 +5,5 @@
 cd /models-2/cifar10
 
 apt-get update
-apt-get install python3-tk
+apt-get install tk-dev python-tk 
 python -c "import  cifar10 as model; model.maybe_download_and_extract()"
