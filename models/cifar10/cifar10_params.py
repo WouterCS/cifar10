@@ -1,5 +1,6 @@
-import os.path
 from __future__ import print_function
+import os.path
+
 
 def main(runNum):
     
