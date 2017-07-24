@@ -18,7 +18,7 @@ def main(runNum):
             self.eval_frequency = 1000
     
     hyperParam = hyperParameters()
-    hyperParam.max_steps = 3000
+    hyperParam.max_steps = 300
     hyperParam.eval_frequency = 100
 
     if runNum == 1:
