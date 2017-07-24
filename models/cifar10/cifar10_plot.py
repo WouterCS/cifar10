@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from Tkinter import *
 
 def plot_coarse(timeSeries, saveDirectory):
     plt.clf()
