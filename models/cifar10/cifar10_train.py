@@ -133,7 +133,7 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
     print('Current max steps: %d' % i)
     train(hyperParam, i)
     precision = cifar10_eval.main(hyperParam)
-    precision_history.append(precision)
+    precision_history.append(precision * 100)
   cifar10_plot.plot_coarse(precision_history, logDirectory)
   cifar10_plot.plot_detailed(precision_history, logDirectory)
   
