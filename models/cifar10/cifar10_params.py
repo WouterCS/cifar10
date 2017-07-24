@@ -36,7 +36,7 @@ def main(runNum):
     
 def createReadMe(hyperParam, directory):
     with open(directory + '/README.txt', 'wb') as f:
-        print('Dataset: %s' % hyperParam.datasetname)
+        print('test', file = f) #'Dataset: %s' % hyperParam.datasetname
         if hyperParam.FCnonLin == 'powMagnitude':
             print('FC non-linearity: %s, with power: %f' % (hyperParam.FCnonLin, hyperParam.FCnonLinMag), file = f)
         else:
