@@ -49,6 +49,8 @@ from tensorflow.python.ops.spectral_ops import irfft2d, irfft
 
 import cifar10_input
 
+from custom_python_ops.composite_ops import powMagnitude
+
 FLAGS = tf.app.flags.FLAGS
 
 def createOrUpdateFlag(createFun, prop, value, docstring):
@@ -223,7 +225,7 @@ def fftReLu(layerIn, name, fftFunction):
         return layerOut
     if fftFunction == 'powMagnitude':
         layerIn = tf.transpose(layerIn, [0, 3, 2, 1])
-        layerOut = irfft2d( powMagnitude(rfft2d(layerIn), params))
+        layerOut = irfft2d( powMagnitude(rfft2d(layerIn), 0.9))
         layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'identity':
@@ -232,6 +234,8 @@ def fftReLu(layerIn, name, fftFunction):
 def sqrtMagnitude(c):
     mag = tf.nn.relu(tf.abs(c))
     pha = tf.atan2(tf.imag(c), tf.real(c))
+    
+    tf.Assert(tf.logical_and(tf.logical_not(tf.is_nan(mag))))
     
     sqrtmag = tf.pow(mag, 0.9)
     magCompl = tf.complex(sqrtmag, tf.zeros(sqrtmag.shape))
