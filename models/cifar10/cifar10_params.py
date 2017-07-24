@@ -20,8 +20,6 @@ def main(runNum):
             self.eval_frequency = 1000
     
     hyperParam = hyperParameters()
-    hyperParam.max_steps = 300
-    hyperParam.eval_frequency = 100
 
     if runNum == 1:
         hyperParam.convNonLin = 'powMagnitude'
@@ -30,7 +28,7 @@ def main(runNum):
         hyperParam.convNonLin = 'relu'
     if runNum == 3:
         hyperParam.convNonLin = 'identity'
-    if runNum == 3:
+    if runNum == 4:
         hyperParam.convNonLin = 'powMagnitude'
         hyperParam.convNonLinMag = 0.8
         
