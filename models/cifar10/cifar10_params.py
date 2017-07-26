@@ -2,7 +2,7 @@ from __future__ import print_function
 import os.path
 
 
-def main(runNum):
+def main(runNum, directory):
     
     directory = '/results/run-%d' % runNum
     if not os.path.exists(directory):
