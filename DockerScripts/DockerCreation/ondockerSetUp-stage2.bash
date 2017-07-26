@@ -3,7 +3,7 @@ mkdir -p /results
 cd /models/cifar10
 
 python -c "from tensorflow.contrib.layers.python.layers.embedding_ops import *"
-ls /usr/local/lib/python2.7/dist-packages/
+ls /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/layers/python/layers
 
 
 DIRECTORY='/results/run-4'
