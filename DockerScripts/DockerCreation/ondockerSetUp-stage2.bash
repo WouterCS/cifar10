@@ -8,4 +8,4 @@ cd /models/cifar10
 num = '4'
 DIRECTORY='/results/run-'$num
 mkdir -p $DIRECTORY
-python -c "import cifar10_params; hyperParam = cifar10_params.main('$num','${DIRECTORY}'); import cifar10_train; cifar10_train.main(hyperParam, '${DIRECTORY}')" 2>&1  | tee "${DIRECTORY}/log.txt"
+python -c "import cifar10_params; hyperParam = cifar10_params.main($num,'${DIRECTORY}'); import cifar10_train; cifar10_train.main(hyperParam, '${DIRECTORY}')" 2>&1  | tee "${DIRECTORY}/log.txt"
