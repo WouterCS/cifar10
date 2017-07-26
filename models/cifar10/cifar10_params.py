@@ -35,6 +35,8 @@ def main(runNum, directory):
     return hyperParam
     
 def createReadMe(hyperParam, directory):
+
+    print('Directory is: %s' % directory + '/README.txt')
     with open(directory + '/README.txt', 'wb') as f:
         print('Dataset: %s' % hyperParam.datasetname, file = f)
         if hyperParam.FCnonLin == 'powMagnitude':
