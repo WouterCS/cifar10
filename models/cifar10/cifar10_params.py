@@ -3,8 +3,6 @@ import os.path
 
 
 def main(runNum, directory):
-    
-    directory = '/results/run-%d' % runNum
     if not os.path.exists(directory):
         os.makedirs(directory)
     
