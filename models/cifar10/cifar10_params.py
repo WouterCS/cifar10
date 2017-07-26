@@ -38,6 +38,7 @@ def createReadMe(hyperParam, directory):
 
     print('Directory is: %s' % directory + '/README.txt')
     with open(directory + '/README.txt', 'wb') as f:
+        print('start making readme')
         print('Dataset: %s' % hyperParam.datasetname, file = f)
         if hyperParam.FCnonLin == 'powMagnitude':
             print('FC non-linearity: %s, with power: %f' % (hyperParam.FCnonLin, hyperParam.FCnonLinMag), file = f)
@@ -50,3 +51,4 @@ def createReadMe(hyperParam, directory):
         print('Pooling function is: %s' % hyperParam.poolingFun, file = f)
         print('Maximum number of steps is: %d' % hyperParam.max_steps, file = f)
         print('Evaluation every %d steps.' % hyperParam.eval_frequency, file = f)
+        print('finished making readme')
