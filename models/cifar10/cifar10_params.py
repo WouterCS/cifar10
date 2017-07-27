@@ -24,8 +24,7 @@ def main(runNum, directory):
     
     hyperParam = hyperParameters()
     
-    hyperParam.max_steps = 2000#30000
-    hyperParam.eval_frequency = 100
+    hyperParam.max_steps = 30000
     hyperParam.poolingFun = 'average-pool'
     
     
