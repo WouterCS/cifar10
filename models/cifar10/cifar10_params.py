@@ -29,8 +29,19 @@ def main(runNum, directory):
     if runNum == 4:
         hyperParam.convNonLin = 'powMagnitude'
         hyperParam.convNonLinMag = 0.8
-        
-        
+    
+    hyperParam.poolingFun = 'average-pool'
+
+    if runNum == 5:
+        hyperParam.convNonLin = 'relu'
+    if runNum == 6:
+        hyperParam.convNonLin = 'identity'
+    if runNum == 7:
+        hyperParam.convNonLin = 'powMagnitude'
+        hyperParam.convNonLinMag = 0.9
+    if runNum == 8:
+        hyperParam.convNonLin = 'powMagnitude'
+        hyperParam.convNonLinMag = 0.8
     createReadMe(hyperParam, directory)
     return hyperParam
     
