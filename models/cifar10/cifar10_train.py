@@ -130,6 +130,7 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
     print('Current max steps: %d' % i)
     train(hyperParam, i)
     precision = cifar10_eval.main(hyperParam)
+    print(precision)
     precision_history.append(precision * 100)
     with open(hyperParam.directory + '/precision_history.txt', 'wb') as f:
         print('%.4f' % precision_history[-1], file = f)
