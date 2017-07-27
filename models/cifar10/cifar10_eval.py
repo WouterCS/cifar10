@@ -123,6 +123,7 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
 
 
 def evaluate(hyperParam):
+  print('test 2')
   """Eval CIFAR-10 for a number of steps."""
   with tf.Graph().as_default() as g:
     # Get images and labels for CIFAR-10.
@@ -146,12 +147,13 @@ def evaluate(hyperParam):
     summary_op = tf.summary.merge_all()
 
     summary_writer = tf.summary.FileWriter(FLAGS.eval_dir, g)
-
+    print('test 3')
     while True:
       precision = eval_once(saver, summary_writer, top_k_op, summary_op)
       if FLAGS.run_once:
         return precision
       time.sleep(FLAGS.eval_interval_secs)
+    print('test 4')
     return precision
 
 def main(hyperParam):  # pylint: disable=unused-argument
