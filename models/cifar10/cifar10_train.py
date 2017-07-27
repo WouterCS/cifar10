@@ -132,7 +132,7 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
     precision = cifar10_eval.main(hyperParam)
     print(precision)
     precision_history.append(precision * 100)
-    with open(hyperParam.directory + '/precision_history.txt', 'wba') as f:
+    with open(hyperParam.directory + '/precision_history.txt', 'ab') as f:
         print('%.4f' % precision_history[-1], file = f)
     cifar10_plot.plot_detailed(precision_history, logDirectory)
   cifar10_plot.plot_coarse(precision_history, logDirectory)
