@@ -54,4 +54,5 @@ def createReadMe(hyperParam):
         print('Pooling function is: %s' % hyperParam.poolingFun, file = f)
         print('Maximum number of steps is: %d' % hyperParam.max_steps, file = f)
         print('Evaluation every %d steps.' % hyperParam.eval_frequency, file = f)
+        print('Learning-rate is: %f' % hyperParam.INITIAL_LEARNING_RATE, file = f)
         print('finished making readme')
