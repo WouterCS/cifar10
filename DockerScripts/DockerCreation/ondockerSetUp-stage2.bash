@@ -7,7 +7,7 @@ cd /models/cifar10
 
 for i in {7..8}
 do
-    numRun=i
+    numRun=$i
     DIRECTORY='/results/run-'$numRun
     mkdir -p $DIRECTORY
     echo $"${DIRECTORY}/log.txt"
