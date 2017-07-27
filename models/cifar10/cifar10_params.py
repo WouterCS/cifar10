@@ -36,7 +36,7 @@ def main(runNum, directory):
     createReadMe(hyperParam)
     return hyperParam
     
-def createReadMe(hyperParam, directory):
+def createReadMe(hyperParam):
 
     print('Directory is: %s' % hyperParam.directory + '/README.txt')
     with open(hyperParam.directory + '/README.txt', 'wb') as f:
