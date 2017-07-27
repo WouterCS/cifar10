@@ -152,7 +152,6 @@ def evaluate(hyperParam):
       if FLAGS.run_once:
         return precision
       time.sleep(FLAGS.eval_interval_secs)
-    print('test 1')
     return precision
 
 def main(hyperParam):  # pylint: disable=unused-argument
@@ -160,6 +159,7 @@ def main(hyperParam):  # pylint: disable=unused-argument
   if tf.gfile.Exists(FLAGS.eval_dir):
     tf.gfile.DeleteRecursively(FLAGS.eval_dir)
   tf.gfile.MakeDirs(FLAGS.eval_dir)
+  print('test 1')
   return evaluate(hyperParam)
 
 
