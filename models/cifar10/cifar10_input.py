@@ -129,7 +129,7 @@ def _generate_image_and_label_batch(image, label, min_queue_examples,
         [image, label],
         batch_size=batch_size,
         num_threads=num_preprocess_threads,
-        capacity=min_queue_examples + 3 * batch_size
+        capacity=min_queue_examples + 3 * batch_size,
         seed=seed)
 
   # Display the training images in the visualizer.
