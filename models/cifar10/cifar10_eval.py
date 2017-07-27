@@ -108,7 +108,6 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
 
       # Compute precision @ 1.
       precision = true_count / total_sample_count
-      print('Precision is: %f' % precision)
       print('%s: precision @ 1 = %.4f' % (datetime.now(), precision))
 
       summary = tf.Summary()
@@ -153,6 +152,7 @@ def evaluate(hyperParam):
       if FLAGS.run_once:
         return precision
       time.sleep(FLAGS.eval_interval_secs)
+    print('test 1')
     return precision
 
 def main(hyperParam):  # pylint: disable=unused-argument
