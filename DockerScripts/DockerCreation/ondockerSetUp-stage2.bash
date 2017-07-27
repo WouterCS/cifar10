@@ -5,7 +5,7 @@ cd /models/cifar10
 #python -c "from tensorflow.contrib.layers.python.layers.embedding_ops import *"
 #cat /usr/local/lib/python2.7/dist-packages/tensorflow/contrib/layers/python/layers/embedding_ops.py
 
-for i in {7..8}
+for i in {1..5}
 do
     numRun=$i
     DIRECTORY='/results/run-'$numRun

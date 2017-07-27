@@ -46,9 +46,6 @@ import cifar10, cifar10_eval, cifar10_plot
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_string('train_dir', '/tmp/cifar10_train',
-                           """Directory where to write event logs """
-                           """and checkpoint.""")
 tf.app.flags.DEFINE_string('eval_dir', '/tmp/cifar10_eval',
                            """Directory where to write event logs.""")
 tf.app.flags.DEFINE_integer('max_steps', 100000, #1000000
@@ -114,7 +111,7 @@ def train(hyperParam, maxSteps):
         #    cifar10_eval.main(convNonLin, FCnonLin)
 
     with tf.train.MonitoredTrainingSession(
-        checkpoint_dir=FLAGS.train_dir,
+        checkpoint_dir=hyperParam.train_dir,
         hooks=[tf.train.StopAtStepHook(last_step=maxSteps),
                tf.train.NanTensorHook(loss),
                _LoggerHook()],
@@ -125,15 +122,17 @@ def train(hyperParam, maxSteps):
         
 def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
-  if tf.gfile.Exists(FLAGS.train_dir):
-    tf.gfile.DeleteRecursively(FLAGS.train_dir)
-  tf.gfile.MakeDirs(FLAGS.train_dir)
+  if tf.gfile.Exists(hyperParam.train_dir):
+    tf.gfile.DeleteRecursively(hyperParam.train_dir)
+  tf.gfile.MakeDirs(hyperParam.train_dir)
   precision_history = []
   for i in range(0, hyperParam.max_steps, hyperParam.eval_frequency):
     print('Current max steps: %d' % i)
     train(hyperParam, i)
-    precision = cifar10_eval.main(hyperParam)
-    precision_history.append(precision * 100)
+    precision = cifar10_eval.main(hyperParam) * 100
+    precision_history.append(precision)
+    with open(hyperParam.directory + '/precision_history.txt', 'wb') as f:
+        print('%.4f' % precision, file = f)
     cifar10_plot.plot_detailed(precision_history, logDirectory)
   cifar10_plot.plot_coarse(precision_history, logDirectory)
   

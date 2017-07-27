@@ -1,6 +1,7 @@
 from __future__ import print_function
 import os.path
-
+import math
+import numpy as np
 
 def main(runNum, directory):
     if not os.path.exists(directory):
@@ -8,6 +9,8 @@ def main(runNum, directory):
     
     class hyperParameters:
         def __init__(self):
+            self.directory = directory
+            self.train_dir = directory + '/cifar10_train'
             self.datasetname = 'CIFAR-10'
             self.FCnonLin = 'identity' # 'relu'   'powMagnitude'
             self.FCnonLinMag = 0.9
@@ -17,39 +20,26 @@ def main(runNum, directory):
             self.max_steps = 1000000
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
+            self.INITIAL_LEARNING_RATE = 0.1
     
     hyperParam = hyperParameters()
-
-    if runNum == 1:
-        hyperParam.convNonLin = 'powMagnitude'
-        hyperParam.convNonLinMag = 0.9
-    if runNum == 2:
-        hyperParam.convNonLin = 'relu'
-    if runNum == 3:
-        hyperParam.convNonLin = 'identity'
-    if runNum == 4:
-        hyperParam.convNonLin = 'powMagnitude'
-        hyperParam.convNonLinMag = 0.8
     
-    hyperParam.poolingFun = 'average-pool'
+    hyperParam.max_steps = 2000#30000
+    
+    high = math.log(10)
+    low = math.log(0.1)
+    hyperParam.INITIAL_LEARNING_RATE = np.exp(np.random.random(1)[0] * (high - low) + low)
+    
+    hyperParam.convNonLin = 'powMagnitude'
+    hyperParam.convNonLinMag = (np.random.random(1)[0] / 2) + 0.5
 
-    if runNum == 5:
-        hyperParam.convNonLin = 'relu'
-    if runNum == 6:
-        hyperParam.convNonLin = 'identity'
-    if runNum == 7:
-        hyperParam.convNonLin = 'powMagnitude'
-        hyperParam.convNonLinMag = 0.9
-    if runNum == 8:
-        hyperParam.convNonLin = 'powMagnitude'
-        hyperParam.convNonLinMag = 0.8
-    createReadMe(hyperParam, directory)
+    createReadMe(hyperParam)
     return hyperParam
     
 def createReadMe(hyperParam, directory):
 
-    print('Directory is: %s' % directory + '/README.txt')
-    with open(directory + '/README.txt', 'wb') as f:
+    print('Directory is: %s' % hyperParam.directory + '/README.txt')
+    with open(hyperParam.directory + '/README.txt', 'wb') as f:
         print('start making readme')
         print('Dataset: %s' % hyperParam.datasetname, file = f)
         if hyperParam.FCnonLin == 'powMagnitude':
