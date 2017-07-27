@@ -25,6 +25,7 @@ def main(runNum, directory):
     hyperParam = hyperParameters()
     
     hyperParam.max_steps = 2000#30000
+    hyperParam.poolingFun = 'average-pool'
     
     high = math.log(10)
     low = math.log(0.1)
