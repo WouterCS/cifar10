@@ -129,10 +129,10 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
   for i in range(0, hyperParam.max_steps, hyperParam.eval_frequency):
     print('Current max steps: %d' % i)
     train(hyperParam, i)
-    precision = cifar10_eval.main(hyperParam) * 100
-    precision_history.append(precision)
+    precision = cifar10_eval.main(hyperParam)
+    precision_history.append(precision * 100)
     with open(hyperParam.directory + '/precision_history.txt', 'wb') as f:
-        print('%.4f' % precision, file = f)
+        print('%.4f' % precision_history[-1], file = f)
     cifar10_plot.plot_detailed(precision_history, logDirectory)
   cifar10_plot.plot_coarse(precision_history, logDirectory)
   
