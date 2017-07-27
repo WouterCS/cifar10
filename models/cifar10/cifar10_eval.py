@@ -67,7 +67,7 @@ FLAGS.num_examples = 10000
 FLAGS.run_once = True
 FLAGS.batch_size = 128
 
-def eval_once(saver, summary_writer, top_k_op, summary_op):
+def eval_once(saver, summary_writer, top_k_op, summary_op, hyperParam):
   """Run Eval once.
 
   Args:
@@ -77,7 +77,7 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
     summary_op: Summary op.
   """
   with tf.Session() as sess:
-    ckpt = tf.train.get_checkpoint_state(FLAGS.checkpoint_dir)
+    ckpt = tf.train.get_checkpoint_state(hyperParam.train_dir)
     if ckpt and ckpt.model_checkpoint_path:
       # Restores from checkpoint
       saver.restore(sess, ckpt.model_checkpoint_path)
@@ -146,14 +146,11 @@ def evaluate(hyperParam):
     summary_op = tf.summary.merge_all()
 
     summary_writer = tf.summary.FileWriter(FLAGS.eval_dir, g)
-    print('test 3')
     while True:
-      print('test 4')
-      precision = eval_once(saver, summary_writer, top_k_op, summary_op)
+      precision = eval_once(saver, summary_writer, top_k_op, summary_op, hyperParam)
       if FLAGS.run_once:
         return precision
       time.sleep(FLAGS.eval_interval_secs)
-    print('test 5')
     return precision
 
 def main(hyperParam):  # pylint: disable=unused-argument
