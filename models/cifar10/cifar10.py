@@ -162,7 +162,7 @@ def distorted_inputs(hyperParam):
     raise ValueError('Please supply a data_dir')
   data_dir = os.path.join(FLAGS.data_dir, 'cifar-10-batches-bin')
   images, labels = cifar10_input.distorted_inputs(data_dir=data_dir,
-                                                  batch_size=FLAGS.batch_size
+                                                  batch_size=FLAGS.batch_size,
                                                   hyperParam = hyperParam)
   if FLAGS.use_fp16:
     images = tf.cast(images, tf.float16)
