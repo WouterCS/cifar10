@@ -16,6 +16,7 @@ def main(runNum, directory):
             self.poolingFun = 'max-pool' # 'average-pool'
             self.max_steps = 1000000
             self.eval_frequency = 1000
+            self.input_shuffle_seed = 0 #None
     
     hyperParam = hyperParameters()
 

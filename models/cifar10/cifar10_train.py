@@ -70,7 +70,7 @@ def train(hyperParam, maxSteps):
     # Force input pipeline to CPU:0 to avoid operations sometimes ending up on
     # GPU and resulting in a slow down.
     with tf.device('/cpu:0'):
-      images, labels = cifar10.distorted_inputs()
+      images, labels = cifar10.distorted_inputs(hyperParam)
 
     # Build a Graph that computes the logits predictions from the
     # inference model.
@@ -134,8 +134,8 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
     train(hyperParam, i)
     precision = cifar10_eval.main(hyperParam)
     precision_history.append(precision * 100)
+    cifar10_plot.plot_detailed(precision_history, logDirectory)
   cifar10_plot.plot_coarse(precision_history, logDirectory)
-  cifar10_plot.plot_detailed(precision_history, logDirectory)
   
 if __name__ == '__main__':
   tf.app.run()
