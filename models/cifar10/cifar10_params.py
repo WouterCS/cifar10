@@ -30,7 +30,7 @@ def main(runNum, directory):
     
     hyperParam = hyperParameters()
     hyperParam.poolingFun = 'average-pool'
-    hyperParam.INITIAL_LEARNING_RATE = 0.2
+    hyperParam.INITIAL_LEARNING_RATE = 0.1
     
     if runNum == 0:
         print('run zero')
