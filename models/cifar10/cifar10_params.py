@@ -30,11 +30,13 @@ def main(runNum, directory):
     
     high = math.log(10)
     low = math.log(0.1)
-    hyperParam.INITIAL_LEARNING_RATE = np.exp(np.random.random(1)[0] * (high - low) + low)
+    #hyperParam.INITIAL_LEARNING_RATE = np.exp(np.random.random(1)[0] * (high - low) + low)
+    hyperParam.INITIAL_LEARNING_RATE = 0.486606
     
     hyperParam.convNonLin = 'powMagnitude'
-    hyperParam.convNonLinMag = (np.random.random(1)[0] / 2) + 0.5
-
+    #hyperParam.convNonLinMag = (np.random.random(1)[0] / 2) + 0.5
+    hyperParam.convNonLinMag = 0.702725
+    
     createReadMe(hyperParam)
     return hyperParam
     
