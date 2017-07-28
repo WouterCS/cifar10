@@ -18,7 +18,7 @@ def main(runNum, directory):
             self.convNonLinMag = 0.9
             self.poolingFun = 'max-pool' # 'average-pool'
             self.max_steps = 1000000
-            self.eval_frequency = 100
+            self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
             
             self.INITIAL_LEARNING_RATE = 0.1
