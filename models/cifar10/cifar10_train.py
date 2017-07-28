@@ -109,7 +109,7 @@ def train(hyperParam, maxSteps):
                                examples_per_sec, sec_per_batch))
         #if self._step % FLAGS.eval_frequency == 0:
         #    cifar10_eval.main(convNonLin, FCnonLin)
-
+    numRuns = 0
     with tf.train.MonitoredTrainingSession(
         checkpoint_dir=hyperParam.train_dir,
         hooks=[tf.train.StopAtStepHook(last_step=maxSteps),
@@ -119,6 +119,8 @@ def train(hyperParam, maxSteps):
             log_device_placement=FLAGS.log_device_placement)) as mon_sess:
       while not mon_sess.should_stop():
         mon_sess.run(train_op)
+        numRuns = numRuns + 1
+    return numRuns
         
 def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
   # cifar10.maybe_download_and_extract()
@@ -128,7 +130,10 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
   precision_history = []
   for i in range(0, hyperParam.max_steps, hyperParam.eval_frequency):
     print('Current max steps: %d' % i)
-    train(hyperParam, i)
+    numRuns = train(hyperParam, i)
+    print('numRuns: %d' % numRuns)
+    if numRuns == 0:
+        continue
     precision = cifar10_eval.main(hyperParam)
     print(precision)
     precision_history.append(precision * 100)
