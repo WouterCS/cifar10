@@ -20,22 +20,28 @@ def main(runNum, directory):
             self.max_steps = 1000000
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
+            
             self.INITIAL_LEARNING_RATE = 0.1
+            self.current_lr = self.INITIAL_LEARNING_RATE
+            self.FIXED_LR = True
+            self.FIXED_LR_EVAL_CYCLES = 50
+            self.MIN_LEARNING_RATE = 0.005
+            self.LR_MULTIPLIER = 0.9
     
     hyperParam = hyperParameters()
-    
-    hyperParam.max_steps = 60000
     hyperParam.poolingFun = 'average-pool'
+    hyperParam.INITIAL_LEARNING_RATE = 0.5
     
-    
-    high = math.log(10)
-    low = math.log(0.1)
-    #hyperParam.INITIAL_LEARNING_RATE = np.exp(np.random.random(1)[0] * (high - low) + low)
-    hyperParam.INITIAL_LEARNING_RATE = 0.486606
-    
+    if runNum == 0:
+        print('run zero')
+        hyperParam.FIXED_LR = False
+        hyperParam.max_steps = 200000
+        hyperParam.convNonLin = 'powMagnitude'
+        hyperParam.convNonLinMag = 0.7
+        
+    hyperParam.max_steps = 30000
     hyperParam.convNonLin = 'powMagnitude'
-    #hyperParam.convNonLinMag = (np.random.random(1)[0] / 2) + 0.5
-    hyperParam.convNonLinMag = 0.702725
+    hyperParam.convNonLinMag = np.random.random(1)[0] * 2
     
     createReadMe(hyperParam)
     return hyperParam

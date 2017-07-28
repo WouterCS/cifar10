@@ -127,21 +127,38 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
   # if tf.gfile.Exists(hyperParam.train_dir):
     # tf.gfile.DeleteRecursively(hyperParam.train_dir)
   # tf.gfile.MakeDirs(hyperParam.train_dir)
-  precision_history = []
-  for i in range(0, hyperParam.max_steps, hyperParam.eval_frequency):
-    print('Current max steps: %d' % i)
-    numRuns = train(hyperParam, i)
-    print('numRuns: %d' % numRuns)
-    if numRuns < 2:
-        continue
-    precision = cifar10_eval.main(hyperParam)
-    print(precision)
-    precision_history.append(precision * 100)
-    with open(hyperParam.directory + '/precision_history.txt', 'ab') as f:
-        print('printing precision at: %s' % hyperParam.directory + '/precision_history.txt')
-        print('%d: %.4f' % (i, precision_history[-1]), file = f)
-    cifar10_plot.plot_detailed(precision_history, logDirectory)
-  cifar10_plot.plot_coarse(precision_history, logDirectory)
+  precision_history = [0]
+  if hyperParam.FIXED_LR:
+      for i in range(0, hyperParam.max_steps, hyperParam.eval_frequency):
+        print('Current max steps: %d' % i)
+        numRuns = train(hyperParam, i)
+        print('numRuns: %d' % numRuns)
+        if numRuns < 2:
+            continue
+        precision = cifar10_eval.main(hyperParam)
+        precision_history.append(precision * 100)
+        with open(hyperParam.directory + '/precision_history.txt', 'ab') as f:
+            print('%d: %.4f' % (i, precision_history[-1]), file = f)
+        cifar10_plot.plot_detailed(precision_history, logDirectory)
+        cifar10_plot.plot_coarse(precision_history, logDirectory)
+  else:
+    evalCycle = 1
+    while hyperParam.current_lr > hyperParam.MIN_LEARNING_RATE:
+        numRuns = train(hyperParam, i)
+        if numRuns < 2:
+            continue
+        precision = cifar10_eval.main(hyperParam)
+        precision_history.append(precision * 100)
+        with open(hyperParam.directory + '/precision_history.txt', 'ab') as f:
+            print('%d: %.4f' % (i, precision_history[-1]), file = f)
+        cifar10_plot.plot_detailed(precision_history, logDirectory)
+        cifar10_plot.plot_coarse(precision_history, logDirectory)
+        
+        if evalCycle > hyperParam.FIXED_LR_EVAL_CYCLES and precision_history[-1] < precision_history[-2]:
+            hyperParam.current_lr = hyperParam.current_lr * hyperParam.LR_MULTIPLIER
+        evalCycle = evalCycle + 1
+        
+        
   
 if __name__ == '__main__':
   tf.app.run()
