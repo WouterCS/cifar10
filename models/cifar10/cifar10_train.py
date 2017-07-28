@@ -143,8 +143,10 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
         cifar10_plot.plot_coarse(precision_history, logDirectory)
   else:
     evalCycle = 1
+    steps_in_cur_cycle = hyperParam.eval_frequency
     while hyperParam.current_lr > hyperParam.MIN_LEARNING_RATE:
-        numRuns = train(hyperParam, i)
+        numRuns = train(hyperParam, steps_in_cur_cycle)
+        steps_in_cur_cycle = steps_in_cur_cycle + hyperParam.eval_frequency
         if numRuns < 2:
             continue
         precision = cifar10_eval.main(hyperParam)
