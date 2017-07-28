@@ -121,10 +121,10 @@ def train(hyperParam, maxSteps):
         mon_sess.run(train_op)
         
 def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
-  cifar10.maybe_download_and_extract()
-  if tf.gfile.Exists(hyperParam.train_dir):
-    tf.gfile.DeleteRecursively(hyperParam.train_dir)
-  tf.gfile.MakeDirs(hyperParam.train_dir)
+  # cifar10.maybe_download_and_extract()
+  # if tf.gfile.Exists(hyperParam.train_dir):
+    # tf.gfile.DeleteRecursively(hyperParam.train_dir)
+  # tf.gfile.MakeDirs(hyperParam.train_dir)
   precision_history = []
   for i in range(0, hyperParam.max_steps, hyperParam.eval_frequency):
     print('Current max steps: %d' % i)
