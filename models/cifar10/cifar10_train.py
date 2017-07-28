@@ -158,7 +158,7 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
         
         with open(hyperParam.directory + '/learning_rate.txt', 'ab') as f:
             print('%d: %.4f' % (steps_in_cur_cycle, hyperParam.current_lr), file = f)
-            
+         
         if evalCycle > hyperParam.FIXED_LR_EVAL_CYCLES and precision_history[-1] < precision_history[-2]:
             hyperParam.current_lr = hyperParam.current_lr * hyperParam.LR_MULTIPLIER
         evalCycle = evalCycle + 1
