@@ -152,12 +152,12 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
         precision = cifar10_eval.main(hyperParam)
         precision_history.append(precision * 100)
         with open(hyperParam.directory + '/precision_history.txt', 'ab') as f:
-            print('%d: %.4f' % (i, precision_history[-1]), file = f)
+            print('%d: %.4f' % (steps_in_cur_cycle, precision_history[-1]), file = f)
         cifar10_plot.plot_detailed(precision_history, logDirectory)
         cifar10_plot.plot_coarse(precision_history, logDirectory)
         
         with open(hyperParam.directory + '/learning_rate.txt', 'ab') as f:
-            print('%d: %.4f' % (i, hyperParam.current_lr), file = f)
+            print('%d: %.4f' % (steps_in_cur_cycle, hyperParam.current_lr), file = f)
             
         if evalCycle > hyperParam.FIXED_LR_EVAL_CYCLES and precision_history[-1] < precision_history[-2]:
             hyperParam.current_lr = hyperParam.current_lr * hyperParam.LR_MULTIPLIER
