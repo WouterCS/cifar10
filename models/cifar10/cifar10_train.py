@@ -132,7 +132,7 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
     print('Current max steps: %d' % i)
     numRuns = train(hyperParam, i)
     print('numRuns: %d' % numRuns)
-    if numRuns == 0:
+    if numRuns < 2:
         continue
     precision = cifar10_eval.main(hyperParam)
     print(precision)
