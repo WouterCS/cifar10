@@ -41,7 +41,7 @@ def main(runNum, directory):
         # createReadMe(hyperParam)
         # return hyperParam
         
-    hyperParam.max_steps = 30000
+    hyperParam.max_steps = 100 #30000
     hyperParam.convNonLin = 'powMagnitude'
     hyperParam.convNonLinMag = 1 + np.random.random(1)[0] / 2
     
