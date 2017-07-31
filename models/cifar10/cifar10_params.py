@@ -33,7 +33,7 @@ def main(runNum, directory):
     hyperParam.INITIAL_LEARNING_RATE = 0.1
         
     hyperParam.max_steps = 30000
-    hyperParam.convNonLin = 'powMagnitude'
+    hyperParam.convNonLin = 'relu' #'powMagnitude'
     hyperParam.convNonLinMag = 2.5
     
     createReadMe(hyperParam)
