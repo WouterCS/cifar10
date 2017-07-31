@@ -31,19 +31,10 @@ def main(runNum, directory):
     hyperParam = hyperParameters()
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
-    
-    if runNum == 0:
-        print('run zero')
-        hyperParam.FIXED_LR = False
-        hyperParam.max_steps = 200000
-        hyperParam.convNonLin = 'powMagnitude'
-        hyperParam.convNonLinMag = 0.7
-        createReadMe(hyperParam)
-        return hyperParam
         
     hyperParam.max_steps = 30000
     hyperParam.convNonLin = 'powMagnitude'
-    hyperParam.convNonLinMag = np.random.random(1)[0] * 2
+    hyperParam.convNonLinMag = 2 + 0.2 * runNum
     
     createReadMe(hyperParam)
     return hyperParam
