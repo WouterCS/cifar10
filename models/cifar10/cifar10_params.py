@@ -26,15 +26,24 @@ def main(runNum, directory):
             self.FIXED_LR = True
             self.FIXED_LR_EVAL_CYCLES = 50
             self.MIN_LEARNING_RATE = 0.005
-            self.LR_MULTIPLIER = 0.9
+            self.LR_MULTIPLIER = 0.95
     
     hyperParam = hyperParameters()
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
+    
+    # if runNum == 0:
+        # print('run zero')
+        # hyperParam.FIXED_LR = False
+        # hyperParam.max_steps = 200000
+        # hyperParam.convNonLin = 'powMagnitude'
+        # hyperParam.convNonLinMag = 2.0
+        # createReadMe(hyperParam)
+        # return hyperParam
         
     hyperParam.max_steps = 30000
-    hyperParam.convNonLin = 'relu' #'powMagnitude'
-    hyperParam.convNonLinMag = 2.5
+    hyperParam.convNonLin = 'powMagnitude'
+    hyperParam.convNonLinMag = 1 + np.random.random(1)[0] / 2
     
     createReadMe(hyperParam)
     return hyperParam
