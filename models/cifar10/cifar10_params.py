@@ -32,14 +32,14 @@ def main(runNum, directory):
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
     
-    # if runNum == 0:
-        # print('run zero')
-        # hyperParam.FIXED_LR = False
-        # hyperParam.max_steps = 200000
-        # hyperParam.convNonLin = 'powMagnitude'
-        # hyperParam.convNonLinMag = 2.0
-        # createReadMe(hyperParam)
-        # return hyperParam
+    if runNum == 0:
+        print('run zero')
+        hyperParam.FIXED_LR = False
+        hyperParam.max_steps = 200000
+        hyperParam.convNonLin = 'powMagnitude'
+        hyperParam.convNonLinMag = 2.0
+        createReadMe(hyperParam)
+        return hyperParam
         
     hyperParam.max_steps = 30000
     hyperParam.convNonLin = 'powMagnitude'
