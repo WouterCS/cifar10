@@ -21,7 +21,7 @@ def powMagnitude(c, power):
     mag = tf.abs(c)
     pha = tf_angle(c)
     
-    sqrtmag = tf.pow(tf.nn.relu(mag), power)
+    sqrtmag = tf.real(tf.pow(tf.nn.relu(mag), power))
 
     magCompl = tf.complex(sqrtmag, tf.zeros(sqrtmag.shape))
     phaCompl = tf.complex(tf.zeros(pha.shape), pha)
