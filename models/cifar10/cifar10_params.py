@@ -42,7 +42,7 @@ def main(runNum, directory):
     hyperParam.convNonLin = 'funMagnitude'
     if runNum % 2 == 0:
         hyperParam.convFunMagnitude = tf.add
-        hyperParam.convConstantMagnitude = np.random.random(1)[0] * 2
+        hyperParam.convConstantMagnitude = np.random.random(1)[0] / 10
     else:
         hyperParam.convFunMagnitude = tf.multiply
         hyperParam.convConstantMagnitude = np.random.random(1)[0] * 2
