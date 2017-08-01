@@ -42,10 +42,10 @@ def main(runNum, directory):
     hyperParam.convNonLin = 'funMagnitude'
     if runNum % 2 == 0:
         hyperParam.convFunMagnitude = tf.add
-        hyperParam.convConstantMagnitude = np.random.random(1)[0] / 1000
+        hyperParam.convConstantMagnitude = 0 #np.random.random(1)[0] / 1000
     else:
         hyperParam.convFunMagnitude = tf.multiply
-        hyperParam.convConstantMagnitude = 1 + np.random.random(1)[0] / 1000
+        hyperParam.convConstantMagnitude = 1 #+ np.random.random(1)[0] / 1000
     
 
     createReadMe(hyperParam)
