@@ -207,33 +207,13 @@ def fftReLu(layerIn, hyperParam, layer, name):
         layerOut = irfft2d(tf.cast(tf.abs(rfft2d(layerIn)), tf.complex64))
         layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
         return layerOut
-    if fftFunction == 'absoluteValueUntransposed':
-        return irfft2d(tf.cast(tf.abs(rfft2d(layerIn)), tf.complex64))
-    if fftFunction == 'emptyFFT':
-        return tf.nn.relu(irfft2d(rfft2d(layerIn)))
     if fftFunction == 'abs':
         return tf.abs(layerIn)
     if fftFunction == 'relu':
-        return tf.nn.relu(layerIn, name = name)  
-    if fftFunction == 'y-absFFT':
-        layerIn = tf.transpose(layerIn, [0, 3, 1, 2])
-        layerOut = irfft(tf.cast(tf.abs(rfft(layerIn)), tf.complex64))
-        layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
-        return layerOut
-    if fftFunction == 'x-absFFT':
+        return tf.nn.relu(layerIn, name = name)
+    if fftFunction == 'funMagnitude':
         layerIn = tf.transpose(layerIn, [0, 3, 2, 1])
-        layerOut = irfft(tf.cast(tf.abs(rfft(layerIn)), tf.complex64))
-        layerOut = irfft(tf.cast(tf.abs(rfft(layerIn)), tf.complex64))
-        layerOut = tf.transpose(layerOut, [0, 3, 2, 1])
-        return layerOut
-    if fftFunction == 'sqt-magnitude':
-        layerIn = tf.transpose(layerIn, [0, 3, 2, 1])
-        layerOut = irfft2d( sqrtMagnitude(rfft2d(layerIn) ))
-        layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
-        return layerOut
-    if fftFunction == 'powMagnitude':
-        layerIn = tf.transpose(layerIn, [0, 3, 2, 1])
-        layerOut = irfft2d( powMagnitude(rfft2d(layerIn), mag))
+        layerOut = irfft2d( applyConstantToComplex(rfft2d(layerIn), hyperParam.funMagnitude, hyperParam.constantMagnitude))
         layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'identity':

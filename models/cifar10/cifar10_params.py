@@ -2,6 +2,8 @@ from __future__ import print_function
 import os.path
 import math
 import numpy as np
+import tensorflow as tf
+import math
 
 def main(runNum, directory):
     if not os.path.exists(directory):
@@ -14,8 +16,9 @@ def main(runNum, directory):
             self.datasetname = 'CIFAR-10'
             self.FCnonLin = 'identity' # 'relu'   'powMagnitude'
             self.FCnonLinMag = 0.9
-            self.convNonLin = 'identity' # 'relu'   'powMagnitude'
-            self.convNonLinMag = 0.9
+            self.convNonLin = 'identity' # 'relu'   'powMagnitude'   'funMagnitude'
+            self.convFunMagnitude = tf.pow
+            self.convConstantMagnitude = 1.75
             self.poolingFun = 'max-pool' # 'average-pool'
             self.max_steps = 1000000
             self.steps_done_at_start = 0
@@ -32,15 +35,19 @@ def main(runNum, directory):
     hyperParam = hyperParameters()
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1 #0.01
-    
-    hyperParam.steps_done_at_start = 114000
-    
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 200000
-    hyperParam.convNonLin = 'absFFT'
-    hyperParam.convNonLinMag = 2.0
-    createReadMe(hyperParam)
+    hyperParam.max_steps = 30000
+    hyperParam.steps_done_at_start = 0
     
+    hyperParam.convNonLin = 'funMagnitude'
+    if runNum % 2 == 0:
+        hyperParam.convFunMagnitude = tf.add
+        hyperParam.convConstantMagnitude = np.random.random(1)[0] * 2
+    else:
+        hyperParam.convFunMagnitude = tf.mult
+        hyperParam.convConstantMagnitude = np.random.random(1)[0] * 2
+    
+
     createReadMe(hyperParam)
     return hyperParam
     
@@ -54,8 +61,8 @@ def createReadMe(hyperParam):
             print('FC non-linearity: %s, with power: %f' % (hyperParam.FCnonLin, hyperParam.FCnonLinMag), file = f)
         else:
             print('FC non-linearity: %s' % hyperParam.FCnonLin, file = f)
-        if hyperParam.convNonLin == 'powMagnitude':
-            print('Conv non-linearity: %s, with power: %f' % (hyperParam.convNonLin, hyperParam.convNonLinMag), file = f)
+        if hyperParam.convNonLin == 'funMagnitude':
+            print('%s magnitude non-linearity with constant %f' % (str(hyperParam.convFunMagnitude), hyperParam.convConstantMagnitude), file = f)
         else:
             print('Conv non-linearity: %s' % hyperParam.convNonLin, file = f)
         print('Pooling function is: %s' % hyperParam.poolingFun, file = f)
