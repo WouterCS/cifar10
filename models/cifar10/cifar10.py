@@ -218,6 +218,7 @@ def fftReLu(layerIn, hyperParam, layer, name):
         layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'identity':
+        print('identity called')
         return layerIn
     
 def inference(images, hyperParam):
