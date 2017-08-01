@@ -39,7 +39,7 @@ def main(runNum, directory):
     hyperParam.max_steps = 30000
     hyperParam.steps_done_at_start = 0
     
-    hyperParam.convNonLin = 'identity'#'funMagnitude'
+    hyperParam.convNonLin = 'funMagnitude'#'funMagnitude'
     if runNum % 2 == 0:
         hyperParam.convFunMagnitude = tf.add
         hyperParam.convConstantMagnitude = 0 #np.random.random(1)[0] / 1000
