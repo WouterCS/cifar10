@@ -44,7 +44,7 @@ def main(runNum, directory):
         hyperParam.convFunMagnitude = tf.add
         hyperParam.convConstantMagnitude = np.random.random(1)[0] * 2
     else:
-        hyperParam.convFunMagnitude = tf.mult
+        hyperParam.convFunMagnitude = tf.multiply
         hyperParam.convConstantMagnitude = np.random.random(1)[0] * 2
     
 
