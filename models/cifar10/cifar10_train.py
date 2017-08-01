@@ -129,7 +129,7 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
   # tf.gfile.MakeDirs(hyperParam.train_dir)
   precision_history = [0]
   if hyperParam.FIXED_LR:
-      for i in range(0, hyperParam.max_steps, hyperParam.eval_frequency):
+      for i in range(hyperParam.steps_done_at_start, hyperParam.max_steps, hyperParam.eval_frequency):
         print('Current max steps: %d' % i)
         numRuns = train(hyperParam, i)
         print('numRuns: %d' % numRuns)
@@ -143,10 +143,11 @@ def main(hyperParam, logDirectory):  # pylint: disable=unused-argument
         cifar10_plot.plot_coarse(precision_history, logDirectory)
   else:
     evalCycle = 1
-    steps_in_cur_cycle = hyperParam.eval_frequency
+    steps_in_cur_cycle = hyperParam.steps_done_at_start
     while hyperParam.current_lr > hyperParam.MIN_LEARNING_RATE:
-        numRuns = train(hyperParam, steps_in_cur_cycle)
         steps_in_cur_cycle = steps_in_cur_cycle + hyperParam.eval_frequency
+        numRuns = train(hyperParam, steps_in_cur_cycle)
+        
         if numRuns < 2:
             continue
         precision = cifar10_eval.main(hyperParam)

@@ -18,6 +18,7 @@ def main(runNum, directory):
             self.convNonLinMag = 0.9
             self.poolingFun = 'max-pool' # 'average-pool'
             self.max_steps = 1000000
+            self.steps_done_at_start = 0
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
             
@@ -30,7 +31,7 @@ def main(runNum, directory):
     
     hyperParam = hyperParameters()
     hyperParam.poolingFun = 'average-pool'
-    hyperParam.INITIAL_LEARNING_RATE = 0.1
+    hyperParam.INITIAL_LEARNING_RATE = 0.1 #0.01
     
     hyperParam.FIXED_LR = True
     hyperParam.max_steps = 100000

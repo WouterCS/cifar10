@@ -18,12 +18,28 @@ def sqrtMagnitude(c):
     return magCompl * tf.exp(phaCompl)
     
 def powMagnitude(c, power):
+    # mag = tf.abs(c)
+    # pha = tf_angle(c)
+    
+    # sqrtmag = tf.pow(tf.nn.relu(mag), power)
+
+    # magCompl = tf.complex(sqrtmag, tf.zeros(sqrtmag.shape))
+    # phaCompl = tf.complex(tf.zeros(pha.shape), pha)
+    
+    # return magCompl * tf.exp(phaCompl)
+    return applyConstantToComplex(c, magFun = tf.pow, magConstant = power)
+    
+def noEffectApplyConstant(c, constant):
+    return c
+    
+def applyConstantToComplex(c, magFun = noEffectApplyConstant, magConstant = 1.0, angleFun = noEffectApplyConstant, angleConstant = 1.0):
     mag = tf.abs(c)
     pha = tf_angle(c)
     
-    sqrtmag = tf.real(tf.pow(tf.nn.relu(mag), power))
+    magAfterConstant = magFun(tf.nn.relu(mag), magConstant)
+    phaAfterConstant = angleFun(pha, angleConstant)
 
-    magCompl = tf.complex(sqrtmag, tf.zeros(sqrtmag.shape))
-    phaCompl = tf.complex(tf.zeros(pha.shape), pha)
+    magCompl = tf.complex(magAfterConstant, tf.zeros(magAfterConstant.shape))
+    phaCompl = tf.complex(tf.zeros(phaAfterConstant.shape), phaAfterConstant)
     
     return magCompl * tf.exp(phaCompl)

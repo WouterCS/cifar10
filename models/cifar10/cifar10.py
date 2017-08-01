@@ -49,7 +49,7 @@ from tensorflow.python.ops.spectral_ops import irfft2d, irfft
 
 import cifar10_input
 
-from custom_python_ops.composite_ops import powMagnitude
+from custom_python_ops.composite_ops import powMagnitude, sqrtMagnitude
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -238,18 +238,6 @@ def fftReLu(layerIn, hyperParam, layer, name):
         return layerOut
     if fftFunction == 'identity':
         return layerIn
-
-def sqrtMagnitude(c):
-    mag = tf.nn.relu(tf.abs(c))
-    pha = tf.atan2(tf.imag(c), tf.real(c))
-    
-    tf.Assert(tf.logical_and(tf.logical_not(tf.is_nan(mag))))
-    
-    sqrtmag = tf.pow(mag, 0.9)
-    magCompl = tf.complex(sqrtmag, tf.zeros(sqrtmag.shape))
-    phaCompl = tf.complex(tf.zeros(pha.shape), pha)
-    
-    return magCompl * tf.exp(phaCompl)
     
 def inference(images, hyperParam):
   """Build the CIFAR-10 model.
