@@ -16,7 +16,7 @@ def noEffectApplyConstant(c, constant):
     return c
     
 def applyConstantToComplex(c, magFun = noEffectApplyConstant, magConstant = 1.0, angleFun = noEffectApplyConstant, angleConstant = 1.0, reNormalizeAngle = False):
-    return c
+    
     mag = tf.abs(c)
     pha = tf_angle(c)
     
@@ -27,5 +27,7 @@ def applyConstantToComplex(c, magFun = noEffectApplyConstant, magConstant = 1.0,
     
     magCompl = tf.complex(magAfterConstant, tf.zeros(magAfterConstant.shape))
     phaCompl = tf.complex(tf.zeros(phaAfterConstant.shape), phaAfterConstant)
+    
+    return c
     
     return magCompl * tf.exp(phaCompl)
