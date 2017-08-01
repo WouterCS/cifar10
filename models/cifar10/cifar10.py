@@ -198,6 +198,8 @@ def fftReLu(layerIn, hyperParam, layer, name):
     if layer == 'conv':
         fftFunction = hyperParam.convNonLin
         mag = hyperParam.convNonLinMag
+        funMagnitude = hyperParam.convFunMagnitude
+        constantMagnitude = hyperParam.convConstantMagnitude
     if layer == 'FC':
         fftFunction = hyperParam.FCnonLin
         mag = hyperParam.FCnonLinMag
@@ -213,7 +215,7 @@ def fftReLu(layerIn, hyperParam, layer, name):
         return tf.nn.relu(layerIn, name = name)
     if fftFunction == 'funMagnitude':
         layerIn = tf.transpose(layerIn, [0, 3, 2, 1])
-        layerOut = irfft2d( applyConstantToComplex(rfft2d(layerIn), hyperParam.funMagnitude, hyperParam.constantMagnitude))
+        layerOut = irfft2d( applyConstantToComplex(rfft2d(layerIn), funMagnitude, constantMagnitude))
         layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'identity':
