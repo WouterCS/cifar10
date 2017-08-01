@@ -32,12 +32,14 @@ def powMagnitude(c, power):
 def noEffectApplyConstant(c, constant):
     return c
     
-def applyConstantToComplex(c, magFun = noEffectApplyConstant, magConstant = 1.0, angleFun = noEffectApplyConstant, angleConstant = 1.0):
+def applyConstantToComplex(c, magFun = noEffectApplyConstant, magConstant = 1.0, angleFun = noEffectApplyConstant, angleConstant = 1.0, reNormalizeAngle = False):
     mag = tf.abs(c)
     pha = tf_angle(c)
     
     magAfterConstant = magFun(tf.nn.relu(mag), magConstant)
-    phaAfterConstant = angleFun(pha, angleConstant)
+    phaAfterConstant = angleFun(pha, angleConstant), 2* math.pi)
+    if reNormalizeAngle:
+        phaAfterConstant = tf.mod(phaAfterConstant, 2* math.pi)
 
     magCompl = tf.complex(magAfterConstant, tf.zeros(magAfterConstant.shape))
     phaCompl = tf.complex(tf.zeros(phaAfterConstant.shape), phaAfterConstant)
