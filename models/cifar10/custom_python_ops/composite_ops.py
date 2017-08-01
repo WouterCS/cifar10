@@ -19,11 +19,13 @@ def applyConstantToComplex(c, magFun = noEffectApplyConstant, magConstant = 1.0,
     mag = tf.abs(c)
     pha = tf_angle(c)
     
-    magAfterConstant = tf.nn.relu(magFun(mag, magConstant))
-    phaAfterConstant = angleFun(pha, angleConstant)
-    if reNormalizeAngle:
-        phaAfterConstant = tf.mod(phaAfterConstant + math.pi, 2*math.pi) - math.pi
-
+    #magAfterConstant = tf.nn.relu(magFun(mag, magConstant))
+    #phaAfterConstant = angleFun(pha, angleConstant)
+    #if reNormalizeAngle:
+    #    phaAfterConstant = tf.mod(phaAfterConstant + math.pi, 2*math.pi) - math.pi
+    magCompl = tf.add(mag, 0)
+    phaCompl = pha
+    
     magCompl = tf.complex(magAfterConstant, tf.zeros(magAfterConstant.shape))
     phaCompl = tf.complex(tf.zeros(phaAfterConstant.shape), phaAfterConstant)
     
