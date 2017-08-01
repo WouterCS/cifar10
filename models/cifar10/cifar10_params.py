@@ -32,7 +32,8 @@ def main(runNum, directory):
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
     
-    hyperParam.max_steps = 30000
+    hyperParam.FIXED_LR = True
+    hyperParam.max_steps = 100000
     hyperParam.convNonLin = 'absFFT'
     hyperParam.convNonLinMag = 2.0
     createReadMe(hyperParam)
