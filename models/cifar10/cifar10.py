@@ -197,7 +197,6 @@ def inputs(eval_data):
 def fftReLu(layerIn, hyperParam, layer, name):
     if layer == 'conv':
         fftFunction = hyperParam.convNonLin
-        mag = hyperParam.convNonLinMag
         funMagnitude = hyperParam.convFunMagnitude
         constantMagnitude = hyperParam.convConstantMagnitude
     if layer == 'FC':
