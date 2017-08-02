@@ -6,6 +6,9 @@ import math
 def tf_angle(c):
     return tf_arctan2(tf.imag(c), tf.real(c))
 
+def powComplex(c, power):
+    return applyConstantToComplex(c, magFun = tf.pow, magConstant = power, angleFun = tf.multiply, angleConstant = power, reNormalizeAngle = True)
+    
 def sqrtMagnitude(c):
     return powMagnitude(c, 0.5)
     
