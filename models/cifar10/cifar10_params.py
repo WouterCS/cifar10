@@ -64,14 +64,17 @@ def createReadMe(hyperParam):
     with open(hyperParam.directory + '/README.txt', 'wb') as f:
         print('start making readme')
         print('Dataset: %s' % hyperParam.datasetname, file = f)
-        if hyperParam.FCnonLin == 'powMagnitude':
-            print('FC non-linearity: %s, with power: %f' % (hyperParam.FCnonLin, hyperParam.FCnonLinMag), file = f)
+        
+        if hyperParam.non_linearity['FC']['type_of_nonlin'] == 'powMagnitude':
+            print('FC non-linearity function: %s, with constant: %f' % (hyperParam.non_linearity['FC']['apply_const_function'], hyperParam.non_linearity['FC']['const']), file = f)
         else:
-            print('FC non-linearity: %s' % hyperParam.FCnonLin, file = f)
-        if hyperParam.convNonLin == 'funMagnitude':
-            print('%s magnitude non-linearity with constant %f' % (str(hyperParam.convFunMagnitude), hyperParam.convConstantMagnitude), file = f)
+            print('FC non-linearity: %s' % hyperParam.non_linearity['FC']['type_of_nonlin'], file = f)
+            
+        if hyperParam.non_linearity['conv']['type_of_nonlin'] == 'funMagnitude':
+            print('Conv non-linearity function: %s, with constant: %f' % (hyperParam.non_linearity['conv']['apply_const_function'], hyperParam.non_linearity['conv']['const']), file = f)
         else:
-            print('Conv non-linearity: %s' % hyperParam.convNonLin, file = f)
+            print('Conv non-linearity: %s' % hyperParam.non_linearity['conv']['type_of_nonlin'], file = f)
+            
         print('Pooling function is: %s' % hyperParam.poolingFun, file = f)
         print('Maximum number of steps is: %d' % hyperParam.max_steps, file = f)
         print('Evaluation every %d steps.' % hyperParam.eval_frequency, file = f)
