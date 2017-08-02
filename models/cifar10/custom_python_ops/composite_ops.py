@@ -4,7 +4,7 @@ from custom_ops import tf_arctan2
 
 
 def tf_angle(c):
-    return tf.atan2(tf.imag(c), tf.real(c))
+    return tf_arctan2(tf.imag(c), tf.real(c))
 
 def sqrtMagnitude(c):
     return powMagnitude(c, 0.5)
