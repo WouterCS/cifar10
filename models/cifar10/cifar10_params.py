@@ -46,13 +46,13 @@ def main(runNum, directory):
     hyperParam.max_steps = 30000
     hyperParam.steps_done_at_start = 0
     
-    hyperParam.non_linearity[layer]['type_of_nonlin'] = 'funMagnitude'
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
     if runNum % 2 == 0:
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
-        hyperParam.convConstantMagnitude = 0 #np.random.random(1)[0] / 1000
+        hyperParam.non_linearity['conv']['const'] = 0 #np.random.random(1)[0] / 1000
     else:
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
-        hyperParam.non_linearity[layer]['const'] = 1 #+ np.random.random(1)[0] / 1000
+        hyperParam.non_linearity['conv']['const'] = 1 #+ np.random.random(1)[0] / 1000
     
 
     createReadMe(hyperParam)
