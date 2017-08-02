@@ -195,13 +195,6 @@ def inputs(eval_data):
   return images, labels
 
 def fftReLu(layerIn, hyperParam, layer, name):
-    # if layer == 'conv':
-        # fftFunction = hyperParam.convNonLin
-        # funMagnitude = hyperParam.convFunMagnitude
-        # constantMagnitude = hyperParam.convConstantMagnitude
-    # if layer == 'FC':
-        # fftFunction = hyperParam.FCnonLin
-        # mag = hyperParam.FCnonLinMag
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
     if fftFunction == 'absFFT':
         layerIn = tf.transpose(layerIn, [0, 3, 1, 2])
@@ -218,7 +211,6 @@ def fftReLu(layerIn, hyperParam, layer, name):
         layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'identity':
-        print('identity called')
         return layerIn
     
 def inference(images, hyperParam):

@@ -49,10 +49,10 @@ def main(runNum, directory):
     hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
     if runNum % 2 == 0:
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
-        hyperParam.non_linearity['conv']['const'] = 0 #np.random.random(1)[0] / 1000
+        hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2
     else:
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
-        hyperParam.non_linearity['conv']['const'] = 1 #+ np.random.random(1)[0] / 1000
+        hyperParam.non_linearity['conv']['const'] = 0.5 + np.random.random(1)[0]
     
 
     createReadMe(hyperParam)
