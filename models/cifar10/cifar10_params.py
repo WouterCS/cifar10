@@ -14,22 +14,19 @@ def main(runNum, directory):
             self.directory = directory
             self.train_dir = directory + '/cifar10_train'
             self.datasetname = 'CIFAR-10'
-            self.FCnonLin = 'identity' # 'relu'   'powMagnitude'
-            self.FCnonLinMag = 0.9
-            self.convNonLin = 'identity' # 'relu'   'powMagnitude'   'funMagnitude'
-            self.convFunMagnitude = tf.pow
-            self.convConstantMagnitude = 1.75
             self.poolingFun = 'max-pool' # 'average-pool'
             self.max_steps = 1000000
             self.steps_done_at_start = 0
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
             
-            self.non_linearity = {'FC': {'type_of_nonlin': 'identity',
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle'
                                          'apply_const_function': tf.pow,
+                                         'normalizeAngle': False,
                                          'const': 1.90},
                                   'conv': {'type_of_nonlin': 'identity',
                                            'apply_const_function': tf.pow,
+                                           'normalizeAngle': False,
                                            'const': 1.90}}
             
             self.INITIAL_LEARNING_RATE = 0.1
@@ -47,15 +44,32 @@ def main(runNum, directory):
     hyperParam.steps_done_at_start = 0
     
     hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+    hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+    hyperParam.non_linearity['conv']['const'] = 1.9
+    createReadMe(hyperParam)
+    return hyperParam
     
-    addConsts = [1, 0.1, 0.5, 0.01]
+    addConsts = [math.pi / 2, 0.1, math.pi / 4, 0.01]
     multConsts = [2, 0.5, 0.9, 1.01]
+    # if runNum < len(addConsts) + len(multConsts)
+        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+        # if runNum % 2 == 0:
+            # hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
+            # hyperParam.non_linearity['conv']['const'] = addConsts[runNum / 2] # 10 ** (np.random.random(1)[0] * 4 - 2)
+        # else:
+            # hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
+            # hyperParam.non_linearity['conv']['const'] = multConsts[runNum / 2] # 1 + 10 ** (np.random.random(1)[0] * 4 - 3)
+    # else:
+    
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
+    hyperParam.non_linearity['conv']['normalizeAngle'] = True
     if runNum % 2 == 0:
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
-        hyperParam.non_linearity['conv']['const'] = addConsts[runNum / 2] #np.random.random(1)[0] * 2
+        hyperParam.non_linearity['conv']['const'] = addConsts[runNum / 2] # np.random.random(1)[0] * math.pi
     else:
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
-        hyperParam.non_linearity['conv']['const'] = multConsts[runNum / 2] # 0.5 + np.random.random(1)[0]
+        hyperParam.non_linearity['conv']['const'] = multConsts[runNum / 2] # 1 + 10 ** (np.random.random(1)[0] * 4 - 3)
+
     
 
     createReadMe(hyperParam)
@@ -67,16 +81,12 @@ def createReadMe(hyperParam):
     with open(hyperParam.directory + '/README.txt', 'wb') as f:
         print('start making readme')
         print('Dataset: %s' % hyperParam.datasetname, file = f)
-        
-        if hyperParam.non_linearity['FC']['type_of_nonlin'] == 'powMagnitude':
-            print('FC non-linearity function: %s, with constant: %f' % (hyperParam.non_linearity['FC']['apply_const_function'], hyperParam.non_linearity['FC']['const']), file = f)
-        else:
-            print('FC non-linearity: %s' % hyperParam.non_linearity['FC']['type_of_nonlin'], file = f)
-            
-        if hyperParam.non_linearity['conv']['type_of_nonlin'] == 'funMagnitude':
-            print('Conv non-linearity function: %s, with constant: %f' % (hyperParam.non_linearity['conv']['apply_const_function'], hyperParam.non_linearity['conv']['const']), file = f)
-        else:
-            print('Conv non-linearity: %s' % hyperParam.non_linearity['conv']['type_of_nonlin'], file = f)
+        for layer in ['FC', 'conv']:
+            print('For the %s layer:' % layer, file = f)
+            print('  The non linearity function is: %s' % hyperParam.non_linearity[layer]['type_of_nonlin'], file = f)
+            print('  Where applicable, the const function is: %s' % hyperParam.non_linearity[layer]['apply_const_function'], file = f)
+            print('  Where applicable, the const is: %s' % hyperParam.non_linearity[layer]['const'], file = f)
+            print('  do we normalize the angle:? %s' % str(hyperParam.non_linearity[layer]['const']), file = f)
             
         print('Pooling function is: %s' % hyperParam.poolingFun, file = f)
         print('Maximum number of steps is: %d' % hyperParam.max_steps, file = f)

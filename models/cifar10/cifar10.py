@@ -197,18 +197,28 @@ def inputs(eval_data):
 def fftReLu(layerIn, hyperParam, layer, name):
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
     if fftFunction == 'absFFT':
-        layerIn = tf.transpose(layerIn, [0, 3, 1, 2])
-        layerOut = irfft2d(tf.cast(tf.abs(rfft2d(layerIn)), tf.complex64))
-        layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
+        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
+        layerOut = tf.cast(tf.abs(layerIn), tf.complex64)
+        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'abs':
         return tf.abs(layerIn)
     if fftFunction == 'relu':
         return tf.nn.relu(layerIn, name = name)
     if fftFunction == 'funMagnitude':
-        layerIn = tf.transpose(layerIn, [0, 3, 2, 1])
-        layerOut = irfft2d( applyConstantToComplex(rfft2d(layerIn), hyperParam.non_linearity[layer]['apply_const_function'], hyperParam.non_linearity[layer]['const']))
-        layerOut = tf.transpose(layerOut, [0, 2, 3, 1])
+        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
+        layerOut = applyConstantToComplex(layerIn
+                                        , hyperParam.non_linearity[layer]['apply_const_function']
+                                        , hyperParam.non_linearity[layer]['const'])
+        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
+        return layerOut
+    if fftFunction == 'funAngle':
+        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
+        layerOut = applyConstantToComplex(layerIn
+                                        , angleFun = hyperParam.non_linearity[layer]['apply_const_function']
+                                        , angleConstant = hyperParam.non_linearity[layer]['const']
+                                        , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle'])
+        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'identity':
         return layerIn
