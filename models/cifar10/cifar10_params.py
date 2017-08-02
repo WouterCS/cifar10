@@ -25,11 +25,11 @@ def main(runNum, directory):
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
             
-            self.non_linearity = {'FC': {'type_of_nonlin': 'identity'
-                                         'apply_const_function': lambda x, y: tf.pow(x,y)
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity',
+                                         'apply_const_function': tf.pow,
                                          'const': 1.90}
-                                  'conv': {'type_of_nonlin': 'identity'
-                                           'apply_const_function': lambda x, y: tf.pow(x,y)
+                                  'conv': {'type_of_nonlin': 'identity',
+                                           'apply_const_function': tf.pow,
                                            'const': 1.90}}
             
             self.INITIAL_LEARNING_RATE = 0.1
