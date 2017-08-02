@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-from custom_ops import tf_arctan2
+from custom_ops import tf_arctan2, tf_mod
 import math
 
 def tf_angle(c):
@@ -22,7 +22,7 @@ def applyConstantToComplex(c, magFun = noEffectApplyConstant, magConstant = 1.0,
     magAfterConstant = magFun(tf.nn.relu(mag), magConstant)
     phaAfterConstant = angleFun(pha, angleConstant)
     if reNormalizeAngle:
-        phaAfterConstant = tf.mod(phaAfterConstant + math.pi, 2*math.pi) - math.pi
+        phaAfterConstant = tf_mod(phaAfterConstant + math.pi, 2*math.pi) - math.pi
     
     magCompl = tf.complex(magAfterConstant, tf.zeros(magAfterConstant.shape))
     phaCompl = tf.complex(tf.zeros(phaAfterConstant.shape), phaAfterConstant)

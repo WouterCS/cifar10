@@ -81,3 +81,18 @@ def tf_arctan2(yin, xin):
     # custom_wih_grad takes a list of the arguments of the function, the numpy implementation of the function, the gradient implementation and the shape of the output.
     return custom_wih_grad([yin, xin], custom_op, custom_op_grad, xin.shape)
 
+# custom tensorflow implementation of the modulo operator
+def tf_mod(xin, yin):
+    # numpy implementation of the desired function
+    def custom_op(x, y):
+        return (x % y).astype(np.float32)
+
+    # tensorflow implementation of the new gradient as it is propogated through this op
+    def custom_op_grad(op, grad):
+        x = op.inputs[0]
+        y = op.inputs[1]
+        
+        return grad * 1, grad * tf.neg(tf.floordiv(x, y))
+    
+    # custom_wih_grad takes a list of the arguments of the function, the numpy implementation of the function, the gradient implementation and the shape of the output.
+    return custom_wih_grad([xin, yin], custom_op, custom_op_grad, xin.shape)
