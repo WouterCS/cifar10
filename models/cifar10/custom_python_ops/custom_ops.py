@@ -92,7 +92,7 @@ def tf_mod(xin, yin):
         x = op.inputs[0]
         y = op.inputs[1]
         
-        return grad * 1, grad * tf.neg(tf.floordiv(x, y))
+        return grad * 1, grad * (-1) * tf.floordiv(x, y)
     
     # custom_wih_grad takes a list of the arguments of the function, the numpy implementation of the function, the gradient implementation and the shape of the output.
     return custom_wih_grad([xin, yin], custom_op, custom_op_grad, xin.shape)
