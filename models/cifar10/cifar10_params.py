@@ -43,14 +43,8 @@ def main(runNum, directory):
     hyperParam.max_steps = 10000
     hyperParam.steps_done_at_start = 0
     
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
-    hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-    hyperParam.non_linearity['conv']['const'] = 1.9
-    createReadMe(hyperParam)
-    return hyperParam
-    
-    addConsts = [math.pi / 2, 0.1, math.pi / 4, 0.01]
-    multConsts = [2, 0.5, 0.9, 1.01]
+    addConsts = [math.pi / 2, 1, math.pi / 4, 0.01]
+    multConsts = [2, 0.5, 0.9, 1.1]
     # if runNum < len(addConsts) + len(multConsts)
         # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
         # if runNum % 2 == 0:
@@ -86,7 +80,7 @@ def createReadMe(hyperParam):
             print('  The non linearity function is: %s' % hyperParam.non_linearity[layer]['type_of_nonlin'], file = f)
             print('  Where applicable, the const function is: %s' % hyperParam.non_linearity[layer]['apply_const_function'], file = f)
             print('  Where applicable, the const is: %s' % hyperParam.non_linearity[layer]['const'], file = f)
-            print('  do we normalize the angle:? %s' % str(hyperParam.non_linearity[layer]['const']), file = f)
+            print('  do we normalize the angle? %s' % str(hyperParam.non_linearity[layer]['normalizeAngle']), file = f)
             
         print('Pooling function is: %s' % hyperParam.poolingFun, file = f)
         print('Maximum number of steps is: %d' % hyperParam.max_steps, file = f)
