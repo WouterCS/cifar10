@@ -20,7 +20,7 @@ def main(runNum, directory):
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
             
-            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle'
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle' 'expFFT'
                                          'apply_const_function': tf.pow,
                                          'normalizeAngle': False,
                                          'const': 1.90},
@@ -43,8 +43,15 @@ def main(runNum, directory):
     hyperParam.max_steps = 10000
     hyperParam.steps_done_at_start = 0
     
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
+    hyperParam.non_linearity['conv']['const'] = 2
+    
+    createReadMe(hyperParam)
+    return hyperParam
+    
     addConsts = [math.pi / 2, 1, math.pi / 4, 0.01]
     multConsts = [2, 0.5, 0.9, 1.1]
+    drop_small_values = lambda x, y: tf.nn.relu(x - y)
     # if runNum < len(addConsts) + len(multConsts)
         # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
         # if runNum % 2 == 0:
