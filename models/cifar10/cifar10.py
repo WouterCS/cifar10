@@ -203,7 +203,7 @@ def fftReLu(layerIn, hyperParam, layer, name):
         return layerOut
     if fftFunction == 'expFFT':
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
-        layerOut = powComplex(layerIn, hyperParam.non_linearity[layer]['const'])
+        layerOut = tf.square(layerIn)#, hyperParam.non_linearity[layer]['const'])
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'abs':
