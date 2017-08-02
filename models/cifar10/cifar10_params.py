@@ -43,7 +43,7 @@ def main(runNum, directory):
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 30000
+    hyperParam.max_steps = 10000
     hyperParam.steps_done_at_start = 0
     
     hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
