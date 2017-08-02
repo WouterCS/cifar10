@@ -25,6 +25,13 @@ def main(runNum, directory):
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
             
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity'
+                                         'apply_const_function': tf.pow
+                                         'const': 1.90}
+                                  'conv': {'type_of_nonlin': 'identity'
+                                           'apply_const_function': tf.pow
+                                           'const': 1.90}}
+            
             self.INITIAL_LEARNING_RATE = 0.1
             self.current_lr = self.INITIAL_LEARNING_RATE
             self.FIXED_LR = True
@@ -34,18 +41,18 @@ def main(runNum, directory):
     
     hyperParam = hyperParameters()
     hyperParam.poolingFun = 'average-pool'
-    hyperParam.INITIAL_LEARNING_RATE = 0.01 #0.01
+    hyperParam.INITIAL_LEARNING_RATE = 0.1
     hyperParam.FIXED_LR = True
     hyperParam.max_steps = 30000
     hyperParam.steps_done_at_start = 0
     
-    hyperParam.convNonLin = 'funMagnitude'#'funMagnitude'
+    hyperParam.non_linearity[layer]['type_of_nonlin'] = 'funMagnitude'
     if runNum % 2 == 0:
-        hyperParam.convFunMagnitude = tf.add
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
         hyperParam.convConstantMagnitude = 0 #np.random.random(1)[0] / 1000
     else:
-        hyperParam.convFunMagnitude = tf.multiply
-        hyperParam.convConstantMagnitude = 1 #+ np.random.random(1)[0] / 1000
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
+        hyperParam.non_linearity[layer]['const'] = 1 #+ np.random.random(1)[0] / 1000
     
 
     createReadMe(hyperParam)
