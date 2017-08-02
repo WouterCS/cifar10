@@ -40,98 +40,99 @@ def main(runNum, directory):
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 100 #10000
-    hyperParam.eval_frequency = 50 #1000
+    hyperParam.max_steps = 10000
     hyperParam.steps_done_at_start = 0
     
     totalQueuedRuns = 0
     
-    defaultNumRandomRuns = 1 # 20
+    defaultNumRandomRuns = 20
     
-    # longExpRuns = 1
-    # if runNum < totalQueuedRuns + longExpRuns:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
-        # hyperParam.non_linearity['conv']['const'] = 2
-        # hyperParam.FIXED_LR = False
-        
-        # createReadMe(hyperParam)
-        # return hyperParam
-    # totalQueuedRuns = totalQueuedRuns + longExpRuns
-    
-    expRuns = defaultNumRandomRuns
-    if runNum < totalQueuedRuns + expRuns:
+    longExpRuns = 1
+    if runNum < totalQueuedRuns + longExpRuns:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
-        hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
+        hyperParam.non_linearity['conv']['const'] = 2
+        hyperParam.FIXED_LR = False
         
         createReadMe(hyperParam)
         return hyperParam
-    totalQueuedRuns = totalQueuedRuns + expRuns
-    
-    addAngleRuns = defaultNumRandomRuns
-    if runNum < totalQueuedRuns + addAngleRuns:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
-        hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
-        hyperParam.non_linearity['conv']['normalizeAngle'] = True
-        hyperParam.non_linearity['conv']['const'] = 10 ** (np.random.random(1)[0] * 4 - 2)
+    totalQueuedRuns = totalQueuedRuns + longExpRuns
+    while runNum > 0:
+        expRuns = defaultNumRandomRuns
+        if runNum < totalQueuedRuns + expRuns:
+            hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
+            hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
+            
+            createReadMe(hyperParam)
+            return hyperParam
+        totalQueuedRuns = totalQueuedRuns + expRuns
         
-        createReadMe(hyperParam)
-        return hyperParam
-    totalQueuedRuns = totalQueuedRuns + addAngleRuns
-    
-    multAngleRuns = defaultNumRandomRuns
-    if runNum < totalQueuedRuns + multAngleRuns:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
-        hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
-        hyperParam.non_linearity['conv']['normalizeAngle'] = True
-        hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
+        addAngleRuns = defaultNumRandomRuns
+        if runNum < totalQueuedRuns + addAngleRuns:
+            hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
+            hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
+            hyperParam.non_linearity['conv']['normalizeAngle'] = True
+            hyperParam.non_linearity['conv']['const'] = 10 ** (np.random.random(1)[0] * 4 - 2)
+            
+            createReadMe(hyperParam)
+            return hyperParam
+        totalQueuedRuns = totalQueuedRuns + addAngleRuns
         
-        createReadMe(hyperParam)
-        return hyperParam
-    totalQueuedRuns = totalQueuedRuns + multAngleRuns
-    
-    powAngleRuns = defaultNumRandomRuns
-    if runNum < totalQueuedRuns + powAngleRuns:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
-        hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-        hyperParam.non_linearity['conv']['normalizeAngle'] = True
-        hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
+        multAngleRuns = defaultNumRandomRuns
+        if runNum < totalQueuedRuns + multAngleRuns:
+            hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
+            hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
+            hyperParam.non_linearity['conv']['normalizeAngle'] = True
+            hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
+            
+            createReadMe(hyperParam)
+            return hyperParam
+        totalQueuedRuns = totalQueuedRuns + multAngleRuns
         
-        createReadMe(hyperParam)
-        return hyperParam
-    totalQueuedRuns = totalQueuedRuns + powAngleRuns
-    
-    addMagRuns = defaultNumRandomRuns
-    if runNum < totalQueuedRuns + addMagRuns:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
-        hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
-        hyperParam.non_linearity['conv']['normalizeAngle'] = False
-        hyperParam.non_linearity['conv']['const'] = 10 ** (np.random.random(1)[0] * 4 - 2)
+        powAngleRuns = defaultNumRandomRuns
+        if runNum < totalQueuedRuns + powAngleRuns:
+            hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
+            hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+            hyperParam.non_linearity['conv']['normalizeAngle'] = True
+            hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
+            
+            createReadMe(hyperParam)
+            return hyperParam
+        totalQueuedRuns = totalQueuedRuns + powAngleRuns
         
-        createReadMe(hyperParam)
-        return hyperParam
-    totalQueuedRuns = totalQueuedRuns + addMagRuns
-    
-    multMagRuns = defaultNumRandomRuns
-    if runNum < totalQueuedRuns + multMagRuns:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
-        hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
-        hyperParam.non_linearity['conv']['normalizeAngle'] = False
-        hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
+        addMagRuns = defaultNumRandomRuns
+        if runNum < totalQueuedRuns + addMagRuns:
+            hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+            hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
+            hyperParam.non_linearity['conv']['normalizeAngle'] = False
+            hyperParam.non_linearity['conv']['const'] = 10 ** (np.random.random(1)[0] * 4 - 2)
+            
+            createReadMe(hyperParam)
+            return hyperParam
+        totalQueuedRuns = totalQueuedRuns + addMagRuns
         
-        createReadMe(hyperParam)
-        return hyperParam
-    totalQueuedRuns = totalQueuedRuns + multMagRuns
-    
-    clipMagRuns = defaultNumRandomRuns
-    if runNum < totalQueuedRuns + clipMagRuns:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
-        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, y: tf.nn.relu(x-y)
-        hyperParam.non_linearity['conv']['normalizeAngle'] = False
-        hyperParam.non_linearity['conv']['const'] = 10 ** (np.random.random(1)[0] * 4 - 3)
+        multMagRuns = defaultNumRandomRuns
+        if runNum < totalQueuedRuns + multMagRuns:
+            hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+            hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
+            hyperParam.non_linearity['conv']['normalizeAngle'] = False
+            hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
+            
+            createReadMe(hyperParam)
+            return hyperParam
+        totalQueuedRuns = totalQueuedRuns + multMagRuns
         
-        createReadMe(hyperParam)
-        return hyperParam
-    totalQueuedRuns = totalQueuedRuns + clipMagRuns
+        clipMagRuns = defaultNumRandomRuns
+        if runNum < totalQueuedRuns + clipMagRuns:
+            hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+            hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, y: tf.nn.relu(x-y)
+            hyperParam.non_linearity['conv']['normalizeAngle'] = False
+            hyperParam.non_linearity['conv']['const'] = 10 ** (np.random.random(1)[0] * 4 - 3)
+            
+            createReadMe(hyperParam)
+            return hyperParam
+        totalQueuedRuns = totalQueuedRuns + clipMagRuns
+        runNum = runNum - totalQueuedRuns
+        totalQueuedRuns = 0
     
     createReadMe(hyperParam)
     return hyperParam
