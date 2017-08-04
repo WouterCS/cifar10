@@ -39,15 +39,14 @@ def main(runNum, directory):
     hyperParam = hyperParameters()
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
-    hyperParam.FIXED_LR = True
+    hyperParam.FIXED_LR = False
     hyperParam.max_steps = 5000
     hyperParam.steps_done_at_start = 0
     
-    consts_to_try = [0.01, 0.1, 1, 0.001]
     hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
-    hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, y: tf.nn.relu(x-y)
-    hyperParam.non_linearity['conv']['normalizeAngle'] = False
-    hyperParam.non_linearity['conv']['const'] = consts_to_try[runNum]
+    hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
+    hyperParam.non_linearity['conv']['normalizeAngle'] = True
+    hyperParam.non_linearity['conv']['const'] = 0.2557
     
     createReadMe(hyperParam)
     return hyperParam
