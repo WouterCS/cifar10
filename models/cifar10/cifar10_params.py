@@ -47,7 +47,7 @@ def main(runNum, directory):
     
     hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
     hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-    hyperParam.non_linearity['conv']['const'] = 1.9
+    hyperParam.non_linearity['conv']['const'] = np.random.random(2.5)[0]
     # hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
     # hyperParam.non_linearity['conv']['secondary_const'] = 0.2557
     hyperParam.non_linearity['conv']['normalizeAngle'] = True
