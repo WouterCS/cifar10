@@ -26,8 +26,10 @@ def main(runNum, directory):
                                          'const': 1.90},
                                   'conv': {'type_of_nonlin': 'identity',
                                            'apply_const_function': tf.pow,
+                                           'const': 1.90,
                                            'normalizeAngle': False,
-                                           'const': 1.90}}
+                                           'secondary_const_fun': tf.multiply,
+                                           'secondary_const': 0.25}}
             
             self.INITIAL_LEARNING_RATE = 0.1
             self.current_lr = self.INITIAL_LEARNING_RATE
@@ -43,10 +45,12 @@ def main(runNum, directory):
     hyperParam.max_steps = 5000
     hyperParam.steps_done_at_start = 0
     
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
-    hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
+    hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+    hyperParam.non_linearity['conv']['const'] = 1.9
+    hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
+    hyperParam.non_linearity['conv']['secondary_const'] = 0.2557
     hyperParam.non_linearity['conv']['normalizeAngle'] = True
-    hyperParam.non_linearity['conv']['const'] = 0.2557
     
     createReadMe(hyperParam)
     return hyperParam
