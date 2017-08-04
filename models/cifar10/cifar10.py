@@ -222,7 +222,8 @@ def fftReLu(layerIn, hyperParam, layer, name):
         layerOut = applyConstantToComplex(layerIn
                                         , angleFun = hyperParam.non_linearity[layer]['apply_const_function']
                                         , angleConstant = hyperParam.non_linearity[layer]['const']
-                                        , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle'])
+                                        , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle']
+                                        , anglePositiveValued = hyperParam.non_linearity['conv']['anglePositiveValued'])
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'funMagnitudeSecFunAngle':
@@ -232,7 +233,8 @@ def fftReLu(layerIn, hyperParam, layer, name):
                                         , hyperParam.non_linearity[layer]['const']
                                         , angleFun = hyperParam.non_linearity[layer]['secondary_const_fun']
                                         , angleConstant = hyperParam.non_linearity[layer]['secondary_const']
-                                        , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle'])
+                                        , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle']
+                                        , anglePositiveValued = hyperParam.non_linearity['conv']['anglePositiveValued'])
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'identity':
