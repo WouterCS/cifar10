@@ -20,7 +20,7 @@ def main(runNum, directory):
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
             
-            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle' 'expFFT'
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'
                                          'apply_const_function': tf.pow,
                                          'normalizeAngle': False,
                                          'const': 1.90},
@@ -45,11 +45,11 @@ def main(runNum, directory):
     hyperParam.max_steps = 5000
     hyperParam.steps_done_at_start = 0
     
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
     hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
     hyperParam.non_linearity['conv']['const'] = 1.9
-    hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
-    hyperParam.non_linearity['conv']['secondary_const'] = 0.2557
+    # hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
+    # hyperParam.non_linearity['conv']['secondary_const'] = 0.2557
     hyperParam.non_linearity['conv']['normalizeAngle'] = True
     
     createReadMe(hyperParam)
