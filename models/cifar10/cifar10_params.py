@@ -43,7 +43,7 @@ def main(runNum, directory):
     hyperParam.max_steps = 5000
     hyperParam.steps_done_at_start = 0
     
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
     hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
     hyperParam.non_linearity['conv']['normalizeAngle'] = True
     hyperParam.non_linearity['conv']['const'] = 0.2557
