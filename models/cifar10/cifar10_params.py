@@ -46,19 +46,19 @@ def main(runNum, directory):
     hyperParam.max_steps = 30000
     hyperParam.steps_done_at_start = 0
     
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
-    hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply #lambda x, const: tf.sign(x) * tf.pow(tf.nn.relu(tf.abs(x)), const)
-    hyperParam.non_linearity['conv']['const'] = 1.5247
-    hyperParam.non_linearity['conv']['normalizeAngle'] = True
-    hyperParam.non_linearity['conv']['anglePositiveValued'] = True
-    
-    # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
-    # hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow #lambda x, const: tf.sign(x) * tf.pow(tf.nn.relu(tf.abs(x)), const)
-    # hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
-    # hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
-    # hyperParam.non_linearity['conv']['secondary_const'] = np.random.random(1)[0] * 2.5
+    # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
+    # hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply #lambda x, const: tf.sign(x) * tf.pow(tf.nn.relu(tf.abs(x)), const)
+    # hyperParam.non_linearity['conv']['const'] = 1.5247
     # hyperParam.non_linearity['conv']['normalizeAngle'] = True
     # hyperParam.non_linearity['conv']['anglePositiveValued'] = True
+    
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
+    hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow #lambda x, const: tf.sign(x) * tf.pow(tf.nn.relu(tf.abs(x)), const)
+    hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
+    hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
+    hyperParam.non_linearity['conv']['secondary_const'] = np.random.random(1)[0] * 2.5
+    hyperParam.non_linearity['conv']['normalizeAngle'] = True
+    hyperParam.non_linearity['conv']['anglePositiveValued'] = True
     
     createReadMe(hyperParam)
     return hyperParam
