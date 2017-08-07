@@ -16,11 +16,5 @@ docker exec -it $NAME /bin/bash /scripts/ondockerSetUp-stage1.bash
 
 docker commit $NAME 'cifar-10-example'
 
-# action to be performed on the docker container:
-docker exec -it $NAME /bin/bash cd /models-2/cifar10
-docker exec -it $NAME /bin/bash apt-get update
-docker exec -it $NAME /bin/bash apt-get install tk-dev python-tk 
-docker exec -it $NAME /bin/bash python -c "import  cifar10 as model; model.maybe_download_and_extract()"
-
 # calliong the next script:
 bash $PROJECTPATH/DockerScripts/dockerSetUp-stage2.bash
