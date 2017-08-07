@@ -24,6 +24,6 @@ do
     numRun=$i
     DIRECTORY='/results/run-'$numRun
     docker exec -it $NAME mkdir -p $DIRECTORY
-    docker exec -it $NAME /bin/bash python -c "import cifar10_params; hyperParam = cifar10_params.main(${numRun},'${DIRECTORY}'); import cifar10_train; cifar10_train.main(hyperParam, '${DIRECTORY}')" 2>&1  | tee "${DIRECTORY}/log.txt"
+    docker exec -it $NAME python -c "import cifar10_params; hyperParam = cifar10_params.main(${numRun},'${DIRECTORY}'); import cifar10_train; cifar10_train.main(hyperParam, '${DIRECTORY}')" 2>&1  | tee "${DIRECTORY}/log.txt"
 done 
 
