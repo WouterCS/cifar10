@@ -16,8 +16,8 @@ docker start $NAME
 #docker exec -it $NAME /bin/bash /scripts2/ondockerSetUp-stage2.bash
 
 
-docker exec -it $NAME /bin/bash mkdir -p /results
-docker exec -it $NAME /bin/bash cd /models/cifar10
+docker exec -it $NAME mkdir -p /results
+docker exec -it $NAME cd /models/cifar10
 
 for i in {1..1000}
 do
