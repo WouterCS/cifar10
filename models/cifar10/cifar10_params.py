@@ -22,8 +22,11 @@ def main(runNum, directory):
             
             self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'
                                          'apply_const_function': tf.pow,
+                                         'const': 1.90,
                                          'normalizeAngle': False,
-                                         'const': 1.90},
+                                         'anglePositiveValued': False,
+                                         'secondary_const_fun': tf.multiply,
+                                         'secondary_const': 0.25},
                                   'conv': {'type_of_nonlin': 'identity',
                                            'apply_const_function': tf.pow,
                                            'const': 1.90,
@@ -42,7 +45,7 @@ def main(runNum, directory):
     hyperParam = hyperParameters()
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
-    hyperParam.FIXED_LR = False
+    hyperParam.FIXED_LR = True
     hyperParam.max_steps = 30000
     hyperParam.steps_done_at_start = 0
     
@@ -74,6 +77,8 @@ def createReadMe(hyperParam):
             print('  The non linearity function is: %s' % hyperParam.non_linearity[layer]['type_of_nonlin'], file = f)
             print('  Where applicable, the const function is: %s' % hyperParam.non_linearity[layer]['apply_const_function'], file = f)
             print('  Where applicable, the const is: %s' % hyperParam.non_linearity[layer]['const'], file = f)
+            print('  Where applicable, the second const function is: %s' % hyperParam.non_linearity[layer]['secondary_const_fun'], file = f)
+            print('  Where applicable, the secondary const is: %s' % hyperParam.non_linearity[layer]['secondary_const'], file = f)
             print('  do we normalize the angle? %s' % str(hyperParam.non_linearity[layer]['normalizeAngle']), file = f)
             
         print('Pooling function is: %s' % hyperParam.poolingFun, file = f)

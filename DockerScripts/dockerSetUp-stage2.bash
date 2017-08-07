@@ -13,6 +13,17 @@ git pull
 docker cp $PROJECTPATH/models/ $NAME:/models
 docker cp $PROJECTPATH/DockerScripts/DockerCreation $NAME:/scripts2
 docker start $NAME 
-docker exec -it $NAME /bin/bash /scripts2/ondockerSetUp-stage2.bash
-#mv $LOCALPATH              $DROPBOXPATH
+#docker exec -it $NAME /bin/bash /scripts2/ondockerSetUp-stage2.bash
+
+
+docker exec -it $NAME /bin/bash mkdir -p /results
+docker exec -it $NAME /bin/bash cd /models/cifar10
+
+for i in {1..1000}
+do
+    numRun=$i
+    DIRECTORY='/results/run-'$numRun
+    docker exec -it $NAME /bin/bash mkdir -p $DIRECTORY
+    docker exec -it $NAME /bin/bash python -c "import cifar10_params; hyperParam = cifar10_params.main(${numRun},'${DIRECTORY}'); import cifar10_train; cifar10_train.main(hyperParam, '${DIRECTORY}')" 2>&1  | tee "${DIRECTORY}/log.txt"
+done 
 
