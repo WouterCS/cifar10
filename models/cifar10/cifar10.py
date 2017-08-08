@@ -212,14 +212,14 @@ def fftReLu(layerIn, hyperParam, layer, name):
         return tf.nn.relu(layerIn, name = name)
     if fftFunction == 'funMagnitude':
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
-        layerOut = applyConstantToComplex(layerIn
+        layerOut = applyConstantToComplexPolar(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
                                         , hyperParam.non_linearity[layer]['const'])
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'funAngle':
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
-        layerOut = applyConstantToComplex(layerIn
+        layerOut = applyConstantToComplexPolar(layerIn
                                         , angleFun = hyperParam.non_linearity[layer]['apply_const_function']
                                         , angleConstant = hyperParam.non_linearity[layer]['const']
                                         , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle']
@@ -228,13 +228,22 @@ def fftReLu(layerIn, hyperParam, layer, name):
         return layerOut
     if fftFunction == 'funMagnitudeSecFunAngle':
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
-        layerOut = applyConstantToComplex(layerIn
+        layerOut = applyConstantToComplexPolar(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
                                         , hyperParam.non_linearity[layer]['const']
                                         , angleFun = hyperParam.non_linearity[layer]['secondary_const_fun']
                                         , angleConstant = hyperParam.non_linearity[layer]['secondary_const']
                                         , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle']
                                         , anglePositiveValued = hyperParam.non_linearity['conv']['anglePositiveValued'])
+        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
+        return layerOut
+    if fftFunction == 'applyToCartOfComplex':
+        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
+        layerOut = applyConstantToComplexPolar(layerIn
+                                        , hyperParam.non_linearity[layer]['apply_const_function']
+                                        , hyperParam.non_linearity[layer]['const']
+                                        , angleFun = hyperParam.non_linearity[layer]['secondary_const_fun']
+                                        , angleConstant = hyperParam.non_linearity[layer]['secondary_const'])
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'identity':

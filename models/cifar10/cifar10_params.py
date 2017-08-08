@@ -20,7 +20,7 @@ def main(runNum, directory):
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
             
-            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'
                                          'apply_const_function': tf.pow,
                                          'const': 1.90,
                                          'normalizeAngle': False,
@@ -55,11 +55,11 @@ def main(runNum, directory):
     # hyperParam.non_linearity['conv']['normalizeAngle'] = True
     # hyperParam.non_linearity['conv']['anglePositiveValued'] = True
     
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
-    hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow #lambda x, const: tf.sign(x) * tf.pow(tf.nn.relu(tf.abs(x)), const)
-    hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
-    hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
-    hyperParam.non_linearity['conv']['secondary_const'] = np.random.random(1)[0] * 2.5
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
+    hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
+    hyperParam.non_linearity['conv']['const'] = 10 ** (np.random.random(1)[0] * 3 - 2)
+    hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, const: x
+    hyperParam.non_linearity['conv']['secondary_const'] = 1#np.random.random(1)[0] * 2.5
     hyperParam.non_linearity['conv']['normalizeAngle'] = True
     hyperParam.non_linearity['conv']['anglePositiveValued'] = True
     

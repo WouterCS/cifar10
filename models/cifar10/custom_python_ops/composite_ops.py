@@ -18,7 +18,7 @@ def powMagnitude(c, power):
 def noEffectApplyConstant(c, constant):
     return c
     
-def applyConstantToComplex(c, magFun = noEffectApplyConstant, magConstant = 1.0, angleFun = noEffectApplyConstant, angleConstant = 1.0, reNormalizeAngle = False, anglePositiveValued = False):
+def applyConstantToComplexPolar(c, magFun = noEffectApplyConstant, magConstant = 1.0, angleFun = noEffectApplyConstant, angleConstant = 1.0, reNormalizeAngle = False, anglePositiveValued = False):
     mag = tf.abs(c)
     pha = tf_angle(c)
     
@@ -36,3 +36,7 @@ def applyConstantToComplex(c, magFun = noEffectApplyConstant, magConstant = 1.0,
     phaCompl = tf.complex(tf.zeros(phaAfterConstant.shape), phaAfterConstant)
     
     return magCompl * tf.exp(phaCompl)
+    
+    
+def applyConstantToComplexCart(c, realFun = noEffectApplyConstant, realConstant = 1.0, imagFun = noEffectApplyConstant, imagConstant = 1.0):
+    return tf.complex(realFun(tf.real(c), realConstant), imagFun(tf.imag(c), imagConstant))
