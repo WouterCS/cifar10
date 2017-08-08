@@ -49,7 +49,7 @@ from tensorflow.python.ops.spectral_ops import irfft2d, irfft
 
 import cifar10_input
 
-from custom_python_ops.composite_ops import powMagnitude, sqrtMagnitude, applyConstantToComplex
+from custom_python_ops.composite_ops import powMagnitude, sqrtMagnitude, applyConstantToComplex, applyConstantToComplexCart
 
 FLAGS = tf.app.flags.FLAGS
 
