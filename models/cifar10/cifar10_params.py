@@ -49,7 +49,7 @@ def main(runNum, directory):
     hyperParam.max_steps = 10000
     hyperParam.steps_done_at_start = 0
     
-    totalNumOfExperiments = 
+    totalNumOfExperiments = 7
     
     if runNum % totalNumOfExperiments == 0:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
@@ -94,7 +94,7 @@ def main(runNum, directory):
         hyperParam.non_linearity['conv']['secondary_const'] = 1
         
         
-    if runNum % totalNumOfExperiments == :
+    if runNum % totalNumOfExperiments == 6:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, const: tf.nn.relu(tf.multiply(x, const) - 0.01)
         hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 0.5
