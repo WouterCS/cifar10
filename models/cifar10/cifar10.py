@@ -270,6 +270,7 @@ def inference(images, hyperParam):
   if hyperParam.poolingFun == 'average-pool':
     poolfun = tf.nn.avg_pool
   
+  extraWeight = _variable_on_cpu('extra-weight', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
   with tf.variable_scope('conv1') as scope:
     kernel = _variable_with_weight_decay('weights',
                                          shape=[5, 5, 3, 64],
@@ -278,7 +279,7 @@ def inference(images, hyperParam):
     conv = tf.nn.conv2d(images, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.0))
     pre_activation = tf.nn.bias_add(conv, biases)
-    extraWeight = _variable_on_cpu('biases', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
+    
     conv1 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, ew= extraWeight) #tf.nn.relu
     _activation_summary(conv1)
 
@@ -298,7 +299,7 @@ def inference(images, hyperParam):
     conv = tf.nn.conv2d(norm1, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.1))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv2 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name) #tf.nn.relu
+    conv2 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, ew= extraWeight) #tf.nn.relu
     _activation_summary(conv2)
 
   # norm2
