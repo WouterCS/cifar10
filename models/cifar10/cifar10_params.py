@@ -5,6 +5,8 @@ import numpy as np
 import tensorflow as tf
 import math
 
+import cifar10
+
 def main(runNum, directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -52,7 +54,7 @@ def main(runNum, directory):
 
     hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
     with tf.variable_scope('nonlin') as scope:
-        hyperParam.non_linearity['conv']['const'] = _variable_on_cpu('power', [1], tf.constant_initializer(0.5))
+        hyperParam.non_linearity['conv']['const'] = cifar10._variable_on_cpu('power', [1], tf.constant_initializer(0.5))
     
     # if runNum % totalNumOfExperiments == 1:
         # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
