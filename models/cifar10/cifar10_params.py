@@ -76,7 +76,7 @@ def main(runNum, directory):
         return hyperParam
     
     runNum = runNum - 2
-    NumRepeatExps = 9
+    NumRepeatExps = 10
     
     if runNum % NumRepeatExps == 0:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
@@ -127,21 +127,21 @@ def main(runNum, directory):
         hyperParam.clip_min = 1e-4
         hyperParam.clip_max = 3
         
-    if runNum % NumRepeatExps == 6:
+    if runNum % NumRepeatExps == 7:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
         hyperParam.non_linearity['conv']['const'] = 1
         hyperParam.clip_min = 1e-4
         hyperParam.clip_max = 50
         
-    if runNum % NumRepeatExps == 7:
+    if runNum % NumRepeatExps == 8:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
         hyperParam.non_linearity['conv']['const'] = 2
         hyperParam.clip_min = 1e-4
         hyperParam.clip_max = 10
         
-    if runNum % NumRepeatExps == 8:
+    if runNum % NumRepeatExps == 9:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
         hyperParam.non_linearity['conv']['const'] = 2
