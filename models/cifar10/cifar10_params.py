@@ -76,7 +76,7 @@ def main(runNum, directory):
         return hyperParam
     
     runNum = runNum - 2
-    NumRepeatExps = 
+    NumRepeatExps = 9
     
     if runNum % NumRepeatExps == 0:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
