@@ -148,16 +148,8 @@ def main(runNum, directory):
         hyperParam.clip_min = 1e-4
         hyperParam.clip_max = 3
         
-        
-    # if runNum % totalNumOfExperiments == 6:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, const: tf.nn.relu(tf.multiply(x, const) - 0.01)
-        # hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 0.5
-        # hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, const: x
-        # hyperParam.non_linearity['conv']['secondary_const'] = 1
-    
-    # createReadMe(hyperParam)
-    # return hyperParam
+    createReadMe(hyperParam)
+    return hyperParam
     
 def createReadMe(hyperParam):
 
