@@ -52,56 +52,101 @@ def main(runNum, directory):
     hyperParam.max_steps = 30000
     hyperParam.steps_done_at_start = 0
     
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
-    hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-    hyperParam.non_linearity['conv']['const'] = 2.0
-    hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
-    hyperParam.non_linearity['conv']['secondary_const'] = 0.5
-    hyperParam.FIXED_LR = False
+    if runNum == 0:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
+        hyperParam.non_linearity['conv']['const'] = 2.0
+        hyperParam.FIXED_LR = False
     
-    createReadMe(hyperParam)
-    return hyperParam
+    if runNum == 1:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+        hyperParam.non_linearity['conv']['const'] = 2.0
+        hyperParam.FIXED_LR = False
     
-    # totalNumOfExperiments = 
-
-    # if runNum % totalNumOfExperiments == 0:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
-        # hyperParam.non_linearity['conv']['const'] = 1.9
-        # hyperParam.FIXED_LR = False
+    if runNum == 2:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+        hyperParam.non_linearity['conv']['const'] = 2.0
+        hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
+        hyperParam.non_linearity['conv']['secondary_const'] = 0.5
+        hyperParam.FIXED_LR = False
     
-    # if runNum % totalNumOfExperiments == 1:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-        # hyperParam.non_linearity['conv']['const'] = 1.9
-        # hyperParam.FIXED_LR = False
+    if runNum < 3:
+        createReadMe(hyperParam)
+        return hyperParam
     
-    # if runNum % totalNumOfExperiments == 2:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
-        # hyperParam.non_linearity['conv']['const'] = 10 ** ((np.random.random(1)[0] * 2) - 1)
-        # hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
-        # hyperParam.non_linearity['conv']['secondary_const'] = 10 ** ((np.random.random(1)[0] * 2) - 1)
+    runNum = runNum - 2
+    NumRepeatExps = 
+    
+    if runNum % NumRepeatExps == 0:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+        hyperParam.non_linearity['conv']['const'] = 0.5
+        hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
+        hyperParam.non_linearity['conv']['secondary_const'] = 2.0
         
-    # if runNum % totalNumOfExperiments == 3:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-        # hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
-        # hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, const: x
-        # hyperParam.non_linearity['conv']['secondary_const'] = 1
+    if runNum % NumRepeatExps == 1:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+        hyperParam.non_linearity['conv']['const'] = 0.5
+        hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
+        hyperParam.non_linearity['conv']['secondary_const'] = 0.5
         
-    # if runNum % totalNumOfExperiments == 4:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-        # hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 2.5
-        # hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.pow
-        # hyperParam.non_linearity['conv']['secondary_const'] = np.random.random(1)[0] * 2.5
+    if runNum % NumRepeatExps == 2:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
+        hyperParam.non_linearity['conv']['const'] = 1
+        hyperParam.clip_min = 1e-4
+        hyperParam.clip_max = 50
         
-    # if runNum % totalNumOfExperiments == 5:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, const: tf.nn.relu(tf.multiply(x, const) - 0.1)
-        # hyperParam.non_linearity['conv']['const'] = np.random.random(1)[0] * 0.5
-        # hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, const: x
-        # hyperParam.non_linearity['conv']['secondary_const'] = 1
+    if runNum % NumRepeatExps == 3:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
+        hyperParam.non_linearity['conv']['const'] = 2
+        hyperParam.clip_min = 1e-4
+        hyperParam.clip_max = 10
+        
+    if runNum % NumRepeatExps == 4:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
+        hyperParam.non_linearity['conv']['const'] = 1
+        hyperParam.clip_min = 1e-4
+        hyperParam.clip_max = 50
+        
+    if runNum % NumRepeatExps == 5:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+        hyperParam.non_linearity['conv']['const'] = 2
+        hyperParam.clip_min = 1e-4
+        hyperParam.clip_max = 3
+        
+    if runNum % NumRepeatExps == 6:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+        hyperParam.non_linearity['conv']['const'] = 0.5
+        hyperParam.clip_min = 1e-4
+        hyperParam.clip_max = 3
+        
+    if runNum % NumRepeatExps == 6:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
+        hyperParam.non_linearity['conv']['const'] = 1
+        hyperParam.clip_min = 1e-4
+        hyperParam.clip_max = 50
+        
+    if runNum % NumRepeatExps == 7:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
+        hyperParam.non_linearity['conv']['const'] = 2
+        hyperParam.clip_min = 1e-4
+        hyperParam.clip_max = 10
+        
+    if runNum % NumRepeatExps == 8:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+        hyperParam.non_linearity['conv']['const'] = 2
+        hyperParam.clip_min = 1e-4
+        hyperParam.clip_max = 3
         
         
     # if runNum % totalNumOfExperiments == 6:
