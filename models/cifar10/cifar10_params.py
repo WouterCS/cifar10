@@ -22,7 +22,7 @@ def main(runNum, directory):
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
             
-            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'   'applyToRealOfComplex'
                                          'apply_const_function': tf.pow,
                                          'const': 1.90,
                                          'normalizeAngle': False,
@@ -128,21 +128,21 @@ def main(runNum, directory):
         hyperParam.clip_max = 3
         
     if runNum % NumRepeatExps == 6:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
         hyperParam.non_linearity['conv']['const'] = 1
         hyperParam.clip_min = 1e-4
         hyperParam.clip_max = 50
         
     if runNum % NumRepeatExps == 7:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
         hyperParam.non_linearity['conv']['const'] = 2
         hyperParam.clip_min = 1e-4
         hyperParam.clip_max = 10
         
     if runNum % NumRepeatExps == 8:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
         hyperParam.non_linearity['conv']['const'] = 2
         hyperParam.clip_min = 1e-4

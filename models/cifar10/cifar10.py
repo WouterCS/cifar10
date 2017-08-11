@@ -254,6 +254,13 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable
                                         , imagConstant = const2)
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
+    if fftFunction == 'applyToRealOfComplex':
+        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
+        layerOut = applyConstantToComplexCart(layerIn
+                                        , hyperParam.non_linearity[layer]['apply_const_function']
+                                        , realConstant = const1)
+        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
+        return layerOut
     if fftFunction == 'identity':
         return layerIn
     
