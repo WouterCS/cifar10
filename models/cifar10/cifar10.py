@@ -194,7 +194,7 @@ def inputs(eval_data):
     labels = tf.cast(labels, tf.float16)
   return images, labels
 
-def fftReLu(layerIn, hyperParam, layer, name):
+def fftReLu(layerIn, hyperParam, layer, name, ew = None):
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
     if fftFunction == 'absFFT':
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
@@ -203,7 +203,7 @@ def fftReLu(layerIn, hyperParam, layer, name):
         return layerOut
     if fftFunction == 'expFFT':
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
-        layerOut = powMagnitude(layerIn, hyperParam.non_linearity[layer]['const'])
+        layerOut = powMagnitude(layerIn, ew) #hyperParam.non_linearity[layer]['const'])
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'abs':
@@ -278,7 +278,8 @@ def inference(images, hyperParam):
     conv = tf.nn.conv2d(images, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.0))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv1 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name) #tf.nn.relu
+    extraWeight = _variable_on_cpu('biases', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
+    conv1 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, ew= extraWeight) #tf.nn.relu
     _activation_summary(conv1)
 
   # pool1
