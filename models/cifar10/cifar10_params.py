@@ -36,7 +36,8 @@ def main(runNum, directory):
                                            'anglePositiveValued': False,
                                            'secondary_const_fun': tf.multiply,
                                            'secondary_const': 0.25}}
-            
+            self.clip_min = 1e-4
+            self.clip_max = 3
             self.INITIAL_LEARNING_RATE = 0.1
             self.current_lr = self.INITIAL_LEARNING_RATE
             self.FIXED_LR = True
@@ -54,7 +55,7 @@ def main(runNum, directory):
 
     hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
     with tf.variable_scope('nonlin') as scope:
-        hyperParam.non_linearity['conv']['const'] = 0.5
+        hyperParam.non_linearity['conv']['const'] = 1.9
     
     # if runNum % totalNumOfExperiments == 1:
         # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'

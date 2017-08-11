@@ -194,7 +194,13 @@ def inputs(eval_data):
     labels = tf.cast(labels, tf.float16)
   return images, labels
 
-def fftReLu(layerIn, hyperParam, layer, name, ew = None):
+def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
+    use_trainable_const1 = True
+    if use_trainable_const1:
+        const1 = trainable_const
+    else:
+        const1 = hyperParam.non_linearity[layer]['const']
+
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
     if fftFunction == 'absFFT':
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
@@ -203,7 +209,7 @@ def fftReLu(layerIn, hyperParam, layer, name, ew = None):
         return layerOut
     if fftFunction == 'expFFT':
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
-        layerOut = powMagnitude(layerIn, ew) #hyperParam.non_linearity[layer]['const'])
+        layerOut = powMagnitude(layerIn, const1) 
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'abs':
@@ -214,7 +220,7 @@ def fftReLu(layerIn, hyperParam, layer, name, ew = None):
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
         layerOut = applyConstantToComplexPolar(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
-                                        , hyperParam.non_linearity[layer]['const'])
+                                        , const1)
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'funAngle':
@@ -271,6 +277,7 @@ def inference(images, hyperParam):
     poolfun = tf.nn.avg_pool
   
   extraWeight = _variable_on_cpu('extra-weight', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
+  extraWeight = tf.clip_by_value(extraWeight, hyperParam.clip_min, hyperParam.clip_max)
   extraWeight = tf.Print(extraWeight, [extraWeight], message = 'Current value trained non-lin:')
   with tf.variable_scope('conv1') as scope:
     kernel = _variable_with_weight_decay('weights',
