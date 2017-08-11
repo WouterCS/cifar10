@@ -271,6 +271,7 @@ def inference(images, hyperParam):
     poolfun = tf.nn.avg_pool
   
   extraWeight = _variable_on_cpu('extra-weight', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
+  extraWeight = tf.print(extraWeight, [extraWeight], message = 'Current value trained non-lin:')
   with tf.variable_scope('conv1') as scope:
     kernel = _variable_with_weight_decay('weights',
                                          shape=[5, 5, 3, 64],
