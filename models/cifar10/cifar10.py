@@ -280,9 +280,9 @@ def inference(images, hyperParam):
   
   trainable_const1 = _variable_on_cpu('trainable_const1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
   trainable_const1 = tf.clip_by_value(trainable_const1, hyperParam.clip_min, hyperParam.clip_max)
-  trainable_const2 = _variable_on_cpu('trainable_const2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
+  trainable_const2 = _variable_on_cpu('trainable_const2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['secondary_const']))
   trainable_const2 = tf.clip_by_value(trainable_const2, hyperParam.clip_min, hyperParam.clip_max)
-  trainable_const1 = tf.Print(extraWeight, [trainable_const1, trainable_const2], message = 'Current value trained non-lin:')
+  trainable_const1 = tf.Print(trainable_const1, [trainable_const1, trainable_const2], message = 'Current value trained non-lin:')
   with tf.variable_scope('conv1') as scope:
     kernel = _variable_with_weight_decay('weights',
                                          shape=[5, 5, 3, 64],
@@ -292,7 +292,7 @@ def inference(images, hyperParam):
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.0))
     pre_activation = tf.nn.bias_add(conv, biases)
     
-    conv1 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const = extraWeight) #tf.nn.relu
+    conv1 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const1 = trainable_const1, trainable_const2 = trainable_const2) #tf.nn.relu
     _activation_summary(conv1)
 
   # pool1
@@ -311,7 +311,7 @@ def inference(images, hyperParam):
     conv = tf.nn.conv2d(norm1, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.1))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv2 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const = extraWeight) #tf.nn.relu
+    conv2 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const1 = trainable_const1, trainable_const2 = trainable_const2) #tf.nn.relu
     _activation_summary(conv2)
 
   # norm2
