@@ -194,12 +194,14 @@ def inputs(eval_data):
     labels = tf.cast(labels, tf.float16)
   return images, labels
 
-def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
+def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable_const2 = None):
     use_trainable_const1 = True
     if use_trainable_const1:
-        const1 = trainable_const
+        const1 = trainable_const1
+        const2 = trainable_const2
     else:
         const1 = hyperParam.non_linearity[layer]['const']
+        const2 = angleConstant = hyperParam.non_linearity[layer]['secondary_const']
 
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
     if fftFunction == 'absFFT':
@@ -227,7 +229,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
         layerOut = applyConstantToComplexPolar(layerIn
                                         , angleFun = hyperParam.non_linearity[layer]['apply_const_function']
-                                        , angleConstant = hyperParam.non_linearity[layer]['const']
+                                        , angleConstant = const1
                                         , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle']
                                         , anglePositiveValued = hyperParam.non_linearity['conv']['anglePositiveValued'])
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
@@ -236,20 +238,20 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
         layerOut = applyConstantToComplexPolar(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
-                                        , hyperParam.non_linearity[layer]['const']
+                                        , const1
                                         , angleFun = hyperParam.non_linearity[layer]['secondary_const_fun']
-                                        , angleConstant = hyperParam.non_linearity[layer]['secondary_const']
+                                        , angleConstant = const2
                                         , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle']
                                         , anglePositiveValued = hyperParam.non_linearity['conv']['anglePositiveValued'])
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'applyToCartOfComplex':
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
-        layerOut = applyConstantToComplexPolar(layerIn
+        layerOut = applyConstantToComplexCart(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
-                                        , hyperParam.non_linearity[layer]['const']
-                                        , angleFun = hyperParam.non_linearity[layer]['secondary_const_fun']
-                                        , angleConstant = hyperParam.non_linearity[layer]['secondary_const'])
+                                        , realConstant = const1
+                                        , imagFun = hyperParam.non_linearity[layer]['secondary_const_fun']
+                                        , imagConstant = const2)
         layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
         return layerOut
     if fftFunction == 'identity':
@@ -276,9 +278,11 @@ def inference(images, hyperParam):
   if hyperParam.poolingFun == 'average-pool':
     poolfun = tf.nn.avg_pool
   
-  extraWeight = _variable_on_cpu('extra-weight', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
-  extraWeight = tf.clip_by_value(extraWeight, hyperParam.clip_min, hyperParam.clip_max)
-  extraWeight = tf.Print(extraWeight, [extraWeight], message = 'Current value trained non-lin:')
+  trainable_const1 = _variable_on_cpu('trainable_const1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
+  trainable_const1 = tf.clip_by_value(trainable_const1, hyperParam.clip_min, hyperParam.clip_max)
+  trainable_const2 = _variable_on_cpu('trainable_const2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
+  trainable_const2 = tf.clip_by_value(trainable_const2, hyperParam.clip_min, hyperParam.clip_max)
+  trainable_const1 = tf.Print(extraWeight, [trainable_const1, trainable_const2], message = 'Current value trained non-lin:')
   with tf.variable_scope('conv1') as scope:
     kernel = _variable_with_weight_decay('weights',
                                          shape=[5, 5, 3, 64],

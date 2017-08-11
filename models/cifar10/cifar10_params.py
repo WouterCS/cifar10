@@ -52,17 +52,28 @@ def main(runNum, directory):
     hyperParam.max_steps = 30000
     hyperParam.steps_done_at_start = 0
     
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
+    hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+    hyperParam.non_linearity['conv']['const'] = 2.0
+    hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
+    hyperParam.non_linearity['conv']['secondary_const'] = 0.5
+    hyperParam.FIXED_LR = False
+    
+    createReadMe(hyperParam)
+    return hyperParam
+    
+    # totalNumOfExperiments = 
 
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
-    with tf.variable_scope('nonlin') as scope:
-        hyperParam.non_linearity['conv']['const'] = 1.9
+    # if runNum % totalNumOfExperiments == 0:
+        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
+        # hyperParam.non_linearity['conv']['const'] = 1.9
+        # hyperParam.FIXED_LR = False
     
     # if runNum % totalNumOfExperiments == 1:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
-        # hyperParam.non_linearity['conv']['const'] = 10 ** ((np.random.random(1)[0] * 2) - 1)
-        # hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, const: x
-        # hyperParam.non_linearity['conv']['secondary_const'] = 1
+        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+        # hyperParam.non_linearity['conv']['const'] = 1.9
+        # hyperParam.FIXED_LR = False
     
     # if runNum % totalNumOfExperiments == 2:
         # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
@@ -100,8 +111,8 @@ def main(runNum, directory):
         # hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, const: x
         # hyperParam.non_linearity['conv']['secondary_const'] = 1
     
-    createReadMe(hyperParam)
-    return hyperParam
+    # createReadMe(hyperParam)
+    # return hyperParam
     
 def createReadMe(hyperParam):
 
