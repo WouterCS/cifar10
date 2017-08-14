@@ -203,39 +203,33 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable
         const1 = hyperParam.non_linearity[layer]['const']
         const2 = angleConstant = hyperParam.non_linearity[layer]['secondary_const']
 
+    
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
+    
+    nonlin_on_FFT_coeffs = fftFunction in ['absFFT', 'expFFT', 'funMagnitude', 'funAngle', 'funMagnitudeSecFunAngle', 'applyToCartOfComplex', 'applyToRealOfComplex']
+    
+    if nonlin_on_FFT_coeffs:
+        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
+        
     if fftFunction == 'absFFT':
-        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
         layerOut = tf.cast(tf.abs(layerIn), tf.complex64)
-        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
-        return layerOut
     if fftFunction == 'expFFT':
-        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
         layerOut = powMagnitude(layerIn, const1) 
-        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
-        return layerOut
     if fftFunction == 'abs':
-        return tf.abs(layerIn)
+        layerOut = tf.abs(layerIn)
     if fftFunction == 'relu':
-        return tf.nn.relu(layerIn, name = name)
-    if fftFunction == 'funMagnitude':
-        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
+        layerOut = tf.nn.relu(layerIn, name = name)
+    if fftFunction == 'funMagnitude':)
         layerOut = applyConstantToComplexPolar(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
                                         , const1)
-        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
-        return layerOut
     if fftFunction == 'funAngle':
-        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
         layerOut = applyConstantToComplexPolar(layerIn
                                         , angleFun = hyperParam.non_linearity[layer]['apply_const_function']
                                         , angleConstant = const1
                                         , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle']
                                         , anglePositiveValued = hyperParam.non_linearity['conv']['anglePositiveValued'])
-        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
-        return layerOut
     if fftFunction == 'funMagnitudeSecFunAngle':
-        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
         layerOut = applyConstantToComplexPolar(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
                                         , const1
@@ -243,26 +237,23 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable
                                         , angleConstant = const2
                                         , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle']
                                         , anglePositiveValued = hyperParam.non_linearity['conv']['anglePositiveValued'])
-        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
-        return layerOut
     if fftFunction == 'applyToCartOfComplex':
-        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
         layerOut = applyConstantToComplexCart(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
                                         , realConstant = const1
                                         , imagFun = hyperParam.non_linearity[layer]['secondary_const_fun']
                                         , imagConstant = const2)
-        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
-        return layerOut
     if fftFunction == 'applyToRealOfComplex':
-        layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
         layerOut = applyConstantToComplexCart(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
                                         , realConstant = const1)
-        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
-        return layerOut
     if fftFunction == 'identity':
-        return layerIn
+        layerOut = layerIn
+    
+    if nonlin_on_FFT_coeffs:
+        layerOut = tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
+    
+    return layerOut
     
 def inference(images, hyperParam):
   """Build the CIFAR-10 model.
@@ -286,7 +277,7 @@ def inference(images, hyperParam):
     poolfun = tf.nn.avg_pool
   
   trainable_const1 = _variable_on_cpu('trainable_const1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
-  trainable_const1 = tf.clip_by_value(trainable_const1, hyperParam.clip_min, hyperParam.clip_max)
+  trainable_const1 = tf.clip_by_value(trainable_const1, hyperParam.non_linearity['conv']['clip_min'], hyperParam.non_linearity['conv']['clip_max'])
   trainable_const2 = _variable_on_cpu('trainable_const2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['secondary_const']))
   trainable_const2 = tf.clip_by_value(trainable_const2, hyperParam.clip_min, hyperParam.clip_max)
   trainable_const1 = tf.Print(trainable_const1, [trainable_const1, trainable_const2], message = 'Current value trained non-lin:')

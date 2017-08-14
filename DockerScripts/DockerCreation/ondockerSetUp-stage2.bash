@@ -1,7 +1,7 @@
 mkdir -p /results
 cd /models/cifar10
 
-for i in {2..200}
+for i in {0..200}
 do
     numRun=$i
     DIRECTORY='/results/run-'$numRun

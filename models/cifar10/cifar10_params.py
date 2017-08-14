@@ -35,9 +35,9 @@ def main(runNum, directory):
                                            'normalizeAngle': False,
                                            'anglePositiveValued': False,
                                            'secondary_const_fun': tf.multiply,
-                                           'secondary_const': 0.25}}
-            self.clip_min = 1e-4
-            self.clip_max = 3
+                                           'secondary_const': 0.25,
+                                           'clip_min': 1e-4,
+                                           'clip_max': 3}}
             self.INITIAL_LEARNING_RATE = 0.1
             self.current_lr = self.INITIAL_LEARNING_RATE
             self.FIXED_LR = True
@@ -52,22 +52,17 @@ def main(runNum, directory):
     hyperParam.max_steps = 500000
     hyperParam.steps_done_at_start = 236000
     
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
-    hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-    hyperParam.non_linearity['conv']['const'] = 1.54249
-    hyperParam.non_linearity['conv']['secondary_const_fun'] = tf.multiply
-    hyperParam.non_linearity['conv']['secondary_const'] = 0.781651
 
-    # if runNum == 0:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
-        # hyperParam.non_linearity['conv']['const'] = 2.0
-        # hyperParam.FIXED_LR = False
+    if runNum % 2 == 1:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'expFFT'
+        hyperParam.non_linearity['conv']['const'] = 2.0
+        hyperParam.FIXED_LR = False
     
-    # if runNum == 1:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-        # hyperParam.non_linearity['conv']['const'] = 2.0
-        # hyperParam.FIXED_LR = False
+    if runNum % 2 == 0:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
+        hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
+        hyperParam.non_linearity['conv']['const'] = 2.0
+        hyperParam.FIXED_LR = False
     
     # if runNum == 2:
         # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
