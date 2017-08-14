@@ -49,8 +49,8 @@ def main(runNum, directory):
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 50000
-    hyperParam.steps_done_at_start = 0
+    hyperParam.max_steps = 500000
+    hyperParam.steps_done_at_start = 236000
     
     hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitudeSecFunAngle'
     hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
