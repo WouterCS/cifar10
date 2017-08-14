@@ -279,7 +279,7 @@ def inference(images, hyperParam):
   trainable_const1 = _variable_on_cpu('trainable_const1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
   trainable_const1 = tf.clip_by_value(trainable_const1, hyperParam.non_linearity['conv']['clip_min'], hyperParam.non_linearity['conv']['clip_max'])
   trainable_const2 = _variable_on_cpu('trainable_const2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['secondary_const']))
-  trainable_const2 = tf.clip_by_value(trainable_const2, hyperParam.clip_min, hyperParam.clip_max)
+  trainable_const2 = tf.clip_by_value(trainable_const2, hyperParam.non_linearity['conv']['clip_min'], hyperParam.non_linearity['conv']['clip_max'])
   trainable_const1 = tf.Print(trainable_const1, [trainable_const1, trainable_const2], message = 'Current value trained non-lin:')
   with tf.variable_scope('conv1') as scope:
     kernel = _variable_with_weight_decay('weights',
