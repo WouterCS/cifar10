@@ -52,7 +52,7 @@ def main(runNum, directory):
     hyperParam.max_steps = 500000
     hyperParam.steps_done_at_start = 0
     
-    
+    NumRepeatExps = 3
     if runNum % NumRepeatExps == 0:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
