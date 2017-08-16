@@ -52,22 +52,22 @@ def main(runNum, directory):
     hyperParam.max_steps = 500000
     hyperParam.steps_done_at_start = 0
     
-    NumRepeatExps = 3
-    if runNum % NumRepeatExps == 0:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
-        hyperParam.non_linearity['conv']['const'] = 0.5
+    NumRepeatExps = 3   
+    # if runNum % NumRepeatExps == 2:
+        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
+        # hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
+        # hyperParam.non_linearity['conv']['const'] = 0.5
         
-    if runNum % NumRepeatExps == 1:
+    if runNum % NumRepeatExps == 0:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
         hyperParam.non_linearity['conv']['const'] = 0.5
         hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, c: tf.nn.relu(x)
         hyperParam.non_linearity['conv']['secondary_const'] = 2.0
         
-    if runNum % NumRepeatExps == 2:
+    if runNum % NumRepeatExps == 1:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
-        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x: x
+        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: x
         hyperParam.non_linearity['conv']['const'] = 0.5
         hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, c: tf.nn.relu(x)
         hyperParam.non_linearity['conv']['secondary_const'] = 2.0
