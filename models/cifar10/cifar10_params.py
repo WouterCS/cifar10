@@ -49,23 +49,27 @@ def main(runNum, directory):
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 500000
+    hyperParam.max_steps = 100000
     hyperParam.steps_done_at_start = 0
     
     NumRepeatExps = 3   
-    # if runNum % NumRepeatExps == 2:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
-        # hyperParam.non_linearity['conv']['const'] = 0.5
-        
+    fun_to_try = [tf.sigmoid, tf.tanh, tf.abs] #tf.nn.relu
+    
+    current_fun = fun_to_try[ (runNum / NumRepeatExps) % len(fun_to_try) ]
+    
     if runNum % NumRepeatExps == 0:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
+        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
+        hyperParam.non_linearity['conv']['const'] = 0.5
+        
+    if runNum % NumRepeatExps == 1:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
         hyperParam.non_linearity['conv']['const'] = 0.5
         hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, c: tf.nn.relu(x)
         hyperParam.non_linearity['conv']['secondary_const'] = 2.0
         
-    if runNum % NumRepeatExps == 1:
+    if runNum % NumRepeatExps == 2:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: x
         hyperParam.non_linearity['conv']['const'] = 0.5
