@@ -53,7 +53,7 @@ def main(runNum, directory):
     hyperParam.steps_done_at_start = 0
     
     NumRepeatExps = 3   
-    fun_to_try = [tf.sigmoid, tf.tanh, tf.abs] #tf.nn.relu
+    fun_to_try = [tf.sigmoid, tf.tanh, tf.abs, tf.nn.elu] #tf.nn.relu
     
     current_fun = fun_to_try[ (runNum / NumRepeatExps) % len(fun_to_try) ]
     
