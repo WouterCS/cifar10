@@ -49,11 +49,11 @@ def main(runNum, directory):
     hyperParam.poolingFun = 'average-pool'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 10000
-    hyperParam.steps_done_at_start = 0
+    hyperParam.max_steps = 250000
+    hyperParam.steps_done_at_start = 200000
     
     NumRepeatExps = 3   
-    fun_to_try = [tf.sigmoid, tf.tanh, tf.abs, tf.nn.elu, tf.nn.softsign, tf.nn.softplus ] #tf.nn.relu
+    fun_to_try = [tf.abs, tf.nn.elu, tf.nn.softplus, tf.nn.relu] #    # doesn't work: tf.sigmoid, tf.tanh, tf.nn.softsign,
     
     current_fun = fun_to_try[ (runNum / NumRepeatExps) % len(fun_to_try) ]
     
