@@ -57,6 +57,8 @@ def main(runNum, directory):
     
     current_fun = fun_to_try[ (runNum / NumRepeatExps) % len(fun_to_try) ]
     
+    print('Current fun: %s' % str(current_fun))
+    
     if runNum % NumRepeatExps == 0:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: current_fun(x)
@@ -76,54 +78,6 @@ def main(runNum, directory):
         hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, c: current_fun(x)
         hyperParam.non_linearity['conv']['secondary_const'] = 2.0
         
-    # if runNum % NumRepeatExps == 3:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funMagnitude'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
-        # hyperParam.non_linearity['conv']['const'] = 2
-        # hyperParam.clip_min = 1e-4
-        # hyperParam.clip_max = 10
-        
-    # if runNum % NumRepeatExps == 4:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
-        # hyperParam.non_linearity['conv']['const'] = 1
-        # hyperParam.clip_min = 1e-4
-        # hyperParam.clip_max = 50
-        
-    # if runNum % NumRepeatExps == 5:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-        # hyperParam.non_linearity['conv']['const'] = 2
-        # hyperParam.clip_min = 1e-4
-        # hyperParam.clip_max = 3
-        
-    # if runNum % NumRepeatExps == 6:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'funAngle'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-        # hyperParam.non_linearity['conv']['const'] = 0.5
-        # hyperParam.clip_min = 1e-4
-        # hyperParam.clip_max = 3
-        
-    # if runNum % NumRepeatExps == 7:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.add
-        # hyperParam.non_linearity['conv']['const'] = 1
-        # hyperParam.clip_min = 1e-4
-        # hyperParam.clip_max = 50
-        
-    # if runNum % NumRepeatExps == 8:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.multiply
-        # hyperParam.non_linearity['conv']['const'] = 2
-        # hyperParam.clip_min = 1e-4
-        # hyperParam.clip_max = 10
-        
-    # if runNum % NumRepeatExps == 9:
-        # hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-        # hyperParam.non_linearity['conv']['apply_const_function'] = tf.pow
-        # hyperParam.non_linearity['conv']['const'] = 2
-        # hyperParam.clip_min = 1e-4
-        # hyperParam.clip_max = 3
         
     createReadMe(hyperParam)
     return hyperParam
