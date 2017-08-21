@@ -282,7 +282,7 @@ def inference(images, hyperParam):
         width = int(conv.shape[2].value)
         height = int(conv.shape[3].value)
         conv = conv[:,:,int(width/4):int(width*3/4),int(height/4):int(height*3/4)]
-        return tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
+        return tf.transpose(irfft2d(conv), [0, 2, 3, 1])
     poolfun = spectralPool
     
   
