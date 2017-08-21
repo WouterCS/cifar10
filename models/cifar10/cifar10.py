@@ -281,6 +281,7 @@ def inference(images, hyperParam):
         conv = rfft2d(tf.transpose(layerIn, pre_ffft_transpose))
         conv = conv[:,:,(width/4):(width*3/4),(height/4):(height*3/4)]
         return tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
+    poolfun = spectralPool
     
   
   trainable_const1 = _variable_on_cpu('trainable_const1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
