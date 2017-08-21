@@ -279,8 +279,8 @@ def inference(images, hyperParam):
     def spectralPool(conv, ksize = None, strides = None, padding = None, name = None):
         pre_ffft_transpose = [0, 3, 2, 1]
         conv = rfft2d(tf.transpose(conv, pre_ffft_transpose))
-        width = conv.shape[-1]
-        height = conv.shape[-1]
+        width = conv.shape[2]
+        height = conv.shape[3]
         conv = conv[:,:,(width/4):(width*3/4),(height/4):(height*3/4)]
         return tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
     poolfun = spectralPool
