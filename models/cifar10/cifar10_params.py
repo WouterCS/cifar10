@@ -58,12 +58,12 @@ def main(runNum, directory):
     
     if runNum % NumRepeatExps == 2:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: current_fun(x)
+        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
         hyperParam.poolingFun = 'spectral-pooling'
         
     if runNum % NumRepeatExps == 1:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: current_fun(x)
+        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
         hyperParam.poolingFun = 'average-pool'
         
     if runNum % NumRepeatExps == 0:
