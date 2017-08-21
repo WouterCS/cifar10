@@ -278,7 +278,7 @@ def inference(images, hyperParam):
   if hyperParam.poolingFun == 'spectral-pooling':
     def spectralPool(conv, ksize = None, strides = None, padding = None, name = None):
         pre_ffft_transpose = [0, 3, 2, 1]
-        conv = rfft2d(tf.transpose(layerIn, pre_ffft_transpose))
+        conv = rfft2d(tf.transpose(conv, pre_ffft_transpose))
         conv = conv[:,:,(width/4):(width*3/4),(height/4):(height*3/4)]
         return tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
     poolfun = spectralPool
