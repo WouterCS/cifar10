@@ -16,7 +16,7 @@ def main(runNum, directory):
             self.directory = directory
             self.train_dir = directory + '/cifar10_train'
             self.datasetname = 'CIFAR-10'
-            self.poolingFun = 'max-pool' # 'average-pool'
+            self.poolingFun = 'max-pool' # 'average-pool'   'spectral-pooling'
             self.max_steps = 1000000
             self.steps_done_at_start = 0
             self.eval_frequency = 1000
@@ -53,11 +53,22 @@ def main(runNum, directory):
     hyperParam.steps_done_at_start = 0
     
     NumRepeatExps = 3   
-    fun_to_try = [tf.abs, tf.nn.elu, tf.nn.softplus, tf.nn.relu] #    # doesn't work: tf.sigmoid, tf.tanh, tf.nn.softsign,
-
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-    hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
-    hyperParam.non_linearity['conv']['const'] = 0.5
+    
+    print('Current fun: %s' % str(current_fun))
+    
+    if runNum % NumRepeatExps == 2:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
+        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: current_fun(x)
+        hyperParam.poolingFun = 'spectral-pooling'
+        
+    if runNum % NumRepeatExps == 1:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
+        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: current_fun(x)
+        hyperParam.poolingFun = 'average-pool'
+        
+    if runNum % NumRepeatExps == 0:
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'relu'
+        hyperParam.poolingFun = 'spectral-pooling'
         
         
     createReadMe(hyperParam)
