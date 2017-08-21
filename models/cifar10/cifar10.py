@@ -275,6 +275,13 @@ def inference(images, hyperParam):
     poolfun = tf.nn.max_pool
   if hyperParam.poolingFun == 'average-pool':
     poolfun = tf.nn.avg_pool
+  if hyperParam.poolingFun == 'spectral-pooling':
+    def spectralPool(conv, ksize = None, strides = None, padding = None, name = None):
+        pre_ffft_transpose = [0, 3, 2, 1]
+        conv = rfft2d(tf.transpose(layerIn, pre_ffft_transpose))
+        conv = conv[:,:,(width/4):(width*3/4),(height/4):(height*3/4)]
+        return tf.transpose(irfft2d(layerOut), [0, 2, 3, 1])
+    
   
   trainable_const1 = _variable_on_cpu('trainable_const1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
   trainable_const1 = tf.clip_by_value(trainable_const1, hyperParam.non_linearity['conv']['clip_min'], hyperParam.non_linearity['conv']['clip_max'])
