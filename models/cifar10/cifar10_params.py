@@ -54,8 +54,6 @@ def main(runNum, directory):
     
     NumRepeatExps = 3   
     
-    print('Current fun: %s' % str(current_fun))
-    
     if runNum % NumRepeatExps == 2:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
         hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
