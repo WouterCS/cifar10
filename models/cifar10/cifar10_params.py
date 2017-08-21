@@ -49,7 +49,7 @@ def main(runNum, directory):
     hyperParam.poolingFun = 'spectral-pooling'
     hyperParam.INITIAL_LEARNING_RATE = 0.1
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 10000
+    hyperParam.max_steps = 3000
     hyperParam.steps_done_at_start = 0
     
     NumRepeatExps = 3   

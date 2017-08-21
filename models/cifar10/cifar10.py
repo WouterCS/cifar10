@@ -306,6 +306,7 @@ def inference(images, hyperParam):
   # pool1
   pool1 = poolfun(conv1, ksize=[1, 3, 3, 1], strides=[1, 2, 2, 1],
                          padding='SAME', name='pool1')
+  print(pool1.shape)
   # norm1
   norm1 = tf.nn.lrn(pool1, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75,
                     name='norm1')
@@ -328,7 +329,7 @@ def inference(images, hyperParam):
   # pool2
   pool2 = poolfun(norm2, ksize=[1, 3, 3, 1],
                          strides=[1, 2, 2, 1], padding='SAME', name='pool2')
-
+  print(pool2.shape)
   # local3
   with tf.variable_scope('local3') as scope:
     # Move everything into depth so we can perform a single matrix multiply.
