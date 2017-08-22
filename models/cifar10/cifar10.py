@@ -284,7 +284,11 @@ def inference(images, hyperParam):
         width = int(conv.shape[2].value)
         height = int(conv.shape[3].value)
         print('Width: %d, height: %d' % (width, height))
-        conv = conv[:,:,int(width/4):int(width*3/4),int(height/4):int(height*3/4)+1]
+        if height % 4 == 1:
+            hackConstantToMakeThingsWork = 1
+        else:
+            hackConstantToMakeThingsWork = 0
+        conv = conv[:,:,int(width/4):int(width*3/4),int(height/4):int(height*3/4)+hackConstantToMakeThingsWork]
         print('Conv after fft and crop: %s' % str(conv.shape))
         conv = tf.transpose(irfft2d(conv), [0, 2, 3, 1])
         print('Conv after ifft: %s' % str(conv.shape))
