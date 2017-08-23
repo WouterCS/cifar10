@@ -56,17 +56,20 @@ def main(runNum, directory):
     
     if runNum % NumRepeatExps == 2:
         hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
-        hyperParam.poolingFun = 'spectral-pooling'
+        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.contrib.keras.activations.selu(x)
+        hyperParam.poolingFun = 'average-pool'
         
     if runNum % NumRepeatExps == 1:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.nn.relu(x)
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
+        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.contrib.keras.activations.selu(x)
+        hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, c: tf.contrib.keras.activations.selu(x)
         hyperParam.poolingFun = 'average-pool'
         
     if runNum % NumRepeatExps == 0:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'relu'
-        hyperParam.poolingFun = 'spectral-pooling'
+        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
+        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: x
+        hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, c: tf.contrib.keras.activations.selu(x)
+        hyperParam.poolingFun = 'average-pool'
         
         
     createReadMe(hyperParam)
