@@ -32,13 +32,13 @@ def main(runNum, directory):
                                          'secondary_const': 0.25},
                                   'conv': {'type_of_nonlin': 'identity',
                                            'apply_const_function': tf.pow,
-                                           'const': 1.90,
+                                           'const': 1.40,
                                            'normalizeAngle': False,
                                            'anglePositiveValued': False,
                                            'secondary_const_fun': tf.multiply,
                                            'secondary_const': 0.25,
                                            'clip_min': 1e-4,
-                                           'clip_max': 10}}
+                                           'clip_max': 3}}
             self.INITIAL_LEARNING_RATE = 0.1
             self.current_lr = self.INITIAL_LEARNING_RATE
             self.FIXED_LR = True
