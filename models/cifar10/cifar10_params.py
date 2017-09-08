@@ -32,7 +32,7 @@ def main(runNum, directory):
                                          'secondary_const': 0.25},
                                   'conv': {'type_of_nonlin': 'identity',
                                            'apply_const_function': tf.pow,
-                                           'const': 1.70,
+                                           'const': 1.60,
                                            'normalizeAngle': False,
                                            'anglePositiveValued': False,
                                            'secondary_const_fun': tf.multiply,
