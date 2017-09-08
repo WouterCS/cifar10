@@ -55,7 +55,7 @@ def main(runNum, directory):
     
     pooling_function = ['stride-pooling', 'average-pool', 'max-pool']
     FC_nonlin = ['relu', 'identity']
-    conv_nonlin = ['relu', 'identity']
+    conv_nonlin = ['powMagnitude', 'relu', 'identity']
     
     options_iterating_over = 1
     hyperParam.poolingFun = pooling_function[(runNum / options_iterating_over) % len(pooling_function)]

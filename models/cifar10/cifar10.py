@@ -209,7 +209,10 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable
     nonlin_on_FFT_coeffs = fftFunction in ['absFFT', 'expFFT', 'funMagnitude', 'funAngle', 'funMagnitudeSecFunAngle', 'applyToCartOfComplex', 'applyToRealOfComplex']
     
     if nonlin_on_FFT_coeffs:
+        print('Use Fourier transform')
         layerIn = rfft2d(tf.transpose(layerIn, [0, 3, 2, 1]))
+    else:
+        print('Don\'t use Fourier transform')
         
     if fftFunction == 'absFFT':
         layerOut = tf.cast(tf.abs(layerIn), tf.complex64)
