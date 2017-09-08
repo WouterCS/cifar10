@@ -195,8 +195,8 @@ def inputs(eval_data):
   return images, labels
 
 def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable_const2 = None):
-    use_trainable_const1 = True
-    if use_trainable_const1:
+    use_trainable_const = True
+    if use_trainable_const:
         const1 = trainable_const1
         const2 = trainable_const2
     else:
@@ -214,7 +214,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable
     if fftFunction == 'absFFT':
         layerOut = tf.cast(tf.abs(layerIn), tf.complex64)
     if fftFunction == 'expFFT':
-        layerOut = powMagnitude(layerIn, const1) 
+        layerOut = tf.pow(layerIn, const1) 
     if fftFunction == 'abs':
         layerOut = tf.abs(layerIn)
     if fftFunction == 'relu':
@@ -271,29 +271,14 @@ def inference(images, hyperParam):
   #
   # conv1
   
+  conv_strides = [1, 1, 1, 1]
   if hyperParam.poolingFun == 'max-pool':
     poolfun = tf.nn.max_pool
   if hyperParam.poolingFun == 'average-pool':
     poolfun = tf.nn.avg_pool
-  if hyperParam.poolingFun == 'spectral-pooling':
-    def spectralPool(conv, ksize = None, strides = None, padding = None, name = None):
-        print('Conv before fft: %s' % str(conv.shape))
-        pre_ffft_transpose = [0, 3, 2, 1]
-        conv = rfft2d(tf.transpose(conv, pre_ffft_transpose))
-        print('Conv after fft, before crop: %s' % str(conv.shape))
-        width = int(conv.shape[2].value)
-        height = int(conv.shape[3].value)
-        print('Width: %d, height: %d' % (width, height))
-        if height % 4 == 1:
-            hackConstantToMakeThingsWork = 1
-        else:
-            hackConstantToMakeThingsWork = 0
-        conv = conv[:,:,int(width/4):int(width*3/4),int(height/4):int(height*3/4)+hackConstantToMakeThingsWork]
-        print('Conv after fft and crop: %s' % str(conv.shape))
-        conv = tf.transpose(irfft2d(conv), [0, 2, 3, 1])
-        print('Conv after ifft: %s' % str(conv.shape))
-        return conv
-    poolfun = spectralPool
+  if hyperParam.poolingFun == 'stride-pooling':
+    poolfun = lambda conv, ksize, strides, padding, name: conv
+    conv_strides = hyperParam.pool_strides
     
   
   trainable_const1 = _variable_on_cpu('trainable_const1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
@@ -306,7 +291,7 @@ def inference(images, hyperParam):
                                          shape=[5, 5, 3, 64],
                                          stddev=5e-2,
                                          wd=0.0)
-    conv = tf.nn.conv2d(images, kernel, [1, 1, 1, 1], padding='SAME')
+    conv = tf.nn.conv2d(images, kernel, conv_strides, padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.0))
     pre_activation = tf.nn.bias_add(conv, biases)
     
@@ -314,7 +299,7 @@ def inference(images, hyperParam):
     _activation_summary(conv1)
 
   # pool1
-  pool1 = poolfun(conv1, ksize=[1, 3, 3, 1], strides=[1, 2, 2, 1],
+  pool1 = poolfun(conv1, ksize=[1, 3, 3, 1], strides=conv_strides,
                          padding='SAME', name='pool1')
   print(pool1.shape)
   # norm1
@@ -327,7 +312,7 @@ def inference(images, hyperParam):
                                          shape=[5, 5, 64, 64],
                                          stddev=5e-2,
                                          wd=0.0)
-    conv = tf.nn.conv2d(norm1, kernel, [1, 1, 1, 1], padding='SAME')
+    conv = tf.nn.conv2d(norm1, kernel, conv_strides, padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.1))
     pre_activation = tf.nn.bias_add(conv, biases)
     conv2 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const1 = trainable_const1, trainable_const2 = trainable_const2) #tf.nn.relu
@@ -338,7 +323,7 @@ def inference(images, hyperParam):
                     name='norm2')
   # pool2
   pool2 = poolfun(norm2, ksize=[1, 3, 3, 1],
-                         strides=[1, 2, 2, 1], padding='SAME', name='pool2')
+                         strides=conv_strides, padding='SAME', name='pool2')
   print(pool2.shape)
   # local3
   with tf.variable_scope('local3') as scope:

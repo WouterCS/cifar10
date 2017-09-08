@@ -16,7 +16,8 @@ def main(runNum, directory):
             self.directory = directory
             self.train_dir = directory + '/cifar10_train'
             self.datasetname = 'CIFAR-10'
-            self.poolingFun = 'max-pool' # 'average-pool'   'spectral-pooling'
+            self.poolingFun = 'max-pool' # 'average-pool'   'max-pool'    'stride-pooling'
+            self.pool_strides = [1,2,2,1]
             self.max_steps = 1000000
             self.steps_done_at_start = 0
             self.eval_frequency = 1000
@@ -46,32 +47,25 @@ def main(runNum, directory):
             self.LR_MULTIPLIER = 0.95
     
     hyperParam = hyperParameters()
-    hyperParam.poolingFun = 'spectral-pooling'
+    
     hyperParam.INITIAL_LEARNING_RATE = 0.1
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 230000
-    hyperParam.steps_done_at_start = 200000
+    hyperParam.max_steps = 10000
+    hyperParam.steps_done_at_start = 0
     
-    NumRepeatExps = 3   
+    pooling_function = ['strides', 'average-pool', 'max-pool']
+    FC_nonlin = ['relu', 'identity']
+    conv_nonlin = ['relu', 'identity']
     
-    if runNum % NumRepeatExps == 2:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToRealOfComplex'
-        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.contrib.keras.activations.selu(x)
-        hyperParam.poolingFun = 'average-pool'
-        
-    if runNum % NumRepeatExps == 1:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
-        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: tf.contrib.keras.activations.selu(x)
-        hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, c: tf.contrib.keras.activations.selu(x)
-        hyperParam.poolingFun = 'average-pool'
-        
-    if runNum % NumRepeatExps == 0:
-        hyperParam.non_linearity['conv']['type_of_nonlin'] = 'applyToCartOfComplex'
-        hyperParam.non_linearity['conv']['apply_const_function'] = lambda x, c: x
-        hyperParam.non_linearity['conv']['secondary_const_fun'] = lambda x, c: tf.contrib.keras.activations.selu(x)
-        hyperParam.poolingFun = 'average-pool'
-        
-        
+    options_iterating_over = 1
+    hyperParam.poolingFun = pooling_function[(runNum / options_iterating_over) % len(pooling_function)]
+    options_iterating_over = options_iterating_over * len(pooling_function)
+    
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = FC_nonlin[(runNum / options_iterating_over) % len(FC_nonlin)]
+    options_iterating_over = options_iterating_over * len(FC_nonlin)
+    
+    hyperParam.non_linearity['FC']['type_of_nonlin'] = conv_nonlin[(runNum / options_iterating_over) % len(conv_nonlin)]
+    
     createReadMe(hyperParam)
     return hyperParam
     
