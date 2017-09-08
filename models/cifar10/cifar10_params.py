@@ -53,7 +53,7 @@ def main(runNum, directory):
     hyperParam.max_steps = 10000
     hyperParam.steps_done_at_start = 0
     
-    pooling_function = ['strides', 'average-pool', 'max-pool']
+    pooling_function = ['stride-pooling', 'average-pool', 'max-pool']
     FC_nonlin = ['relu', 'identity']
     conv_nonlin = ['relu', 'identity']
     
