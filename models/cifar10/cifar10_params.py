@@ -61,10 +61,10 @@ def main(runNum, directory):
     hyperParam.poolingFun = pooling_function[(runNum / options_iterating_over) % len(pooling_function)]
     options_iterating_over = options_iterating_over * len(pooling_function)
     
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = FC_nonlin[(runNum / options_iterating_over) % len(FC_nonlin)]
+    hyperParam.non_linearity['FC']['type_of_nonlin'] = FC_nonlin[(runNum / options_iterating_over) % len(FC_nonlin)]
     options_iterating_over = options_iterating_over * len(FC_nonlin)
     
-    hyperParam.non_linearity['FC']['type_of_nonlin'] = conv_nonlin[(runNum / options_iterating_over) % len(conv_nonlin)]
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = conv_nonlin[(runNum / options_iterating_over) % len(conv_nonlin)]
     
     createReadMe(hyperParam)
     return hyperParam
