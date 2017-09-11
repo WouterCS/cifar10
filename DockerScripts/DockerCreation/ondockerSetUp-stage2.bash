@@ -2,10 +2,10 @@ mkdir -p /results
 cd /models/cifar10
 
 echo '******************'
-echo '* start from 2 *'
+echo '* start from 3 *'
 echo '******************'
 
-for i in {2..200}
+for i in {3..200}
 do
     numRun=$i
     DIRECTORY='/results/run-'$numRun
