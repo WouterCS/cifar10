@@ -302,7 +302,7 @@ def inference(images, hyperParam):
     _activation_summary(conv1)
 
   # pool1
-  pool1 = poolfun(conv1, ksize=[1, 3, 3, 1], strides=conv_strides,
+  pool1 = tf.nn.max_pool(conv1, ksize=[1, 3, 3, 1], strides=conv_strides,# poolfun
                          padding='SAME', name='pool1')
   print(pool1.shape)
   # norm1
@@ -325,7 +325,7 @@ def inference(images, hyperParam):
   norm2 = tf.nn.lrn(conv2, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75,
                     name='norm2')
   # pool2
-  pool2 = poolfun(norm2, ksize=[1, 3, 3, 1],
+  pool2 = tf.nn.max_pool(norm2, ksize=[1, 3, 3, 1], # poolfun
                          strides=conv_strides, padding='SAME', name='pool2')
   print(pool2.shape)
   # local3
