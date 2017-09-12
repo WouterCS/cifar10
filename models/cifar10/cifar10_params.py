@@ -51,7 +51,7 @@ def main(runNum, directory):
     hyperParam.INITIAL_LEARNING_RATE = 0.1
     hyperParam.FIXED_LR = True
     hyperParam.max_steps = 230000
-    hyperParam.steps_done_at_start = 200000
+    hyperParam.steps_done_at_start = 0#200000
     
     pooling_function = ['average-pool', 'max-pool']#, 'stride-pooling']
     FC_nonlin = ['relu', 'identity']
