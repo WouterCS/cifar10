@@ -195,7 +195,7 @@ def inputs(eval_data):
   return images, labels
 
 def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable_const2 = None):
-    use_trainable_const = True
+    use_trainable_const = False
     if use_trainable_const:
         const1 = trainable_const1
         const2 = trainable_const2
