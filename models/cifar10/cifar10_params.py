@@ -23,7 +23,7 @@ def main(runNum, directory):
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
             
-            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'powMagnitude'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'   'applyToRealOfComplex'
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'   'applyToRealOfComplex'
                                          'apply_const_function': tf.pow,
                                          'const': 1.90,
                                          'normalizeAngle': False,
@@ -53,18 +53,26 @@ def main(runNum, directory):
     hyperParam.max_steps = 230000
     hyperParam.steps_done_at_start = 200000
     
-    pooling_function = ['average-pool', 'max-pool']#, 'stride-pooling']
-    FC_nonlin = ['relu', 'identity']
-    conv_nonlin = ['relu', 'identity']#, 'funMagnitude']
+    tests = {0: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},
+             1: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'},}
     
-    options_iterating_over = 1
-    hyperParam.poolingFun = pooling_function[(runNum / options_iterating_over) % len(pooling_function)]
-    options_iterating_over = options_iterating_over * len(pooling_function)
+    runNum = runNum % len(tests)
+    hyperParam.poolingFun                              = tests[runNum]['pooling_function']
+    hyperParam.non_linearity['FC']['type_of_nonlin']   = tests[runNum]['FC_non_lin']
+    hyperParam.non_linearity['conv']['type_of_nonlin'] = tests[runNum]['conv_non_lin']
     
-    hyperParam.non_linearity['FC']['type_of_nonlin'] = FC_nonlin[(runNum / options_iterating_over) % len(FC_nonlin)]
-    options_iterating_over = options_iterating_over * len(FC_nonlin)
+    # pooling_function = ['average-pool', 'max-pool']#, 'stride-pooling']
+    # FC_nonlin = ['relu', 'identity']
+    # conv_nonlin = ['relu', 'identity']#, 'funMagnitude']
     
-    hyperParam.non_linearity['conv']['type_of_nonlin'] = conv_nonlin[(runNum / options_iterating_over) % len(conv_nonlin)]
+    # options_iterating_over = 1
+    # hyperParam.poolingFun = pooling_function[(runNum / options_iterating_over) % len(pooling_function)]
+    # options_iterating_over = options_iterating_over * len(pooling_function)
+    
+    # hyperParam.non_linearity['FC']['type_of_nonlin'] = FC_nonlin[(runNum / options_iterating_over) % len(FC_nonlin)]
+    # options_iterating_over = options_iterating_over * len(FC_nonlin)
+    
+    # hyperParam.non_linearity['conv']['type_of_nonlin'] = conv_nonlin[(runNum / options_iterating_over) % len(conv_nonlin)]
     
     createReadMe(hyperParam)
     return hyperParam
