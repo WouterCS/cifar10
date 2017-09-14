@@ -22,6 +22,9 @@ def applyConstantToMagnitudeFast(c, magFun = noEffectApplyConstant, magConstant 
     epsilon = 1e-7
     
     mag = tf.abs(c)
+    
+    mag = tf.Print(mag, [mag], message = 'Magnitudes befpre power applied: ')
+    
     magAfterConstant = magFun(tf.nn.relu(mag), magConstant) / (mag + epsilon)
     
     magAfterConstant = tf.Print(magAfterConstant, [magAfterConstant], message = 'Magnitudes after power applied: ')
