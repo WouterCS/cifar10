@@ -49,12 +49,12 @@ def main(runNum, directory):
     
     hyperParam = hyperParameters()
     
-    hyperParam.INITIAL_LEARNING_RATE = 0.1
+    hyperParam.INITIAL_LEARNING_RATE = 0.01
     hyperParam.FIXED_LR = True
     hyperParam.max_steps = 5000#230000
     hyperParam.steps_done_at_start = 3000#200000
     
-    hyperParam.non_linearity['conv']['const'] = 1.1
+    hyperParam.non_linearity['conv']['const'] = 1.48
     tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},      #works
              1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},  #fails
              2: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'},          #works
