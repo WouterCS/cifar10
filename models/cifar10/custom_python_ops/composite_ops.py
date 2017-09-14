@@ -22,7 +22,7 @@ def applyConstantToMagnitudeFast(c, magFun = noEffectApplyConstant, magConstant 
     epsilon = 1e-7
     
     mag = tf.abs(c)
-    mag = tf.Print(mag, [tf.reduce_max(mag), tf.reduce_min(mag), tf.reduce_mean(mag) ], message = 'Magnitudes before power applied: ')
+    #mag = tf.Print(mag, [tf.reduce_max(mag), tf.reduce_min(mag), tf.reduce_mean(mag) ], message = 'Magnitudes before power applied: ')
     magAfterConstant = magFun(tf.nn.relu(mag), magConstant) / (mag + epsilon)
     #magAfterConstant = tf.Print(magAfterConstant, [magAfterConstant], message = 'Magnitudes after power applied: ')
     
@@ -34,7 +34,7 @@ def applyConstantToComplexPolar(c, magFun = noEffectApplyConstant, magConstant =
     mag = tf.abs(c)
     pha = tf_angle(c)
     
-    mag = tf.Print(mag, [tf.reduce_max(mag), tf.reduce_min(mag), tf.reduce_mean(mag) ], message = 'Magnitudes before power applied: ')
+    #mag = tf.Print(mag, [tf.reduce_max(mag), tf.reduce_min(mag), tf.reduce_mean(mag) ], message = 'Magnitudes before power applied: ')
     
     magAfterConstant = magFun(tf.nn.relu(mag), magConstant)
     if anglePositiveValued:
