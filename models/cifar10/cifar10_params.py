@@ -54,7 +54,9 @@ def main(runNum, directory):
     hyperParam.max_steps = 230000
     hyperParam.steps_done_at_start = 200000
     
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},}
+    tests = {0: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},
+             1: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'},
+             2: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},}
     
     runNum = runNum % len(tests)
     hyperParam.poolingFun                              = tests[runNum]['pooling_function']
