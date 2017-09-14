@@ -22,6 +22,7 @@ def main(runNum, directory):
             self.steps_done_at_start = 0
             self.eval_frequency = 1000
             self.input_shuffle_seed = 0 #None
+            self.use_trainable_const = False
             
             self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'   'applyToRealOfComplex'
                                          'apply_const_function': tf.pow,
@@ -53,8 +54,7 @@ def main(runNum, directory):
     hyperParam.max_steps = 230000
     hyperParam.steps_done_at_start = 200000
     
-    tests = {0: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},
-             1: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'},}
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},}
     
     runNum = runNum % len(tests)
     hyperParam.poolingFun                              = tests[runNum]['pooling_function']

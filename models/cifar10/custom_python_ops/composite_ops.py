@@ -18,6 +18,16 @@ def powMagnitude(c, power):
 def noEffectApplyConstant(c, constant):
     return c
     
+def applyConstantToMagnitudeFast(c, magFun = noEffectApplyConstant, magConstant = 1.0):
+    epsilon = 1e-6
+    
+    mag = tf.abs(c)
+    magAfterConstant = magFun(mag, magConstant) / (mag + epsilon)
+    
+    magCompl = tf.complex(magAfterConstant, tf.zeros(magAfterConstant.shape))
+    
+    return magCompl * c
+    
 def applyConstantToComplexPolar(c, magFun = noEffectApplyConstant, magConstant = 1.0, angleFun = noEffectApplyConstant, angleConstant = 1.0, reNormalizeAngle = False, anglePositiveValued = False):
     mag = tf.abs(c)
     pha = tf_angle(c)

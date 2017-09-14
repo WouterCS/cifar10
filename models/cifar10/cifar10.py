@@ -195,8 +195,7 @@ def inputs(eval_data):
   return images, labels
 
 def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable_const2 = None):
-    use_trainable_const = False
-    if use_trainable_const:
+    if hyperParam.use_trainable_const:
         const1 = trainable_const1
         const2 = trainable_const2
     else:
@@ -223,7 +222,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable
     if fftFunction == 'relu':
         layerOut = tf.nn.relu(layerIn, name = name)
     if fftFunction == 'funMagnitude':
-        layerOut = applyConstantToComplexPolar(layerIn
+        layerOut = applyConstantToMagnitudeFast(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
                                         , const1)
     if fftFunction == 'funAngle':
