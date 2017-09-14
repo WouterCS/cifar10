@@ -49,7 +49,7 @@ def main(runNum, directory):
     
     hyperParam = hyperParameters()
     
-    hyperParam.current_lr = 0.05
+    hyperParam.current_lr = 0.02
     hyperParam.FIXED_LR = True
     hyperParam.max_steps = 5000#230000
     hyperParam.steps_done_at_start = 3000#200000
