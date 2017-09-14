@@ -34,6 +34,8 @@ def applyConstantToComplexPolar(c, magFun = noEffectApplyConstant, magConstant =
     mag = tf.abs(c)
     pha = tf_angle(c)
     
+    mag = tf.Print(mag, [tf.reduce_max(mag), tf.reduce_min(mag), tf.reduce_mean(mag) ], message = 'Magnitudes before power applied: ')
+    
     magAfterConstant = magFun(tf.nn.relu(mag), magConstant)
     if anglePositiveValued:
         pha = tf.nn.relu(pha + math.pi)
