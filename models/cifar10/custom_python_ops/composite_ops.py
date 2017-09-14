@@ -19,10 +19,10 @@ def noEffectApplyConstant(c, constant):
     return c
     
 def applyConstantToMagnitudeFast(c, magFun = noEffectApplyConstant, magConstant = 1.0):
-    epsilon = 1e-4
+    epsilon = 1e-7
     
     mag = tf.abs(c)
-    magAfterConstant = magFun(mag, magConstant) / (mag + epsilon)
+    magAfterConstant = magFun(tf.nn.relu(mag), magConstant) / (mag + epsilon)
     
     magCompl = tf.complex(magAfterConstant, tf.zeros(magAfterConstant.shape))
     
