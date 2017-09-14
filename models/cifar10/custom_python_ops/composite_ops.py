@@ -19,7 +19,7 @@ def noEffectApplyConstant(c, constant):
     return c
     
 def applyConstantToMagnitudeFast(c, magFun = noEffectApplyConstant, magConstant = 1.0):
-    epsilon = 1e-6
+    epsilon = 1e-4
     
     mag = tf.abs(c)
     magAfterConstant = magFun(mag, magConstant) / (mag + epsilon)
