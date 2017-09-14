@@ -16,7 +16,7 @@ def main(runNum, directory):
             self.directory = directory
             self.train_dir = directory + '/cifar10_train'
             self.datasetname = 'CIFAR-10'
-            self.poolingFun = 'max-pool' # 'average-pool'   'max-pool'    'stride-pooling'
+            self.poolingFun = 'max-pool' # 'average-pool'   'max-pool'    'stride-pool'
             self.pool_strides = [1,2,2,1]
             self.max_steps = 1000000
             self.steps_done_at_start = 0
@@ -54,10 +54,10 @@ def main(runNum, directory):
     hyperParam.max_steps = 5000#230000
     hyperParam.steps_done_at_start = 3000#200000
     
-    tests = {0: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},
-             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},
-             2: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'},
-             3: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'},
+    tests = {0: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},     #works
+             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool'},  #fails
+             2: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'},          #works
+             3: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'},      #fails
              4: {'FC_non_lin': 'relu', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'stride-pool'},
              5: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'stride-pool'},}
     

@@ -279,7 +279,7 @@ def inference(images, hyperParam):
     poolfun = tf.nn.max_pool
   if hyperParam.poolingFun == 'average-pool':
     poolfun = tf.nn.avg_pool
-  if hyperParam.poolingFun == 'stride-pooling':
+  if hyperParam.poolingFun == 'stride-pool':
     poolfun = lambda conv, ksize, strides, padding, name: conv
     conv_strides = hyperParam.pool_strides
     
