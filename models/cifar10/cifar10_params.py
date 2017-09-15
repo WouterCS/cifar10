@@ -54,12 +54,13 @@ def main(runNum, directory):
     hyperParam.max_steps = 15000#230000
     hyperParam.steps_done_at_start = 10000#200000
     
-    hyperParam.non_linearity['conv']['clip_min'] = -20
-    hyperParam.non_linearity['conv']['clip_max'] = 20
+    hyperParam.non_linearity['conv']['clip_min'] = -50
+    hyperParam.non_linearity['conv']['clip_max'] = 50
     
     hyperParam.non_linearity['conv']['const'] = 1.48
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexReLU' , 'pooling_function': 'average-pool', 'conv_const': 1   , 'learn_const': True},
-             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexReLU' , 'pooling_function': 'average-pool', 'conv_const': -1  , 'learn_const': True},}
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexReLU' , 'pooling_function': 'average-pool', 'conv_const': -1   , 'learn_const': True},
+             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexReLU' , 'pooling_function': 'average-pool', 'conv_const': -5  , 'learn_const': True},
+             2: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexReLU' , 'pooling_function': 'average-pool', 'conv_const': -0.1  , 'learn_const': True},}
              # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': 1.48, 'learn_const': True},
              # 2: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.40, 'learn_const': False},
              # 3: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.50, 'learn_const': False},
