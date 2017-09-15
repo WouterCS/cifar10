@@ -58,7 +58,7 @@ def main(runNum, directory):
     hyperParam.non_linearity['conv']['clip_max'] = 50
     
     hyperParam.non_linearity['conv']['const'] = 1.48
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexELU' , 'pooling_function': 'average-pool', 'conv_const': -15   , 'learn_const': True},
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexELU' , 'pooling_function': 'average-pool', 'conv_const': -20   , 'learn_const': True},
              1: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexELU' , 'pooling_function': 'average-pool', 'conv_const': -5  , 'learn_const': True},
              2: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexELU' , 'pooling_function': 'average-pool', 'conv_const': -10  , 'learn_const': True},}
              # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': 1.48, 'learn_const': True},
