@@ -24,7 +24,7 @@ def main(runNum, directory):
             self.input_shuffle_seed = 0 #None
             self.use_trainable_const = False
             
-            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'   'applyToRealOfComplex'
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'   'applyToRealOfComplex'  'complexReLU'
                                          'apply_const_function': tf.pow,
                                          'const': 1.90,
                                          'normalizeAngle': False,
@@ -51,8 +51,8 @@ def main(runNum, directory):
     
     hyperParam.current_lr = 0.02
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 230000
-    hyperParam.steps_done_at_start = 200000
+    hyperParam.max_steps = 330000
+    hyperParam.steps_done_at_start = 300000
     
     hyperParam.non_linearity['conv']['const'] = 1.48
     tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.48, 'learn_const': True},

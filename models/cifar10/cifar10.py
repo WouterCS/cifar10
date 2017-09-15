@@ -205,7 +205,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable
     
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
     
-    nonlin_on_FFT_coeffs = fftFunction in ['absFFT', 'expFFT', 'funMagnitude', 'funAngle', 'funMagnitudeSecFunAngle', 'applyToCartOfComplex', 'applyToRealOfComplex']
+    nonlin_on_FFT_coeffs = fftFunction in ['absFFT', 'expFFT', 'funMagnitude', 'funAngle', 'funMagnitudeSecFunAngle', 'applyToCartOfComplex', 'applyToRealOfComplex', 'complexReLU']
     
     if nonlin_on_FFT_coeffs:
         print('Use Fourier transform')
@@ -215,6 +215,10 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable
         
     if fftFunction == 'absFFT':
         layerOut = tf.cast(tf.abs(layerIn), tf.complex64)
+    if fftFunction == 'complexReLU': # inspired by https://arxiv.org/pdf/1612.04642.pdf, paragraph 4.2
+        layerOut = applyConstantToMagnitudeFast(layerIn
+                                        , lambda X, c: tf.nn.relu(X +c)
+                                        , const1)
     if fftFunction == 'expFFT':
         layerOut = tf.pow(layerIn, const1) 
     if fftFunction == 'abs':
