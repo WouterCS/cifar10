@@ -51,24 +51,25 @@ def main(runNum, directory):
     
     hyperParam.current_lr = 0.02
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 330000
-    hyperParam.steps_done_at_start = 300000
+    hyperParam.max_steps = 10000#230000
+    hyperParam.steps_done_at_start = 0#200000
     
     hyperParam.non_linearity['conv']['const'] = 1.48
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.48, 'learn_const': True},
-             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': 1.48, 'learn_const': True},
-             2: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.40, 'learn_const': False},
-             3: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.50, 'learn_const': False},
-             4: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.60, 'learn_const': False},
-             5: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.48, 'learn_const': True},
-             6: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': 1.48, 'learn_const': True},}
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexReLU' , 'pooling_function': 'average-pool', 'conv_const': 1   , 'learn_const': True},
+             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexReLU' , 'pooling_function': 'average-pool', 'conv_const': -1  , 'learn_const': True},}
+             # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': 1.48, 'learn_const': True},
+             # 2: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.40, 'learn_const': False},
+             # 3: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.50, 'learn_const': False},
+             # 4: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.60, 'learn_const': False},
+             # 5: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.48, 'learn_const': True},
+             # 6: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': 1.48, 'learn_const': True},}
     
     runNum = runNum % len(tests)
     hyperParam.poolingFun                              = tests[runNum]['pooling_function']
     hyperParam.non_linearity['FC']['type_of_nonlin']   = tests[runNum]['FC_non_lin']
     hyperParam.non_linearity['conv']['type_of_nonlin'] = tests[runNum]['conv_non_lin']
     hyperParam.non_linearity['conv']['const']          = tests[runNum]['conv_const']
-    hyperParam.non_linearity['use_trainable_const']    = tests[runNum]['learn_const']
+    hyperParam.use_trainable_const                     = tests[runNum]['learn_const']
     
     
     # pooling_function = ['average-pool', 'max-pool']#, 'stride-pooling']
