@@ -221,7 +221,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable
                                         , const1)
     if fftFunction == 'complexELU': # inspired by https://arxiv.org/pdf/1612.04642.pdf, paragraph 4.2 (only relu -> elu)
         layerOut = applyConstantToMagnitudeFast(layerIn
-                                        , lambda X, c: tf.nn.elu(X +c)
+                                        , lambda X, c: tf.nn.elu(X + c) + 1
                                         , const1)
     if fftFunction == 'expFFT':
         layerOut = tf.pow(layerIn, const1) 
