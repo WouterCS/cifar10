@@ -51,8 +51,8 @@ def main(runNum, directory):
     
     hyperParam.current_lr = 0.01
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 2000#230000
-    hyperParam.steps_done_at_start = 0#200000
+    hyperParam.max_steps = 230000
+    hyperParam.steps_done_at_start = 200000
     
     hyperParam.non_linearity['conv']['clip_min'] = -50
     hyperParam.non_linearity['conv']['clip_max'] = 50
