@@ -110,5 +110,5 @@ def createReadMe(hyperParam):
         print('Maximum number of steps is: %d' % hyperParam.max_steps, file = f)
         print('Evaluation every %d steps.' % hyperParam.eval_frequency, file = f)
         print('Learning-rate is: %f' % hyperParam.INITIAL_LEARNING_RATE, file = f)
-        print('Do we learn the constants of the non-linearities? ' % str(hyperParam.use_trainable_const), file = f)
+        print('Do we learn the constants of the non-linearities? %s' % str(hyperParam.use_trainable_const), file = f)
         print('finished making readme')
