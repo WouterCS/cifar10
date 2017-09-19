@@ -296,6 +296,9 @@ def inference(images, hyperParam):
                                           , [hyperParam.non_linearity['conv']['number_of_learned_weights']]
                                           , tf.constant_initializer(hyperParam.non_linearity['conv']['const'])))
   trainable_const = tf.Print(trainable_const[0], trainable_const, message = '')
+  print('trainable_const: %s' % str(trainable_const))
+  print('trainable_const[0]: %s' % str(trainable_const[0]))
+  print('dir(trainable_const[0]): %s' % str(dir(trainable_const[0])))
   
   # trainable_const1 = [_variable_on_cpu('trainable_const1_layer1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const'])),
                       # _variable_on_cpu('trainable_const1_layer2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))]
