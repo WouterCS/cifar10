@@ -60,7 +60,11 @@ def main(runNum, directory):
     
     hyperParam.non_linearity['conv']['const'] = [1,1,1]
     hyperParam.non_linearity['conv']['number_of_learned_weights'] = 3
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': [1,1,1] , 'learn_const': True},}
+    
+    min_init = -5
+    max_init = 5
+    
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': [[0.3,4,1],[1,1.5,1]] , 'learn_const': True},}
     # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexELU'  , 'pooling_function': 'average-pool', 'conv_const': -15 , 'learn_const': True},
              # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexReLU' , 'pooling_function': 'average-pool', 'conv_const': -15 , 'learn_const': True},
              # 2: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'stride-pool' , 'conv_const': 1.48, 'learn_const': False},
