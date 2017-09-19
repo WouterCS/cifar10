@@ -297,7 +297,7 @@ def inference(images, hyperParam):
       print('Before: %s' % str(trainable_const[layer]))
       trainable_const[layer].append(_variable_on_cpu('trainable_consts%d_layer%d' % (var_num, layer), [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const'])))
       print('After: %s' % str(trainable_const[layer]))
-  trainable_const = tf.Print(trainable_const[0][0], trainable_const, message = '')
+  trainable_const[0][0] = tf.Print(trainable_const[0][0], trainable_const, message = '')
   print('trainable_const: %s' % str(trainable_const))
   print('trainable_const[0]: %s' % str(trainable_const[0]))
   print('dir(trainable_const[0]): %s' % str(dir(trainable_const[0])))
