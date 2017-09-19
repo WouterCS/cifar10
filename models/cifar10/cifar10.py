@@ -312,7 +312,7 @@ def inference(images, hyperParam):
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.0))
     pre_activation = tf.nn.bias_add(conv, biases)
     
-    conv1 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const1 = trainable_const[0]) #tf.nn.relu
+    conv1 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const = trainable_const[0]) #tf.nn.relu
     _activation_summary(conv1)
 
   # pool1
@@ -332,7 +332,7 @@ def inference(images, hyperParam):
     conv = tf.nn.conv2d(norm1, kernel, conv_strides, padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.1))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv2 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const1 = trainable_const[1]) #tf.nn.relu
+    conv2 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const = trainable_const[1]) #tf.nn.relu
     _activation_summary(conv2)
 
   # norm2
