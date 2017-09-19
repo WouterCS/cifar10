@@ -194,13 +194,11 @@ def inputs(eval_data):
     labels = tf.cast(labels, tf.float16)
   return images, labels
 
-def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable_const2 = None):
+def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
     if hyperParam.use_trainable_const:
-        const1 = trainable_const1
-        const2 = trainable_const2
+        const = trainable_const
     else:
-        const1 = hyperParam.non_linearity[layer]['const']
-        const2 = angleConstant = hyperParam.non_linearity[layer]['secondary_const']
+        const = hyperParam.non_linearity[layer]['const']
 
     
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
@@ -232,7 +230,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const1 = None, trainable
     if fftFunction == 'funMagnitude':
         layerOut = applyConstantToMagnitudeFast(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
-                                        , const1)
+                                        , const[0])
     if fftFunction == 'funAngle':
         layerOut = applyConstantToComplexPolar(layerIn
                                         , angleFun = hyperParam.non_linearity[layer]['apply_const_function']
@@ -291,12 +289,20 @@ def inference(images, hyperParam):
     poolfun = lambda conv, ksize, strides, padding, name: conv
     conv_strides = hyperParam.pool_strides
     
+  trainable_const = []
+  for layer in [0,1]:
+    trainable_const.append(_variable_on_cpu('trainable_consts_layer%d' % layer
+                                          , [hyperParam.non_linearity['conv']['number_of_learned_weights']]
+                                          , tf.constant_initializer(hyperParam.non_linearity['conv']['const'])))
+  trainable_const = tf.print(trainable_const[0], trainable_const, message = '')
   
-  trainable_const1 = _variable_on_cpu('trainable_const1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))
-  trainable_const1 = tf.clip_by_value(trainable_const1, hyperParam.non_linearity['conv']['clip_min'], hyperParam.non_linearity['conv']['clip_max'])
-  trainable_const2 = _variable_on_cpu('trainable_const2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['secondary_const']))
-  trainable_const2 = tf.clip_by_value(trainable_const2, hyperParam.non_linearity['conv']['clip_min'], hyperParam.non_linearity['conv']['clip_max'])
-  trainable_const1 = tf.Print(trainable_const1, [trainable_const1, trainable_const2], message = 'Current value trained non-lin:')
+  trainable_const1 = [_variable_on_cpu('trainable_const1_layer1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const'])),
+                      _variable_on_cpu('trainable_const1_layer2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))]
+  #trainable_const1 = tf.clip_by_value(trainable_const1, hyperParam.non_linearity['conv']['clip_min'], hyperParam.non_linearity['conv']['clip_max'])
+  trainable_const2 = [_variable_on_cpu('trainable_const2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['secondary_const'])),
+                      _variable_on_cpu('trainable_const2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['secondary_const']))]
+  #trainable_const2 = tf.clip_by_value(trainable_const2, hyperParam.non_linearity['conv']['clip_min'], hyperParam.non_linearity['conv']['clip_max'])
+  trainable_const1 = tf.Print(trainable_const1[0], [trainable_const1, trainable_const2], message = 'Current value trained non-lin:')
   with tf.variable_scope('conv1') as scope:
     kernel = _variable_with_weight_decay('weights',
                                          shape=[5, 5, 3, 64],
@@ -306,7 +312,7 @@ def inference(images, hyperParam):
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.0))
     pre_activation = tf.nn.bias_add(conv, biases)
     
-    conv1 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const1 = trainable_const1, trainable_const2 = trainable_const2) #tf.nn.relu
+    conv1 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const1 = trainable_const[0]) #tf.nn.relu
     _activation_summary(conv1)
 
   # pool1
@@ -326,7 +332,7 @@ def inference(images, hyperParam):
     conv = tf.nn.conv2d(norm1, kernel, conv_strides, padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.1))
     pre_activation = tf.nn.bias_add(conv, biases)
-    conv2 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const1 = trainable_const1, trainable_const2 = trainable_const2) #tf.nn.relu
+    conv2 = fftReLu(pre_activation, hyperParam, layer = 'conv', name=scope.name, trainable_const1 = trainable_const[1]) #tf.nn.relu
     _activation_summary(conv2)
 
   # norm2
