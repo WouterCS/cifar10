@@ -26,7 +26,7 @@ def applyTaylerToMagnitude(c, coeffs):
             x_out = x_out * x + coef
         return tf.nn.relu(x_out)
     
-    return applyConstantToMagnitudeFast(c, taylorFunction, taylor_coeffs)
+    return applyConstantToMagnitudeFast(c, taylorFunction, coeffs)
     
 def applyConstantToMagnitudeFast(c, magFun = noEffectApplyConstant, magConstant = 1.0):
     epsilon = 1e-7
