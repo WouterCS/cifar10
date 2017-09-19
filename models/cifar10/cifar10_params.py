@@ -34,11 +34,10 @@ def main(runNum, directory):
                                   'conv': {'type_of_nonlin': 'identity',
                                            'number_of_learned_weights': 1,
                                            'apply_const_function': tf.pow,
-                                           'const': 1.48,
+                                           'const': [1.48],
                                            'normalizeAngle': False,
                                            'anglePositiveValued': False,
                                            'secondary_const_fun': tf.multiply,
-                                           'secondary_const': 0.25,
                                            'clip_min': 1e-4,
                                            'clip_max': 3}}
             self.INITIAL_LEARNING_RATE = 0.1
@@ -52,13 +51,14 @@ def main(runNum, directory):
     
     hyperParam.current_lr = 0.1
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 230000
-    hyperParam.steps_done_at_start = 200000
+    hyperParam.max_steps = 50000#230000
+    hyperParam.steps_done_at_start = 0 #200000
+    hyperParam.eval_frequency = 10000
     
     hyperParam.non_linearity['conv']['clip_min'] = -50
     hyperParam.non_linearity['conv']['clip_max'] = 50
     
-    hyperParam.non_linearity['conv']['const'] = 1.48
+    hyperParam.non_linearity['conv']['const'] = [1,1,1]
     hyperParam.non_linearity['conv']['number_of_learned_weights'] = 3
     tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': 1.5 , 'learn_const': True},}
     # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexELU'  , 'pooling_function': 'average-pool', 'conv_const': -15 , 'learn_const': True},

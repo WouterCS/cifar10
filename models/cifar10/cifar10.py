@@ -295,22 +295,10 @@ def inference(images, hyperParam):
   for layer in [0,1]:
     trainable_const.append([])
     for var_num in range(hyperParam.non_linearity['conv']['number_of_learned_weights']):
-      print('layer: %d, var_num: %d' % (layer, var_num))
-      print('Before: %s' % str(trainable_const[layer]))
-      trainable_const[layer].append(_variable_on_cpu('trainable_consts%d_layer%d' % (var_num, layer), [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const'])))
-      print('After: %s' % str(trainable_const[layer]))
+      trainable_const[layer].append(_variable_on_cpu('trainable_consts%d_layer%d' % (var_num, layer), [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const'][var_num])))
+
   trainable_const[0][0] = tf.Print(trainable_const[0][0], trainable_const, message = '')
-  print('trainable_const: %s' % str(trainable_const))
-  print('trainable_const[0]: %s' % str(trainable_const[0]))
-  print('dir(trainable_const[0]): %s' % str(dir(trainable_const[0])))
-  
-  # trainable_const1 = [_variable_on_cpu('trainable_const1_layer1', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const'])),
-                      # _variable_on_cpu('trainable_const1_layer2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const']))]
-  # #trainable_const1 = tf.clip_by_value(trainable_const1, hyperParam.non_linearity['conv']['clip_min'], hyperParam.non_linearity['conv']['clip_max'])
-  # trainable_const2 = [_variable_on_cpu('trainable_const2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['secondary_const'])),
-                      # _variable_on_cpu('trainable_const2', [1], tf.constant_initializer(hyperParam.non_linearity['conv']['secondary_const']))]
-  # #trainable_const2 = tf.clip_by_value(trainable_const2, hyperParam.non_linearity['conv']['clip_min'], hyperParam.non_linearity['conv']['clip_max'])
-  # trainable_const1 = tf.Print(trainable_const1[0], [trainable_const1, trainable_const2], message = 'Current value trained non-lin:')
+
   with tf.variable_scope('conv1') as scope:
     kernel = _variable_with_weight_decay('weights',
                                          shape=[5, 5, 3, 64],
