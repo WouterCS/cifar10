@@ -228,10 +228,9 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
     if fftFunction == 'relu':
         layerOut = tf.nn.relu(layerIn, name = name)
     if fftFunction == 'funMagnitude':
-        print('$$$$$$$$$$$$$$Printing const shape: %s' % str(const.shape))
         layerOut = applyConstantToMagnitudeFast(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
-                                        , const)
+                                        , const[0])
     if fftFunction == 'funAngle':
         layerOut = applyConstantToComplexPolar(layerIn
                                         , angleFun = hyperParam.non_linearity[layer]['apply_const_function']
@@ -292,10 +291,10 @@ def inference(images, hyperParam):
     
   trainable_const = []
   for layer in [0,1]:
-    trainable_const.append(_variable_on_cpu('trainable_consts_layer%d' % layer
-                                          , [hyperParam.non_linearity['conv']['number_of_learned_weights']]
-                                          , tf.constant_initializer(hyperParam.non_linearity['conv']['const'])))
-  trainable_const = tf.Print(trainable_const[0], trainable_const, message = '')
+    trainable_const.append([])
+    for var_num in range(hyperParam.non_linearity['conv']['number_of_learned_weights']):
+      trainable_const[var_num].append(_variable_on_cpu('trainable_consts_layer%d' % layer, [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const'])))
+  trainable_const = tf.Print(trainable_const[0][0], trainable_const, message = '')
   print('trainable_const: %s' % str(trainable_const))
   print('trainable_const[0]: %s' % str(trainable_const[0]))
   print('dir(trainable_const[0]): %s' % str(dir(trainable_const[0])))
