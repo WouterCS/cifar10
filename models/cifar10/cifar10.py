@@ -49,7 +49,7 @@ from tensorflow.python.ops.spectral_ops import irfft2d, irfft
 
 import cifar10_input
 
-from custom_python_ops.composite_ops import powMagnitude, sqrtMagnitude, applyConstantToComplexPolar, applyConstantToComplexCart, applyConstantToMagnitudeFast
+from custom_python_ops.composite_ops import powMagnitude, sqrtMagnitude, applyConstantToComplexPolar, applyConstantToComplexCart, applyConstantToMagnitudeFast, applyTaylerToMagnitude
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -203,7 +203,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
     
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
     
-    nonlin_on_FFT_coeffs = fftFunction in ['absFFT', 'expFFT', 'funMagnitude', 'funAngle', 'funMagnitudeSecFunAngle', 'applyToCartOfComplex', 'applyToRealOfComplex', 'complexReLU', 'complexELU']
+    nonlin_on_FFT_coeffs = fftFunction in ['absFFT', 'expFFT', 'funMagnitude', 'funAngle', 'funMagnitudeSecFunAngle', 'applyToCartOfComplex', 'applyToRealOfComplex', 'complexReLU', 'complexELU', 'full_taylor']
     
     if nonlin_on_FFT_coeffs:
         print('Use Fourier transform')
@@ -213,16 +213,18 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
         
     if fftFunction == 'absFFT':
         layerOut = tf.cast(tf.abs(layerIn), tf.complex64)
+    if fftFunction == 'full_taylor':
+        layerOut = applyTaylerToMagnitude(layerIn, const)
     if fftFunction == 'complexReLU': # inspired by https://arxiv.org/pdf/1612.04642.pdf, paragraph 4.2
         layerOut = applyConstantToMagnitudeFast(layerIn
                                         , lambda X, c: tf.nn.relu(X +c)
-                                        , const1)
+                                        , const[0])
     if fftFunction == 'complexELU': # inspired by https://arxiv.org/pdf/1612.04642.pdf, paragraph 4.2 (only relu -> elu)
         layerOut = applyConstantToMagnitudeFast(layerIn
                                         , lambda X, c: tf.nn.elu(X + c) + 1
-                                        , const1)
+                                        , const[0])
     if fftFunction == 'expFFT':
-        layerOut = tf.pow(layerIn, const1) 
+        layerOut = tf.pow(layerIn, const[0]) 
     if fftFunction == 'abs':
         layerOut = tf.abs(layerIn)
     if fftFunction == 'relu':
@@ -234,27 +236,27 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
     if fftFunction == 'funAngle':
         layerOut = applyConstantToComplexPolar(layerIn
                                         , angleFun = hyperParam.non_linearity[layer]['apply_const_function']
-                                        , angleConstant = const1
+                                        , angleConstant = const[0]
                                         , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle']
                                         , anglePositiveValued = hyperParam.non_linearity['conv']['anglePositiveValued'])
     if fftFunction == 'funMagnitudeSecFunAngle':
         layerOut = applyConstantToComplexPolar(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
-                                        , const1
+                                        , const[0]
                                         , angleFun = hyperParam.non_linearity[layer]['secondary_const_fun']
-                                        , angleConstant = const2
+                                        , angleConstant = const[1]
                                         , reNormalizeAngle = hyperParam.non_linearity[layer]['normalizeAngle']
                                         , anglePositiveValued = hyperParam.non_linearity['conv']['anglePositiveValued'])
     if fftFunction == 'applyToCartOfComplex':
         layerOut = applyConstantToComplexCart(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
-                                        , realConstant = const1
+                                        , realConstant = const[0]
                                         , imagFun = hyperParam.non_linearity[layer]['secondary_const_fun']
-                                        , imagConstant = const2)
+                                        , imagConstant = const[1])
     if fftFunction == 'applyToRealOfComplex':
         layerOut = applyConstantToComplexCart(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
-                                        , realConstant = const1)
+                                        , realConstant = const[0])
     if fftFunction == 'identity':
         layerOut = layerIn
     

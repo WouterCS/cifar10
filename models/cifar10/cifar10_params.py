@@ -24,7 +24,7 @@ def main(runNum, directory):
             self.input_shuffle_seed = 0 #None
             self.use_trainable_const = False
             
-            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'   'applyToRealOfComplex'  'complexReLU'  'complexELU'
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'   'applyToRealOfComplex'  'complexReLU'    'complexELU'  'full_taylor'
                                          'apply_const_function': tf.pow,
                                          'const': 1.90,
                                          'normalizeAngle': False,
@@ -32,7 +32,7 @@ def main(runNum, directory):
                                          'secondary_const_fun': tf.multiply,
                                          'secondary_const': 0.25},
                                   'conv': {'type_of_nonlin': 'identity',
-                                           'number_of_learned_weights': 2,
+                                           'number_of_learned_weights': 1,
                                            'apply_const_function': tf.pow,
                                            'const': 1.48,
                                            'normalizeAngle': False,
@@ -59,7 +59,8 @@ def main(runNum, directory):
     hyperParam.non_linearity['conv']['clip_max'] = 50
     
     hyperParam.non_linearity['conv']['const'] = 1.48
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': 1.5 , 'learn_const': True},}
+    hyperParam.non_linearity['conv']['number_of_learned_weights'] = 1
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': 1.5 , 'learn_const': True},}
     # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexELU'  , 'pooling_function': 'average-pool', 'conv_const': -15 , 'learn_const': True},
              # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexReLU' , 'pooling_function': 'average-pool', 'conv_const': -15 , 'learn_const': True},
              # 2: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'stride-pool' , 'conv_const': 1.48, 'learn_const': False},

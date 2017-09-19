@@ -18,6 +18,16 @@ def powMagnitude(c, power):
 def noEffectApplyConstant(c, constant):
     return c
     
+def applyTaylerToMagnitude(c, coeffs):
+    
+    def taylorFunction(x, taylor_coeffs):
+        x_out = taylor_coeffs[0]
+        for coef in taylor_coeffs[1:]:
+            x_out = x_out * x + coef
+        return tf.nn.relu(x_out)
+    
+    return applyConstantToMagnitudeFast(c, taylorFunction, taylor_coeffs)
+    
 def applyConstantToMagnitudeFast(c, magFun = noEffectApplyConstant, magConstant = 1.0):
     epsilon = 1e-7
     
