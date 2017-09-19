@@ -103,8 +103,7 @@ def createReadMe(hyperParam):
             print('For the %s layer:' % layer, file = f)
             print('  The non linearity function is: %s' % hyperParam.non_linearity[layer]['type_of_nonlin'], file = f)
             print('  Where applicable, the const function is: %s' % hyperParam.non_linearity[layer]['apply_const_function'], file = f)
-            print('  Where applicable, the const is: %s' % hyperParam.non_linearity[layer]['const'], file = f)
-            print('  Where applicable, the second const function is: %s' % hyperParam.non_linearity[layer]['secondary_const_fun'], file = f)
+            print('  Where applicable, the constant(s) are initialized as: %s' % str(hyperParam.non_linearity[layer]['const']), file = f)
             print('  Where applicable, the secondary const is: %s' % hyperParam.non_linearity[layer]['secondary_const'], file = f)
             print('  do we normalize the angle? %s' % str(hyperParam.non_linearity[layer]['normalizeAngle']), file = f)
             
@@ -112,4 +111,5 @@ def createReadMe(hyperParam):
         print('Maximum number of steps is: %d' % hyperParam.max_steps, file = f)
         print('Evaluation every %d steps.' % hyperParam.eval_frequency, file = f)
         print('Learning-rate is: %f' % hyperParam.INITIAL_LEARNING_RATE, file = f)
+        print('Do we learn the constants of the non-linearities? ' % str(hyperParam.use_trainable_const), file = f)
         print('finished making readme')
