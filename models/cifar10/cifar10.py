@@ -228,6 +228,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
     if fftFunction == 'relu':
         layerOut = tf.nn.relu(layerIn, name = name)
     if fftFunction == 'funMagnitude':
+        print(const.shape)
         layerOut = applyConstantToMagnitudeFast(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
                                         , const)
