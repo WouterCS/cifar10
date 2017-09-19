@@ -293,6 +293,7 @@ def inference(images, hyperParam):
   for layer in [0,1]:
     trainable_const.append([])
     for var_num in range(hyperParam.non_linearity['conv']['number_of_learned_weights']):
+      print('layer: %d, var_num: %d' % (layer, var_num))
       trainable_const[layer].append(_variable_on_cpu('trainable_consts%d_layer%d' % (var_num, layer), [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const'])))
   trainable_const = tf.Print(trainable_const[0][0], trainable_const, message = '')
   print('trainable_const: %s' % str(trainable_const))
