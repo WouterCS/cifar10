@@ -230,7 +230,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
     if fftFunction == 'funMagnitude':
         layerOut = applyConstantToMagnitudeFast(layerIn
                                         , hyperParam.non_linearity[layer]['apply_const_function']
-                                        , const[0])
+                                        , const)
     if fftFunction == 'funAngle':
         layerOut = applyConstantToComplexPolar(layerIn
                                         , angleFun = hyperParam.non_linearity[layer]['apply_const_function']
