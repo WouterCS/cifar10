@@ -24,7 +24,10 @@ def applyTaylerToMagnitude(c, coeffs):
         x_out = taylor_coeffs[0]
         for coef in taylor_coeffs[1:]:
             x_out = x_out * x + coef
-        return tf.nn.relu(x_out)
+            
+        with tf.control_dependencies([tf.assert_non_negative(tf.reduce_max(taylor_coeffs))]):
+            x_out = tf.nn.relu(x_out)
+        return x_out
     
     return applyConstantToMagnitudeFast(c, taylorFunction, coeffs)
     
