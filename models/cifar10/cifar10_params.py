@@ -59,7 +59,7 @@ def main(runNum, directory):
     taylor_degree = 3
     max_init = 5
     
-    neg_init = np.random.random((2,taylor_degree+1)) * 2 * max_init - 3*max_init
+    neg_init = np.random.random((2,taylor_degree+1)) * 2 * max_init - max_init
     pos_init = np.random.random((2,taylor_degree+1)) * max_init
     
     
