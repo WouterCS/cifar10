@@ -30,6 +30,7 @@ def main(runNum, directory):
                                          'normalizeAngle': False,
                                          'anglePositiveValued': False,
                                          'secondary_const_fun': tf.multiply,
+                                         'wd_non_lin': 0.004,
                                          'secondary_const': 0.25},
                                   'conv': {'type_of_nonlin': 'identity',
                                            'number_of_learned_weights': 1,
@@ -55,7 +56,7 @@ def main(runNum, directory):
     hyperParam.max_steps = 50000#230000
     hyperParam.steps_done_at_start = 0 #200000
     hyperParam.eval_frequency = 10000
-    hyperParam.non_linearity['conv']['wd_non_lin'] = 0.004
+    hyperParam.non_linearity['conv']['wd_non_lin'] = 0.001
     
     taylor_degree = 3
     max_init = 5
@@ -111,6 +112,7 @@ def createReadMe(hyperParam):
             print('  Where applicable, the const function is: %s' % hyperParam.non_linearity[layer]['apply_const_function'], file = f)
             print('  Where applicable, the constant(s) are initialized as: %s' % str(hyperParam.non_linearity[layer]['const']), file = f)
             print('  do we normalize the angle? %s' % str(hyperParam.non_linearity[layer]['normalizeAngle']), file = f)
+            print('  The value for weight decay: %s' % str(hyperParam.non_linearity['conv']['wd_non_lin'], file = f)
             
         print('Pooling function is: %s' % hyperParam.poolingFun, file = f)
         print('Maximum number of steps is: %d' % hyperParam.max_steps, file = f)
