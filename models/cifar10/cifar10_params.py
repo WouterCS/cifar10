@@ -38,7 +38,7 @@ def main(runNum, directory):
                                            'normalizeAngle': False,
                                            'anglePositiveValued': False,
                                            'secondary_const_fun': tf.multiply,
-                                           'wd_non_lin': 0.4,
+                                           'wd_non_lin': 0.004,
                                            'clip_min': 1e-4,
                                            'clip_max': 3}}
             self.INITIAL_LEARNING_RATE = 0.1
@@ -55,7 +55,7 @@ def main(runNum, directory):
     hyperParam.max_steps = 50000#230000
     hyperParam.steps_done_at_start = 0 #200000
     hyperParam.eval_frequency = 10000
-    hyperParam.non_linearity['conv']['wd_non_lin'] = 0.004
+    hyperParam.non_linearity['conv']['wd_non_lin'] = 0.4
     
     taylor_degree = 3
     max_init = 5
