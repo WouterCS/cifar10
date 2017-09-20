@@ -41,7 +41,6 @@ def applyConstantToMagnitudeFast(c, magFun = noEffectApplyConstant, magConstant 
     
     with tf.control_dependencies([tf.assert_positive(tf.reduce_max(magAfterConstant))]):
         magCompl = tf.complex(magAfterConstant, tf.zeros(magAfterConstant.shape))
-        magCompl = tf.Print(magCompl, [tf.reduce_max(magAfterConstant)])
     
     return magCompl * c
     
