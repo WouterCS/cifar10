@@ -112,7 +112,7 @@ def createReadMe(hyperParam):
             print('  Where applicable, the const function is: %s' % hyperParam.non_linearity[layer]['apply_const_function'], file = f)
             print('  Where applicable, the constant(s) are initialized as: %s' % str(hyperParam.non_linearity[layer]['const']), file = f)
             print('  do we normalize the angle? %s' % str(hyperParam.non_linearity[layer]['normalizeAngle']), file = f)
-            print('  The value for weight decay: %s' % str(hyperParam.non_linearity['conv']['wd_non_lin'], file = f)
+            print('  The value for weight decay: %s' % str(hyperParam.non_linearity['conv']['wd_non_lin']), file = f)
             
         print('Pooling function is: %s' % hyperParam.poolingFun, file = f)
         print('Maximum number of steps is: %d' % hyperParam.max_steps, file = f)
