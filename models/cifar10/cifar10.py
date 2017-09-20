@@ -296,8 +296,8 @@ def inference(images, hyperParam):
     trainable_const.append([])
     for var_num in range(hyperParam.non_linearity['conv']['number_of_learned_weights']):
       trainable_const[layer].append(_variable_on_cpu('trainable_consts%d_layer%d' % (var_num, layer), [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const'][layer][var_num])))
+    trainable_const[layer][0] = tf.Print(trainable_const[layer][0], trainable_const[layer], message = '')
 
-  trainable_const[0][0] = tf.Print(trainable_const[0][0], trainable_const, message = '')
 
   with tf.variable_scope('conv1') as scope:
     kernel = _variable_with_weight_decay('weights',
