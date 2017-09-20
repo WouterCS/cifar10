@@ -307,8 +307,8 @@ def inference(images, hyperParam):
     for var_num in range(hyperParam.non_linearity['conv']['number_of_learned_weights']):
       trainable_const[layer].append(_variable_with_weight_decay_and_custom_init('trainable_consts%d_layer%d' % (var_num, layer)
                                                                                , [1]
-                                                                               , tf.constant_initializer(hyperParam.non_linearity['conv']['const'][layer][var_num]))
-                                                                               , wd = hyperParam.non_linearity['conv']['wd_non_lin'])
+                                                                               , tf.constant_initializer(hyperParam.non_linearity['conv']['const'][layer][var_num])
+                                                                               , wd = hyperParam.non_linearity['conv']['wd_non_lin']))
     trainable_const[layer][0] = tf.Print(trainable_const[layer][0], trainable_const[layer], message = '')
 
 
