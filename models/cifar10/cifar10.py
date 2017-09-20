@@ -309,7 +309,7 @@ def inference(images, hyperParam):
                                                                                , [1]
                                                                                , tf.constant_initializer(hyperParam.non_linearity['conv']['const'][layer][var_num])
                                                                                , wd = hyperParam.non_linearity['conv']['wd_non_lin']))
-    trainable_const[layer][0] = tf.Print(trainable_const[layer][0], trainable_const[layer], message = '')
+    trainable_const[layer][0] = tf.Print(trainable_const[layer][0], trainable_const[layer], message = 'Layer %d:' % layer)
 
 
   with tf.variable_scope('conv1') as scope:
@@ -469,6 +469,13 @@ def train(total_loss, global_step, hyperParam):
     opt = tf.train.GradientDescentOptimizer(lr)
     grads = opt.compute_gradients(total_loss)
 
+  def clip_grads_non_lin_consts(grad, name):
+    if name.startswith('trainable_consts'):
+        return tf.clip_by_value(grad, -1., 1.)
+    else:
+        return grad
+        
+  grads = [(clip_grads_non_lin_consts(grad, var.op.name), var) for grad, var in grads]
   # Apply gradients.
   apply_gradient_op = opt.apply_gradients(grads, global_step=global_step)
 
