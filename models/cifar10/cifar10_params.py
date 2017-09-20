@@ -56,7 +56,7 @@ def main(runNum, directory):
     hyperParam.max_steps = 50000#230000
     hyperParam.steps_done_at_start = 0 #200000
     hyperParam.eval_frequency = 10000
-    hyperParam.non_linearity['conv']['wd_non_lin'] = 0.001
+    hyperParam.non_linearity['conv']['wd_non_lin'] = 0.0001
     
     taylor_degree = 3
     max_init = 5
