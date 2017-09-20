@@ -25,8 +25,8 @@ def applyTaylerToMagnitude(c, coeffs):
         for coef in taylor_coeffs[1:]:
             x_out = x_out * x + coef
             
-        with tf.control_dependencies([tf.assert_non_negative(tf.reduce_max(taylor_coeffs))]):
-            x_out = tf.nn.relu(x_out)
+        #with tf.control_dependencies([tf.assert_non_negative(tf.reduce_max(taylor_coeffs))]):
+        x_out = tf.nn.relu(x_out)
         return x_out
     
     return applyConstantToMagnitudeFast(c, taylorFunction, coeffs)
@@ -39,7 +39,8 @@ def applyConstantToMagnitudeFast(c, magFun = noEffectApplyConstant, magConstant 
     magAfterConstant = magFun(tf.nn.relu(mag), magConstant) / (mag + epsilon)
     #magAfterConstant = tf.Print(magAfterConstant, [magAfterConstant], message = 'Magnitudes after power applied: ')
     
-    magCompl = tf.complex(magAfterConstant, tf.zeros(magAfterConstant.shape))
+    with tf.control_dependencies([tf.assert_non_negative(tf.reduce_max(magAfterConstant))]):
+        magCompl = tf.complex(magAfterConstant, tf.zeros(magAfterConstant.shape))
     
     return magCompl * c
     
