@@ -55,17 +55,15 @@ def main(runNum, directory):
     hyperParam.steps_done_at_start = 0 #200000
     hyperParam.eval_frequency = 10000
     
-    hyperParam.non_linearity['conv']['clip_min'] = -50
-    hyperParam.non_linearity['conv']['clip_max'] = 50
     
-    hyperParam.non_linearity['conv']['const'] = [1,1,1]
-    hyperParam.non_linearity['conv']['number_of_learned_weights'] = 3
-    
+    taylor_degree = 3
     max_init = 5
     
-    neg_init = np.random.random((2,3)) * 2 * max_init - max_init
-    pos_init = np.random.random((2,3)) * max_init
+    neg_init = np.random.random((2,taylor_degree+1)) * 2 * max_init - max_init
+    pos_init = np.random.random((2,taylor_degree+1)) * max_init
     
+    
+    hyperParam.non_linearity['conv']['number_of_learned_weights'] = taylor_degree+1
     tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': neg_init , 'learn_const': True},
              1: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': pos_init , 'learn_const': True},}
     # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'complexELU'  , 'pooling_function': 'average-pool', 'conv_const': -15 , 'learn_const': True},
