@@ -70,9 +70,11 @@ def main(runNum, directory):
              2: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 4},
              3: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 4},}
     
-    random_init = np.random.random((2,tests[runNum]['degree']+1))
     
     runNum = runNum % len(tests)
+    
+    random_init = np.random.random((2,tests[runNum]['degree']+1))
+    
     hyperParam.poolingFun                                         = tests[runNum]['pooling_function']
     hyperParam.non_linearity['FC']['type_of_nonlin']              = tests[runNum]['FC_non_lin']
     hyperParam.non_linearity['conv']['type_of_nonlin']            = tests[runNum]['conv_non_lin']
