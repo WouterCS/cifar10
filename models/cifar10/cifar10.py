@@ -120,6 +120,16 @@ def _variable_on_cpu(name, shape, initializer):
     var = tf.get_variable(name, shape, initializer=initializer, dtype=dtype)
   return var
 
+def _variable_with_weight_decay_and_custom_init(name, shape, initializer, wd):
+  dtype = tf.float16 if FLAGS.use_fp16 else tf.float32
+  var = _variable_on_cpu(
+      name,
+      shape,
+      initializer)
+  if wd is not None:
+    weight_decay = tf.multiply(tf.nn.l2_loss(var), wd, name='weight_loss')
+    tf.add_to_collection('losses', weight_decay)
+  return var
 
 def _variable_with_weight_decay(name, shape, stddev, wd):
   """Helper to create an initialized Variable with weight decay.
@@ -295,7 +305,10 @@ def inference(images, hyperParam):
   for layer in [0,1]:
     trainable_const.append([])
     for var_num in range(hyperParam.non_linearity['conv']['number_of_learned_weights']):
-      trainable_const[layer].append(_variable_on_cpu('trainable_consts%d_layer%d' % (var_num, layer), [1], tf.constant_initializer(hyperParam.non_linearity['conv']['const'][layer][var_num])))
+      trainable_const[layer].append(_variable_with_weight_decay_and_custom_init('trainable_consts%d_layer%d' % (var_num, layer)
+                                                                               , [1]
+                                                                               , tf.constant_initializer(hyperParam.non_linearity['conv']['const'][layer][var_num]))
+                                                                               , wd = hyperParam.non_linearity['conv']['wd_non_lin'])
     trainable_const[layer][0] = tf.Print(trainable_const[layer][0], trainable_const[layer], message = '')
 
 
