@@ -65,20 +65,21 @@ def main(runNum, directory):
     
     
     
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 3},
-             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 3},
-             2: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 4},
-             3: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 4},}
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 0},}
+             # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 3},
+             # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 3},
+             # 2: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 4},
+             # 3: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 4},}
     
     
     runNum = runNum % len(tests)
     
-    random_init = np.random.random((2,tests[runNum]['degree']+1))
+    #random_init = np.random.random((2,tests[runNum]['degree']+1))
     
     hyperParam.poolingFun                                         = tests[runNum]['pooling_function']
     hyperParam.non_linearity['FC']['type_of_nonlin']              = tests[runNum]['FC_non_lin']
     hyperParam.non_linearity['conv']['type_of_nonlin']            = tests[runNum]['conv_non_lin']
-    hyperParam.non_linearity['conv']['const']                     = tests[runNum]['conv_const'](random_init)
+    #hyperParam.non_linearity['conv']['const']                     = tests[runNum]['conv_const'](random_init)
     hyperParam.use_trainable_const                                = tests[runNum]['learn_const']
     hyperParam.non_linearity['conv']['number_of_learned_weights'] = tests[runNum]['degree']+1
     
