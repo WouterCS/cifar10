@@ -35,7 +35,7 @@ def main(runNum, directory):
                                   'conv': {'type_of_nonlin': 'identity',
                                            'number_of_learned_weights': 1,
                                            'apply_const_function': tf.pow,
-                                           'const': [1.48],
+                                           'const': [[1.5], [1.5]],
                                            'normalizeAngle': False,
                                            'anglePositiveValued': False,
                                            'secondary_const_fun': tf.multiply,
