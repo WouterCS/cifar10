@@ -79,7 +79,7 @@ def main(runNum, directory):
     hyperParam.poolingFun                                         = tests[runNum]['pooling_function']
     hyperParam.non_linearity['FC']['type_of_nonlin']              = tests[runNum]['FC_non_lin']
     hyperParam.non_linearity['conv']['type_of_nonlin']            = tests[runNum]['conv_non_lin']
-    hyperParam.non_linearity['conv']['const']                     = [[1.5368192, 1.25863305, 4.0517148],[3.937632, 2.32146627, 0.66915199]]
+    hyperParam.non_linearity['conv']['const']                     = [[1.229612][2.1868317][4.0632539]],[[3.6586359][2.3390195][0.66915196]]
     hyperParam.use_trainable_const                                = tests[runNum]['learn_const']
     hyperParam.non_linearity['conv']['number_of_learned_weights'] = tests[runNum]['degree']+1
     
