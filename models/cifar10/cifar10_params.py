@@ -53,9 +53,9 @@ def main(runNum, directory):
     
     hyperParam.current_lr = 1e-2
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 230000
-    hyperParam.steps_done_at_start = 200000
-    hyperParam.eval_frequency = 1000
+    hyperParam.max_steps = 50000#230000
+    hyperParam.steps_done_at_start = 0#200000
+    hyperParam.eval_frequency = 10000
     hyperParam.non_linearity['conv']['wd_non_lin'] = 0#0.0001
     
     taylor_degree = 3
@@ -65,10 +65,7 @@ def main(runNum, directory):
     
     
     
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 0, 'conv_const': [[1.5], [1.5]]},
-             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 0, 'conv_const': [[2.0], [2.0]]},
-             2: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 0, 'conv_const': [[2.0], [1.5]]},
-             3: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor' , 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 2, 'conv_const': [[1.229612,2.1868317,4.0632539],[3.6586359,2.3390195,0.66915196]]},}
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor' , 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 2, 'conv_const': [[4.3757038, 2.6943564, 4.0667019], [1.1400001, 2.3812811, 0.66915196]},}
              # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 3},
              # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 3},
              # 2: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 4},
