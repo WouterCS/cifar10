@@ -53,9 +53,9 @@ def main(runNum, directory):
     
     hyperParam.current_lr = 1e-2
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 50000#230000
+    hyperParam.max_steps = 230000#50000#
     hyperParam.steps_done_at_start = 0#200000
-    hyperParam.eval_frequency = 10000
+    hyperParam.eval_frequency = 20000
     hyperParam.non_linearity['conv']['wd_non_lin'] = 0#0.0001
     
     taylor_degree = 3
@@ -65,8 +65,14 @@ def main(runNum, directory):
     
     
     
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor' , 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 2, 'conv_const': [[4.5283766 , 2.7704711 , 0], [0.26456073 , 2.4040191 , 0]]},}
-             # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 3},
+    tests = {0: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[1.5],[1.5]], 'learn_const': True, 'degree': 0},
+             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': [[1.5],[1.5]], 'learn_const': True, 'degree': 0},
+             2: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': [[1.5],[1.5]], 'learn_const': True, 'degree': 0},
+             3: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[2.0],[2.0]], 'learn_const': True, 'degree': 0},
+             4: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': [[2.0],[2.0]], 'learn_const': True, 'degree': 0},
+             5: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': [[2.0],[2.0]], 'learn_const': True, 'degree': 0},}
+             
+             # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor' , 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 2, 'conv_const': [[4.5283766 , 2.7704711 , 0], [0.26456073 , 2.4040191 , 0]]},
              # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 3},
              # 2: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 4},
              # 3: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 4},}
