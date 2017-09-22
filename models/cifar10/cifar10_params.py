@@ -65,7 +65,7 @@ def main(runNum, directory):
     
     
     
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor' , 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 2, 'conv_const': [[4.5283766 , 2.7704711 , 4.0667071], [0.26456073 , 2.4040191 , 0.66916424]]},}
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor' , 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 2, 'conv_const': [[4.5283766 , 2.7704711 , 0], [0.26456073 , 2.4040191 , 0]]},}
              # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 3},
              # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 3},
              # 2: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: (x*2-1) * max_init, 'learn_const': True, 'degree': 4},
