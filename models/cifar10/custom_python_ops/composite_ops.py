@@ -37,15 +37,15 @@ def applyConstantToMagnitudeFast(c, magFun = noEffectApplyConstant, magConstant 
     mag = tf.abs(c)
     
     # get histogram of input:
-    def getHist(v, k):
-        v = tf.reshape(v, [-1])
-        s = v.shape[0]
-        v = tf.nn.top_k(v, s)
-        return map(lambda i: v.values[(s*i)/k], range(k))
+    # def getHist(v, k):
+        # v = tf.reshape(v, [-1])
+        # s = v.shape[0]
+        # v = tf.nn.top_k(v, s)
+        # return map(lambda i: v.values[(s*i)/k], range(k))
             
-    mag = tf.Print(mag, getHist(mag, 10), 'Histogram: ')
-    mag = tf.Print(mag, [tf.reduce_max(mag)], 'max: ')
-    mag = tf.Print(mag, [tf.reduce_min(mag)], 'max: ')
+    # mag = tf.Print(mag, getHist(mag, 10), 'Histogram: ')
+    # mag = tf.Print(mag, [tf.reduce_max(mag)], 'max: ')
+    # mag = tf.Print(mag, [tf.reduce_min(mag)], 'max: ')
     
     magAfterConstant = magFun(tf.nn.relu(mag), magConstant) / (mag + epsilon)
     

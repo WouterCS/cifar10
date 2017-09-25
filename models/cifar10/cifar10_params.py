@@ -65,12 +65,10 @@ def main(runNum, directory):
     
     
     
-    tests = {0: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[1.5],[1.5]], 'learn_const': True, 'degree': 0},
-             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': [[1.5],[1.5]], 'learn_const': True, 'degree': 0},
-             2: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': [[1.5],[1.5]], 'learn_const': True, 'degree': 0},
-             3: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[2.0],[2.0]], 'learn_const': True, 'degree': 0},
-             4: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': [[2.0],[2.0]], 'learn_const': True, 'degree': 0},
-             5: {'FC_non_lin': 'relu'    , 'conv_non_lin': 'funMagnitude', 'pooling_function': 'max-pool'    , 'conv_const': [[2.0],[2.0]], 'learn_const': True, 'degree': 0},}
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[2.0],[0.5]], 'learn_const': True, 'degree': 0},
+             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[0.5],[2.0]], 'learn_const': True, 'degree': 0},
+             2: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[0.5],[0.5]], 'learn_const': True, 'degree': 0},
+             3: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[2.0],[2.0]], 'learn_const': True, 'degree': 0},}
              
              # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor' , 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 2, 'conv_const': [[4.5283766 , 2.7704711 , 0], [0.26456073 , 2.4040191 , 0]]},
              # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 3},
