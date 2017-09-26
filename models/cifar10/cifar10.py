@@ -213,7 +213,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
     
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
     
-    nonlin_on_FFT_coeffs = fftFunction in ['absFFT', 'expFFT', 'funMagnitude', 'funAngle', 'funMagnitudeSecFunAngle', 'applyToCartOfComplex', 'applyToRealOfComplex', 'complexReLU', 'complexELU', 'full_taylor', 'powMagnitudeTaylor'']
+    nonlin_on_FFT_coeffs = fftFunction in ['absFFT', 'expFFT', 'funMagnitude', 'funAngle', 'funMagnitudeSecFunAngle', 'applyToCartOfComplex', 'applyToRealOfComplex', 'complexReLU', 'complexELU', 'full_taylor', 'powMagnitudeTaylor']
     
     if nonlin_on_FFT_coeffs:
         print('Use Fourier transform')
