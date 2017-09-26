@@ -24,7 +24,7 @@ def main(runNum, directory):
             self.input_shuffle_seed = 0 #None
             self.use_trainable_const = False
             
-            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'   'applyToRealOfComplex'  'complexReLU'    'complexELU'  'full_taylor'
+            self.non_linearity = {'FC': {'type_of_nonlin': 'identity', # 'relu'   'funMagnitude'  'funAngle' 'expFFT'   'funMagnitudeSecFunAngle'   'applyToCartOfComplex'   'applyToRealOfComplex'  'complexReLU'    'complexELU'  'full_taylor'   'powMagnitudeTaylor'
                                          'apply_const_function': tf.pow,
                                          'const': 1.90,
                                          'normalizeAngle': False,
@@ -53,9 +53,9 @@ def main(runNum, directory):
     
     hyperParam.current_lr = 1e-2
     hyperParam.FIXED_LR = True
-    hyperParam.max_steps = 205000#50000#
+    hyperParam.max_steps = 50000#205000#
     hyperParam.steps_done_at_start = 0#200000
-    hyperParam.eval_frequency = 20000
+    hyperParam.eval_frequency = 10000
     hyperParam.non_linearity['conv']['wd_non_lin'] = 0#0.0001
     
     taylor_degree = 3
@@ -65,10 +65,8 @@ def main(runNum, directory):
     
     
     
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[2.0],[0.5]], 'learn_const': True, 'degree': 0},
-             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[0.5],[2.0]], 'learn_const': True, 'degree': 0},
-             2: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[0.5],[0.5]], 'learn_const': True, 'degree': 0},
-             3: {'FC_non_lin': 'identity', 'conv_non_lin': 'funMagnitude', 'pooling_function': 'average-pool', 'conv_const': [[2.0],[2.0]], 'learn_const': True, 'degree': 0},}
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'powMagnitudeTaylor', 'pooling_function': 'average-pool', 'conv_const': [[1.5],[1.0 ]], 'learn_const': True, 'num_consts': 2},
+             1: {'FC_non_lin': 'identity', 'conv_non_lin': 'powMagnitudeTaylor', 'pooling_function': 'average-pool', 'conv_const': [[1.5],[10.0]], 'learn_const': True, 'num_consts': 2},}
              
              # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor' , 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 2, 'conv_const': [[4.5283766 , 2.7704711 , 0], [0.26456073 , 2.4040191 , 0]]},
              # 1: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor', 'pooling_function': 'average-pool', 'conv_const': lambda x: x * max_init      , 'learn_const': True, 'degree': 3},
@@ -86,7 +84,7 @@ def main(runNum, directory):
     hyperParam.non_linearity['conv']['const']                     = tests[runNum]['conv_const']
     #hyperParam.non_linearity['conv']['const']                     = [[1.229612,2.1868317,4.0632539],[3.6586359,2.3390195,0.66915196]]
     hyperParam.use_trainable_const                                = tests[runNum]['learn_const']
-    hyperParam.non_linearity['conv']['number_of_learned_weights'] = tests[runNum]['degree']+1
+    hyperParam.non_linearity['conv']['number_of_learned_weights'] = tests[runNum]['num_consts']
     
     
     # pooling_function = ['average-pool', 'max-pool']#, 'stride-pooling']
