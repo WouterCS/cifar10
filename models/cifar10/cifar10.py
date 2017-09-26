@@ -243,7 +243,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
         taylor_approx = lambda mag, point, x: point ** mag \
                                     + mag * (point ** (mag-1)) * (x-point) \
                                     + ((mag *(mag-1) * point**(mag-2))/2) * (x-point)**2
-        layerOut = applyConstantToMagnitudeFast(layerIn,
+        layerOut = applyConstantToMagnitudeFast(layerIn
                                         , lambda x, const: taylor_approx(const[0], const[1], x)
                                         , const)
     if fftFunction == 'funMagnitude':
