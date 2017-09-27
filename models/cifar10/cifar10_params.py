@@ -65,7 +65,7 @@ def main(runNum, directory):
     
     
     rand1 = np.random.random()
-    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'powMagnitudeTaylor_2', 'pooling_function': 'average-pool', 'conv_const': [[1.5, 10**(np.random.random()*3-1)],[1.5, 10**(np.random.random()*3-1)]], 'learn_const': True, 'num_consts': 1},
+    tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'powMagnitudeTaylor_2', 'pooling_function': 'average-pool', 'conv_const': [[1.5, 10**(np.random.random()*3-1)],[1.5, 10**(np.random.random()*3-1)]], 'learn_const': True, 'num_consts': 2},
     1: {'FC_non_lin': 'identity', 'conv_non_lin': 'powMagnitudeTaylor_3', 'pooling_function': 'average-pool', 'conv_const': [[1.5, 10**(np.random.random()*3-1)],[1.5, 10**(np.random.random()*3-1)]], 'learn_const': True, 'num_consts': 2},
     2: {'FC_non_lin': 'identity', 'conv_non_lin': 'powMagnitudeTaylor_4', 'pooling_function': 'average-pool', 'conv_const': [[1.5, 10**(np.random.random()*3-1)],[1.5, 10**(np.random.random()*3-1)]], 'learn_const': True, 'num_consts': 2},}
              
