@@ -213,7 +213,7 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
     
     fftFunction = hyperParam.non_linearity[layer]['type_of_nonlin']
     
-    nonlin_on_FFT_coeffs = fftFunction in ['absFFT', 'expFFT', 'funMagnitude', 'funAngle', 'funMagnitudeSecFunAngle', 'applyToCartOfComplex', 'applyToRealOfComplex', 'complexReLU', 'complexELU', 'full_taylor', 'powMagnitudeTaylor']
+    nonlin_on_FFT_coeffs = fftFunction in ['absFFT', 'expFFT', 'funMagnitude', 'funAngle', 'funMagnitudeSecFunAngle', 'applyToCartOfComplex', 'applyToRealOfComplex', 'complexReLU', 'complexELU', 'full_taylor', 'powMagnitudeTaylor_2', 'powMagnitudeTaylor_3', 'powMagnitudeTaylor_4']
     
     if nonlin_on_FFT_coeffs:
         print('Use Fourier transform')
@@ -239,10 +239,27 @@ def fftReLu(layerIn, hyperParam, layer, name, trainable_const = None):
         layerOut = tf.abs(layerIn)
     if fftFunction == 'relu':
         layerOut = tf.nn.relu(layerIn, name = name)
-    if fftFunction == 'powMagnitudeTaylor':
+    if fftFunction == 'powMagnitudeTaylor_2':
         taylor_approx = lambda mag, point, x: point ** mag \
                                     + mag * (point ** (mag-1)) * (x-point) \
                                     + ((mag *(mag-1) * point**(mag-2))/2) * (x-point)**2
+        layerOut = applyConstantToMagnitudeFast(layerIn
+                                        , lambda x, const: taylor_approx(const[0], const[1], x)
+                                        , const)
+    if fftFunction == 'powMagnitudeTaylor_3':
+        taylor_approx = lambda mag, point, x: point ** mag \
+                                    + mag * (point ** (mag-1)) * (x-point) \
+                                    + ((mag *(mag-1) * point**(mag-2))/2) * (x-point)**2 \
+                                    + ((mag *(mag-1) *(mag-2) * point**(mag-3))/6) * (x-point)**3
+        layerOut = applyConstantToMagnitudeFast(layerIn
+                                        , lambda x, const: taylor_approx(const[0], const[1], x)
+                                        , const)
+    if fftFunction == 'powMagnitudeTaylor_4':
+        taylor_approx = lambda mag, point, x: point ** mag \
+                                    + mag * (point ** (mag-1)) * (x-point) \
+                                    + ((mag *(mag-1) * point**(mag-2))/2) * (x-point)**2 \
+                                    + ((mag *(mag-1) *(mag-2) * point**(mag-3))/6) * (x-point)**3 \
+                                    + ((mag *(mag-1) *(mag-2) *(mag-3) * point**(mag-4))/24) * (x-point)**4
         layerOut = applyConstantToMagnitudeFast(layerIn
                                         , lambda x, const: taylor_approx(const[0], const[1], x)
                                         , const)
