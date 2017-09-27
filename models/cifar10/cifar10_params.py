@@ -66,7 +66,7 @@ def main(runNum, directory):
     
     rand1 = np.random.random()
     tests = {0: {'FC_non_lin': 'identity', 'conv_non_lin': 'powMagnitudeTaylor_2', 'pooling_function': 'average-pool', 'conv_const': [[1.5, 10**(np.random.random()*3-1)],[1.5, 10**(np.random.random()*3-1)]], 'learn_const': True, 'num_consts': 2},
-    1: {'FC_non_lin': 'identity', 'conv_non_lin': 'powMagnitudeTaylor_3', 'pooling_function': 'average-pool', 'conv_const': [[1.5, 10**(np.random.random()*3-1)],[1.5, 10**(np.random.random()*3-1)]], 'learn_const': True, 'num_consts': 2},
+    1: {'FC_non_lin': 'identity', 'conv_non_lin': 'powMagnitudeTaylor_3', 'pooling_function': 'average-pool', 'conv_const': [[1.5, 5*10**(np.random.random()*2-1)],[1.5, 10**(np.random.random()*3-1)]], 'learn_const': True, 'num_consts': 2},
     2: {'FC_non_lin': 'identity', 'conv_non_lin': 'powMagnitudeTaylor_4', 'pooling_function': 'average-pool', 'conv_const': [[1.5, 10**(np.random.random()*3-1)],[1.5, 10**(np.random.random()*3-1)]], 'learn_const': True, 'num_consts': 2},}
              
              # 0: {'FC_non_lin': 'identity', 'conv_non_lin': 'full_taylor' , 'pooling_function': 'average-pool', 'learn_const': True, 'degree': 2, 'conv_const': [[4.5283766 , 2.7704711 , 0], [0.26456073 , 2.4040191 , 0]]},
